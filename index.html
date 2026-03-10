@@ -40,6 +40,38 @@
       --radius: 12px;
       --radius-lg: 20px;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      /* MOBILE OPTIMIZATION */
+@media (max-width:768px){
+
+.hero h1{
+font-size:2rem;
+}
+
+.hero p{
+font-size:1rem;
+}
+
+.hero-buttons{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.dpp-card{
+margin-bottom:20px;
+}
+
+.footer-col{
+margin-bottom:25px;
+text-align:center;
+}
+
+.footer-logo img{
+margin:auto;
+display:block;
+}
+
+}
     }
 
     /* ========== RESET & BASE ========== */
@@ -1624,5 +1656,9 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
   f.addEventListener('blur', () => validateField(f));
 });
 </script>
+<a href="https://wa.me/919516210209" class="whatsapp-float" target="_blank">
+<i class="bi bi-whatsapp"></i>
+</a>
+
 </body>
 </html>
