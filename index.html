@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Bhatia Master Classes — Premium coaching for JEE, NEET & Foundation in Patna. Daily Practice Papers, Test Series, PYQ, expert faculty." />
+  <meta name="keywords" content="JEE coaching Patna, NEET coaching, Bhatia Master Classes, IIT JEE preparation, NEET preparation, study material" />
+  <meta name="author" content="Bhatia Master Classes" />
+  <meta property="og:title" content="Bhatia Master Classes — Master Your Exams" />
+  <meta property="og:description" content="Premium JEE & NEET coaching in Patna. Daily Practice, Test Series, PYQ downloads." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="image/BMC_LOGO.svg" />
+  <title>Bhatia Master Classes | JEE · NEET · Foundation Coaching</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <style>
+    /* ========== CSS VARIABLES ========== */
+    :root {
+      --primary: #1B3A6B;
+      --primary-dark: #0F2245;
+      --accent: #F4A825;
+      --accent-light: #FCC84A;
+      --teal: #00A8A8;
+      --light-bg: #F5F7FA;
+      --card-bg: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6B7280;
+      --border: #E5E9F0;
+      --success: #16A34A;
+      --danger: #DC2626;
+      --shadow-sm: 0 2px 8px rgba(27,58,107,0.08);
+      --shadow-md: 0 8px 32px rgba(27,58,107,0.12);
+      --shadow-lg: 0 20px 60px rgba(27,58,107,0.18);
+      --radius: 12px;
+      --radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+     
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4,h5 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; line-height: 1.15; }
+    img { max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    .section-pad { padding: 80px 0; }
+    @media (max-width: 768px) { .section-pad { padding: 56px 0; } }
+
+    /* ========== NAVBAR ========== */
+    #mainNav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--primary-dark);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+      transition: var(--transition);
+    }
+   #mainNav .navbar-brand img {
+  height: 46px;
+}
+    #mainNav .navbar-brand img:hover { filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(244,168,37,0.7)); }
+    .nav-link {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.85) !important;
+      padding: 0.5rem 1rem !important;
+      position: relative;
+      transition: var(--transition);
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 1rem;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover { color: #fff !important; }
+    .nav-link:hover::after, .nav-link.active::after { width: calc(100% - 2rem); }
+    .navbar-toggler { border: none; padding: 4px 8px; }
+    .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    .btn-nav-solve {
+      background: var(--accent);
+      color: var(--primary-dark) !important;
+      border-radius: 8px;
+      font-weight: 700 !important;
+      padding: 0.4rem 1.2rem !important;
+      transition: var(--transition);
+    }
+    .btn-nav-solve:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-nav-solve::after { display: none; }
+
+    /* ========== HERO ========== */
+    #hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #1A5276 100%);
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(244,168,37,0.15);
+      border: 1px solid rgba(244,168,37,0.4);
+      color: var(--accent-light);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+    #hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    #hero h1 span { color: var(--accent); }
+    #hero p.lead {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+    .btn-primary-custom {
+      background: var(--accent);
+      color: var(--primary-dark);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary-custom:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(244,168,37,0.35); }
+    .btn-outline-custom {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.4);
+      padding: 13px 28px;
+      border-radius: 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-outline-custom:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+    /* Hero Stats */
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      margin-top: 40px;
+    }
+    .stat-pill {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 14px 22px;
+      text-align: center;
+    }
+    .stat-pill .num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      color: var(--accent); display: block;
+    }
+    .stat-pill .lbl { font-size: 0.78rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+    /* Hero Questions Panel */
+    .questions-panel {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+    .questions-panel h3 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .question-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .question-card:hover { background: rgba(255,255,255,0.12); border-color: rgba(244,168,37,0.4); }
+    .question-card .q-subject {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 6px;
+    }
+    .question-card .q-text { color: #fff; font-size: 0.9rem; line-height: 1.5; }
+    .question-card .q-text .math { font-style: italic; color: var(--accent-light); }
+    .btn-view-sol {
+      margin-top: 10px;
+      background: var(--accent);
+      color: var(--primary-dark);
+      border: none;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 0.8rem; font-weight: 700;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.5px;
+      transition: var(--transition);
+    }
+    .btn-view-sol:hover { background: var(--accent-light); }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-header { margin-bottom: 48px; }
+    .section-label {
+      display: inline-block;
+      background: rgba(27,58,107,0.08);
+      color: var(--primary);
+      border: 1px solid rgba(27,58,107,0.15);
+      padding: 4px 14px;
+      border-radius: 100px;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+    }
+    .section-title span { color: var(--accent); }
+    .section-sub { color: var(--text-muted); font-size: 1rem; max-width: 560px; }
+    .section-divider {
+      width: 60px; height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      border-radius: 4px;
+      margin: 14px 0;
+    }
+
+    /* ========== GENERAL CARD ========== */
+    .card-custom {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: var(--transition);
+      height: 100%;
+    }
+    .card-custom:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+
+    /* ========== DAILY PRACTICE ========== */
+    #daily-practice { background: var(--light-bg); }
+    .practice-card .thumb {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #1B3A6B, #1A5276);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3.5rem; font-weight: 800;
+      color: rgba(255,255,255,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .practice-card .thumb .day-num {
+      position: absolute;
+      font-size: 5rem; font-weight: 800;
+      color: rgba(255,255,255,0.08);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+    .practice-card .thumb .subject-icon {
+      position: relative; z-index: 1;
+      font-size: 2.8rem;
+    }
+    .practice-card .card-body { padding: 20px; }
+    .practice-card .card-title {
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--primary-dark); margin-bottom: 6px;
+    }
+    .practice-card .meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }
+    .practice-card p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px; }
+    .subject-badge {
+      display: inline-block;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .badge-math { background: rgba(27,58,107,0.1); color: var(--primary); }
+    .badge-phys { background: rgba(0,168,168,0.1); color: var(--teal); }
+    .badge-chem { background: rgba(244,168,37,0.12); color: #B7750A; }
+    .badge-bio { background: rgba(22,163,74,0.1); color: #166534; }
+    .btn-download {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 0.88rem; font-weight: 600;
+      transition: var(--transition);
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-download:hover { background: var(--primary-dark); color: #fff; transform: translateY(-1px); }
+
+    /* ========== TEST SERIES ========== */
+    #test-series { background: #fff; }
+    .test-card { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 24px; box-shadow: var(--shadow-sm); transition: var(--transition); height: 100%; }
+    .test-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: var(--primary); }
+    .test-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: #fff;
+      margin-bottom: 16px;
+    }
+    .test-card h4 { font-size: 1.25rem; color: var(--primary-dark); margin-bottom: 8px; }
+    .test-meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+    .test-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--light-bg);
+      padding: 4px 12px; border-radius: 100px;
+      font-size: 0.78rem; color: var(--text-muted); font-weight: 500;
+    }
+    .btn-enroll {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: #fff; border: none;
+      padding: 10px 22px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600;
+      transition: var(--transition); width: 100%; justify-content: center;
+      margin-top: 14px;
+    }
+    .btn-enroll:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(27,58,107,0.25); color: #fff; }
+
+    /* ========== PYQ ========== */
+    #pyq { background: var(--light-bg); }
+    .pyq-card { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 22px; box-shadow: var(--shadow-sm); transition: var(--transition); height: 100%; }
+    .pyq-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .pyq-year-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 60px; height: 60px; border-radius: 14px;
+      background: linear-gradient(135deg, #F4A825, #E67E22);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 800; color: #fff;
+      margin-bottom: 14px; flex-shrink: 0;
+    }
+    .pyq-card h5 { font-size: 1.1rem; color: var(--primary-dark); margin-bottom: 6px; }
+    .pyq-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px; }
+    .pyq-stats { display: flex; gap: 16px; margin-bottom: 16px; }
+    .pyq-stat { font-size: 0.8rem; color: var(--text-muted); }
+    .pyq-stat strong { color: var(--primary-dark); display: block; font-size: 1rem; }
+
+    /* ========== ADMISSION FORM ========== */
+    #admissions {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      position: relative; overflow: hidden;
+    }
+    #admissions::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    #admissions .section-label { background: rgba(244,168,37,0.2); color: var(--accent-light); border-color: rgba(244,168,37,0.3); }
+    #admissions .section-title { color: #fff; }
+    #admissions .section-sub { color: rgba(255,255,255,0.75); }
+    .admit-form-wrap {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+    }
+    .form-label-custom { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 6px; }
+    .form-control-custom {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .form-control-custom::placeholder { color: rgba(255,255,255,0.35); }
+    .form-control-custom:focus { background: rgba(255,255,255,0.12); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(244,168,37,0.2); color: #fff; outline: none; }
+    .form-control-custom option { background: var(--primary-dark); }
+    .form-control-custom.is-invalid { border-color: #f87171; }
+    .invalid-feedback-custom { color: #f87171; font-size: 0.78rem; margin-top: 4px; display: none; }
+    .was-validated .form-control-custom:invalid ~ .invalid-feedback-custom,
+    .field-invalid ~ .invalid-feedback-custom { display: block; }
+    .admit-features { margin-top: 40px; }
+    .admit-feature { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+    .admit-feature-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: rgba(244,168,37,0.15);
+      border: 1px solid rgba(244,168,37,0.3);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 1.2rem;
+    }
+    .admit-feature-text h5 { color: #fff; font-size: 1rem; margin-bottom: 4px; }
+    .admit-feature-text p { color: rgba(255,255,255,0.65); font-size: 0.85rem; margin: 0; }
+
+    /* ========== CONTACT ========== */
+    #contact { background: #fff; }
+    .contact-card {
+      background: var(--light-bg);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      height: 100%;
+    }
+    .contact-icon-wrap {
+      width: 52px; height: 52px;
+      background: var(--primary);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.3rem;
+      margin-bottom: 14px;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--primary-dark);
+      color: rgba(255,255,255,0.75);
+      padding: 56px 0 24px;
+    }
+    footer h5 {
+      color: #fff; font-size: 1.1rem;
+      margin-bottom: 16px;
+    }
+    footer a { color: rgba(255,255,255,0.65); transition: var(--transition); }
+    footer a:hover { color: var(--accent); }
+    .footer-logo img {
+  height: 52px;
+}
+    .footer-tagline { font-size: 0.88rem; margin: 12px 0 20px; color: rgba(255,255,255,0.6); }
+    .social-links { display: flex; gap: 12px; }
+    .social-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); font-size: 1rem;
+      transition: var(--transition);
+    }
+    .social-btn:hover { background: var(--accent); color: var(--primary-dark); border-color: var(--accent); }
+    .footer-links { list-style: none; padding: 0; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { font-size: 0.9rem; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 40px; padding-top: 24px;
+      display: flex; flex-wrap: wrap; gap: 16px;
+      align-items: center; justify-content: space-between;
+    }
+    .footer-bottom p { font-size: 0.83rem; color: rgba(255,255,255,0.5); margin: 0; }
+
+    /* ========== MODALS ========== */
+    .modal-custom {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 9999;
+      background: rgba(10,15,30,0.7);
+      backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+    .modal-custom.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      max-width: 520px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-header-custom {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      padding: 24px 28px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .modal-header-custom h3 { color: #fff; font-size: 1.6rem; margin-bottom: 4px; }
+    .modal-header-custom p { color: rgba(255,255,255,0.75); font-size: 0.88rem; margin: 0; }
+    .modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: rgba(255,255,255,0.15);
+      border: none; color: #fff;
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; cursor: pointer; transition: var(--transition);
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.25); }
+    .modal-body-custom { padding: 28px; }
+    .question-display {
+      background: var(--light-bg);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px; margin-bottom: 20px;
+    }
+    .question-display .q-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 6px; }
+    .question-display p { font-size: 0.95rem; margin: 0; }
+    .solution-reveal {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: var(--radius);
+      padding: 18px; margin-top: 20px;
+      display: none;
+    }
+    .solution-reveal.show { display: block; animation: slideUp 0.3s ease; }
+    .solution-reveal .sol-label {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--success); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .form-label-reg { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .form-control-reg {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      width: 100%;
+    }
+    .form-control-reg:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(27,58,107,0.12); outline: none; }
+    .form-control-reg.error { border-color: var(--danger); }
+    .error-msg { font-size: 0.75rem; color: var(--danger); margin-top: 4px; display: none; }
+    .btn-submit-modal {
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: #fff; border: none;
+      padding: 13px; width: 100%;
+      border-radius: 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.5px; margin-top: 4px;
+      transition: var(--transition); cursor: pointer;
+    }
+    .btn-submit-modal:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn-submit-modal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .success-msg {
+      background: #f0fdf4; border: 1px solid #86efac;
+      border-radius: var(--radius); padding: 16px;
+      text-align: center; display: none;
+      margin-top: 16px;
+    }
+    .success-msg.show { display: block; animation: slideUp 0.3s ease; }
+    .success-msg p { color: var(--success); font-weight: 600; margin: 0; }
+
+    /* Doubt modal */
+    .doubt-textarea {
+      min-height: 100px; resize: vertical;
+    }
+
+    /* ========== FLOATING WHATSAPP ========== */
+    .whatsapp-float {
+      position: fixed; bottom: 28px; right: 28px;
+      z-index: 900;
+      width: 56px; height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.5rem;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+      transition: var(--transition);
+      animation: pulse-green 2s infinite;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); color: #fff; }
+    @keyframes pulse-green {
+      0%,100% { box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 6px 32px rgba(37,211,102,0.65); }
+    }
+
+    /* ========== SCROLL REVEAL ========== */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 991px) {
+      .navbar-collapse { background: var(--primary-dark); padding: 16px; border-top: 1px solid rgba(255,255,255,0.1); }
+      .btn-nav-solve { margin-top: 8px; text-align: center; }
+    }
+    @media (max-width: 767px) {
+      #hero { min-height: auto; padding: 80px 0 60px; }
+      .admit-form-wrap { padding: 24px 18px; }
+      .modal-body-custom { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav id="mainNav" class="navbar navbar-expand-lg py-2" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <a class="navbar-brand" href="#hero" aria-label="Bhatia Master Classes Home">
+  <img src="BMC_LOGO.svg" alt="Bhatia Master Classes Logo" height="46">
+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+      aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#daily-practice">DPP</a></li>
+        <li class="nav-item"><a class="nav-link" href="#test-series">Test Series</a></li>
+        <li class="nav-item"><a class="nav-link" href="#pyq">PYQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#admissions">Admissions</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item ms-lg-2">
+          <button class="nav-link btn-nav-solve" onclick="openDoubtModal()" aria-label="Open solve your doubt form">
+            <i class="bi bi-lightbulb"></i> Solve Your Doubt
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero" aria-label="Hero section">
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-badge reveal">
+          <i class="bi bi-star-fill" style="font-size:0.75rem;"></i>
+          Ujjain's #1 JEE · NEET Coaching
+        </div>
+        <h1 class="reveal">Master Your Exams<br>with <span>Bhatia Master Classes</span></h1>
+        <p class="lead reveal">Expert coaching for JEE, NEET & Foundation. Proven methods, daily practice, and results that speak for themselves.</p>
+        <div class="d-flex flex-wrap gap-3 reveal">
+          <a href="#admissions" class="btn-primary-custom">
+            <i class="bi bi-mortarboard-fill"></i> Enroll Now
+          </a>
+          <button class="btn-outline-custom" onclick="openDoubtModal()">
+            <i class="bi bi-chat-square-text"></i> Ask a Doubt
+          </button>
+        </div>
+        <div class="hero-stats reveal">
+          <div class="stat-pill"><span class="num">2500+</span><span class="lbl">Students Enrolled</span></div>
+          <div class="stat-pill"><span class="num">98%</span><span class="lbl">Success Rate</span></div>
+          <div class="stat-pill"><span class="num">15+</span><span class="lbl">Expert Faculty</span></div>
+          <div class="stat-pill"><span class="num">10yr</span><span class="lbl">Experience</span></div>
+        </div>
+      </div>
+      <div class="col-lg-6 reveal">
+        <div class="questions-panel">
+          <h3><i class="bi bi-puzzle-fill me-2"></i>Crack These — Can You?</h3>
+          <!-- Question 1 -->
+          <div class="question-card" tabindex="0">
+            <div class="q-subject">📐 JEE Maths</div>
+            <div class="q-text">
+              If <span class="math">f(x) = x³ − 6x² + 11x − 6</span>, find all roots and verify using Vieta's formulas.
+            </div>
+            <button class="btn-view-sol" onclick="openSolutionModal(0)" aria-label="View solution for maths problem">View Solution →</button>
+          </div>
+          <!-- Question 2 -->
+          <div class="question-card" tabindex="0">
+            <div class="q-subject">⚡ JEE Physics</div>
+            <div class="q-text">
+              A projectile is launched at <span class="math">45°</span> with initial speed <span class="math">20 m/s</span>. Find the maximum height and range. (g = 10 m/s²)
+            </div>
+            <button class="btn-view-sol" onclick="openSolutionModal(1)" aria-label="View solution for physics problem">View Solution →</button>
+          </div>
+          <!-- Question 3 -->
+          <div class="question-card" tabindex="0">
+            <div class="q-subject">🧪 NEET Chemistry</div>
+            <div class="q-text">
+              Calculate the pH of <span class="math">0.01 M HCl</span> solution. If diluted 100×, what is the new pH?
+            </div>
+            <button class="btn-view-sol" onclick="openSolutionModal(2)" aria-label="View solution for chemistry problem">View Solution →</button>
+          </div>
+          <!-- Question 4 -->
+          <div class="question-card" tabindex="0">
+            <div class="q-subject">🧬 NEET Biology</div>
+            <div class="q-text">
+              In a monohybrid cross between <span class="math">Tt × tt</span>, what is the phenotypic ratio? Explain using a Punnett square.
+            </div>
+            <button class="btn-view-sol" onclick="openSolutionModal(3)" aria-label="View solution for biology problem">View Solution →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DAILY PRACTICE ============ -->
+<section id="daily-practice" class="section-pad" aria-label="DPP">
+  <div class="container">
+    <div class="section-header text-center reveal">
+      <div class="section-label">Study Resources</div>
+      <h2 class="section-title">Daily <span>DPP Sheets</span></h2>
+      <div class="section-divider mx-auto"></div>
+      <p class="section-sub mx-auto">Build skills Download Daily Practice Problems (DPP) for JEE & NEET prepared by our expert faculty. Consistent practice is the key to cracking competitive exams.</p>
+    </div>
+    <div class="row g-4">
+      <!-- Card 1 -->
+      <div class="col-sm-6 col-lg-4 reveal">
+        <div class="card-custom practice-card">
+          <div class="thumb" style="background: linear-gradient(135deg,#1B3A6B,#0F2245);">
+            <span class="day-num">01</span>
+            <span class="subject-icon">📐</span>
+          </div>
+          <div class="card-body">
+            <div class="subject-badge badge-math">Mathematics</div>
+            <div class="card-title">Day 1: Algebra & Quadratics</div>
+            <div class="meta"><i class="bi bi-clock me-1"></i>30–40 mins &nbsp;|&nbsp; <i class="bi bi-question-circle me-1"></i>25 Questions</div>
+            <p>Cover quadratic equations, discriminant, sum and product of roots with JEE-level problems.</p>
+            <a href="assets/pdfs/dpp-day1.pdf" class="btn-download" download aria-label="Download Day 1 Algebra Practice PDF">
+              <i class="bi bi-cloud-arrow-down-fill"></i> Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="col-sm-6 col-lg-4 reveal">
+        <div class="card-custom practice-card">
+          <div class="thumb" style="background: linear-gradient(135deg,#00A8A8,#006B6B);">
+            <span class="day-num">02</span>
+            <span class="subject-icon">⚡</span>
+          </div>
+          <div class="card-body">
+            <div class="subject-badge badge-phys">Physics</div>
+            <div class="card-title">Day 2: Laws of Motion</div>
+            <div class="meta"><i class="bi bi-clock me-1"></i>35–45 mins &nbsp;|&nbsp; <i class="bi bi-question-circle me-1"></i>20 Questions</div>
+            <p>Newton's laws, free body diagrams, friction, and connected body problems with solutions.</p>
+            <a href="assets/pdfs/day2-motion.pdf" class="btn-download" download>
+              <i class="bi bi-cloud-arrow-down-fill"></i> Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="col-sm-6 col-lg-4 reveal">
+        <div class="card-custom practice-card">
+          <div class="thumb" style="background: linear-gradient(135deg,#B7750A,#8B5A00);">
+            <span class="day-num">03</span>
+            <span class="subject-icon">🧪</span>
+          </div>
+          <div class="card-body">
+            <div class="subject-badge badge-chem">Chemistry</div>
+            <div class="card-title">Day 3: Atomic Structure</div>
+            <div class="meta"><i class="bi bi-clock me-1"></i>30 mins &nbsp;|&nbsp; <i class="bi bi-question-circle me-1"></i>22 Questions</div>
+            <p>Bohr's model, quantum numbers, electronic configuration, and periodic trends.</p>
+            <a href="assets/pdfs/day3-atomic.pdf" class="btn-download" download>
+              <i class="bi bi-cloud-arrow-down-fill"></i> Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="col-sm-6 col-lg-4 reveal">
+        <div class="card-custom practice-card">
+          <div class="thumb" style="background: linear-gradient(135deg,#166534,#14532D);">
+            <span class="day-num">04</span>
+            <span class="subject-icon">🧬</span>
+          </div>
+          <div class="card-body">
+            <div class="subject-badge badge-bio">Biology</div>
+            <div class="card-title">Day 4: Cell Biology</div>
+            <div class="meta"><i class="bi bi-clock me-1"></i>35 mins &nbsp;|&nbsp; <i class="bi bi-question-circle me-1"></i>30 Questions</div>
+            <p>Cell organelles, cell division (mitosis & meiosis), and NCERT-level NEET questions.</p>
+            <a href="assets/pdfs/day4-cell.pdf" class="btn-download" download>
+              <i class="bi bi-cloud-arrow-down-fill"></i> Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="col-sm-6 col-lg-4 reveal">
+        <div class="card-custom practice-card">
+          <div class="thumb" style="background: linear-gradient(135deg,#1B3A6B,#1A5276);">
+            <span class="day-num">05</span>
+            <span class="subject-icon">📊</span>
+          </div>
+          <div class="card-body">
+            <div class="subject-badge badge-math">Mathematics</div>
+            <div class="card-title">Day 5: Trigonometry</div>
+            <div class="meta"><i class="bi bi-clock me-1"></i>40 mins &nbsp;|&nbsp; <i class="bi bi-question-circle me-1"></i>28 Questions</div>
+            <p>Identities, inverse trig, heights & distances. Includes JEE Mains PYQ-style problems.</p>
+            <a href="assets/pdfs/day5-trig.pdf" class="btn-download" download>
+              <i class="bi bi-cloud-arrow-down-fill"></i> Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="col-sm-6 col-lg-4 reveal">
+        <div class="card-custom practice-card">
+          <div class="thumb" style="background: linear-gradient(135deg,#00A8A8,#1B3A6B);">
+            <span class="day-num">06</span>
+            <span class="subject-icon">⚗️</span>
+          </div>
+          <div class="card-body">
+            <div class="subject-badge badge-chem">Chemistry</div>
+            <div class="card-title">Day 6: Organic Reactions</div>
+            <div class="meta"><i class="bi bi-clock me-1"></i>45 mins &nbsp;|&nbsp; <i class="bi bi-question-circle me-1"></i>24 Questions</div>
+            <p>Substitution, addition, elimination reactions with mechanisms and product prediction.</p>
+            <a href="assets/pdfs/day6-organic.pdf" class="btn-download" download>
+              <i class="bi bi-cloud-arrow-down-fill"></i> Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEST SERIES ============ -->
+<section id="test-series" class="section-pad" aria-label="Test Series">
+  <div class="container">
+    <div class="section-header text-center reveal">
+      <div class="section-label">Mock Exams</div>
+      <h2 class="section-title">Comprehensive <span>Test Series</span></h2>
+      <div class="section-divider mx-auto"></div>
+      <p class="section-sub mx-auto">Simulate real exams to boost performance. Our tests are designed by ex-IITians and experienced NEET mentors.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="test-card">
+          <div class="test-icon"><i class="bi bi-trophy-fill"></i></div>
+          <h4>JEE Full Syllabus Test 1</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Covers complete JEE Mains syllabus — Physics, Chemistry, Maths. NTA pattern with marking scheme.</p>
+          <div class="test-meta">
+            <span class="test-pill"><i class="bi bi-clock"></i> 3 Hours</span>
+            <span class="test-pill"><i class="bi bi-list-check"></i> 90 Questions</span>
+            <span class="test-pill"><i class="bi bi-book"></i> PCM</span>
+          </div>
+          <button class="btn-enroll" onclick="scrollToSection('admissions')" aria-label="Enroll in JEE Full Syllabus Test 1">
+            <i class="bi bi-person-plus-fill"></i> Enroll Now
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="test-card">
+          <div class="test-icon" style="background:linear-gradient(135deg,#16A34A,#166534)"><i class="bi bi-award-fill"></i></div>
+          <h4>NEET Mock Test — Series A</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Full NEET-UG pattern with 200 questions. Detailed analytics and rank prediction after submission.</p>
+          <div class="test-meta">
+            <span class="test-pill"><i class="bi bi-clock"></i> 3.5 Hours</span>
+            <span class="test-pill"><i class="bi bi-list-check"></i> 200 Questions</span>
+            <span class="test-pill"><i class="bi bi-book"></i> PCB</span>
+          </div>
+          <button class="btn-enroll" onclick="scrollToSection('admissions')">
+            <i class="bi bi-person-plus-fill"></i> Enroll Now
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="test-card">
+          <div class="test-icon" style="background:linear-gradient(135deg,#F4A825,#E67E22)"><i class="bi bi-lightning-charge-fill"></i></div>
+          <h4>JEE Advanced Mock Test</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Advanced difficulty with integer type, MCQ, and paragraph-based questions. Paper 1 + Paper 2.</p>
+          <div class="test-meta">
+            <span class="test-pill"><i class="bi bi-clock"></i> 6 Hours</span>
+            <span class="test-pill"><i class="bi bi-list-check"></i> 108 Questions</span>
+            <span class="test-pill"><i class="bi bi-book"></i> PCM</span>
+          </div>
+          <button class="btn-enroll" onclick="scrollToSection('admissions')">
+            <i class="bi bi-person-plus-fill"></i> Enroll Now
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="test-card">
+          <div class="test-icon" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+          <h4>Chapter-Wise: Mechanics</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Focused test on Kinematics, Newton's Laws, Work-Energy, Rotation and SHM for JEE/NEET.</p>
+          <div class="test-meta">
+            <span class="test-pill"><i class="bi bi-clock"></i> 90 mins</span>
+            <span class="test-pill"><i class="bi bi-list-check"></i> 50 Questions</span>
+            <span class="test-pill"><i class="bi bi-book"></i> Physics</span>
+          </div>
+          <button class="btn-enroll" onclick="scrollToSection('admissions')">
+            <i class="bi bi-person-plus-fill"></i> Enroll Now
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="test-card">
+          <div class="test-icon" style="background:linear-gradient(135deg,#0891B2,#0E7490)"><i class="bi bi-calculator-fill"></i></div>
+          <h4>Chapter-Wise: Calculus</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Limits, derivatives, integrals, and differential equations. High-scoring area for JEE Mains.</p>
+          <div class="test-meta">
+            <span class="test-pill"><i class="bi bi-clock"></i> 75 mins</span>
+            <span class="test-pill"><i class="bi bi-list-check"></i> 40 Questions</span>
+            <span class="test-pill"><i class="bi bi-book"></i> Maths</span>
+          </div>
+          <button class="btn-enroll" onclick="scrollToSection('admissions')">
+            <i class="bi bi-person-plus-fill"></i> Enroll Now
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="test-card">
+          <div class="test-icon" style="background:linear-gradient(135deg,#DC2626,#B91C1C)"><i class="bi bi-fire"></i></div>
+          <h4>Grand Test — Final Revision</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);">Ultimate mock for last-minute practice. Most-expected questions from repeat chapters and tricky areas.</p>
+          <div class="test-meta">
+            <span class="test-pill"><i class="bi bi-clock"></i> 3 Hours</span>
+            <span class="test-pill"><i class="bi bi-list-check"></i> 90 Questions</span>
+            <span class="test-pill"><i class="bi bi-book"></i> PCM/PCB</span>
+          </div>
+          <button class="btn-enroll" onclick="scrollToSection('admissions')">
+            <i class="bi bi-person-plus-fill"></i> Enroll Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PYQ ============ -->
+<section id="pyq" class="section-pad" aria-label="Previous Year Questions">
+  <div class="container">
+    <div class="section-header text-center reveal">
+      <div class="section-label">Archive</div>
+      <h2 class="section-title">Previous Year <span>Questions</span></h2>
+      <div class="section-divider mx-auto"></div>
+      <p class="section-sub mx-auto">Solving PYQs is the most effective exam strategy. Download our curated PYQ packs by year and exam.</p>
+    </div>
+    <div class="row g-4">
+      <!-- JEE PYQs -->
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="pyq-card">
+          <div class="d-flex align-items-center gap-3 mb-12">
+            <div class="pyq-year-badge">2024</div>
+            <div>
+              <h5>JEE Mains 2024</h5>
+              <span class="subject-badge badge-math" style="margin-bottom:0">All Shifts</span>
+            </div>
+          </div>
+          <div class="pyq-stats mt-3">
+            <div class="pyq-stat"><strong>360</strong>Questions</div>
+            <div class="pyq-stat"><strong>8</strong>Shifts</div>
+            <div class="pyq-stat"><strong>PCM</strong>Subjects</div>
+          </div>
+          <p>Complete JEE Mains 2024 questions from all sessions with detailed solutions and answer keys.</p>
+          <a href="assets/pdfs/jee-mains-2024.pdf" class="btn-download" download>
+            <i class="bi bi-cloud-arrow-down-fill"></i> Download PYQ Pack
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="pyq-card">
+          <div class="d-flex align-items-center gap-3">
+            <div class="pyq-year-badge">2023</div>
+            <div>
+              <h5>JEE Mains 2023</h5>
+              <span class="subject-badge badge-math" style="margin-bottom:0">All Shifts</span>
+            </div>
+          </div>
+          <div class="pyq-stats mt-3">
+            <div class="pyq-stat"><strong>360</strong>Questions</div>
+            <div class="pyq-stat"><strong>8</strong>Shifts</div>
+            <div class="pyq-stat"><strong>PCM</strong>Subjects</div>
+          </div>
+          <p>Full collection of JEE Mains 2023 papers — both January and April sessions included.</p>
+          <a href="assets/pdfs/jee-mains-2023.pdf" class="btn-download" download>
+            <i class="bi bi-cloud-arrow-down-fill"></i> Download PYQ Pack
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="pyq-card">
+          <div class="d-flex align-items-center gap-3">
+            <div class="pyq-year-badge" style="background:linear-gradient(135deg,#1B3A6B,#1A5276)">ADV</div>
+            <div>
+              <h5>JEE Advanced 2024</h5>
+              <span class="subject-badge badge-phys" style="margin-bottom:0">Paper 1 & 2</span>
+            </div>
+          </div>
+          <div class="pyq-stats mt-3">
+            <div class="pyq-stat"><strong>108</strong>Questions</div>
+            <div class="pyq-stat"><strong>2</strong>Papers</div>
+            <div class="pyq-stat"><strong>PCM</strong>Subjects</div>
+          </div>
+          <p>JEE Advanced 2024 with detailed step-by-step solutions from IIT-qualified faculty.</p>
+          <a href="assets/pdfs/jee-advanced-2024.pdf" class="btn-download" download>
+            <i class="bi bi-cloud-arrow-down-fill"></i> Download PYQ Pack
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="pyq-card">
+          <div class="d-flex align-items-center gap-3">
+            <div class="pyq-year-badge" style="background:linear-gradient(135deg,#16A34A,#166534)">2024</div>
+            <div>
+              <h5>NEET UG 2024</h5>
+              <span class="subject-badge badge-bio" style="margin-bottom:0">PCB</span>
+            </div>
+          </div>
+          <div class="pyq-stats mt-3">
+            <div class="pyq-stat"><strong>200</strong>Questions</div>
+            <div class="pyq-stat"><strong>1</strong>Paper</div>
+            <div class="pyq-stat"><strong>PCB</strong>Subjects</div>
+          </div>
+          <p>NEET UG 2024 complete paper with solution booklet. Includes Biology, Physics, Chemistry.</p>
+          <a href="assets/pdfs/neet-2024.pdf" class="btn-download" download>
+            <i class="bi bi-cloud-arrow-down-fill"></i> Download PYQ Pack
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="pyq-card">
+          <div class="d-flex align-items-center gap-3">
+            <div class="pyq-year-badge" style="background:linear-gradient(135deg,#16A34A,#166534)">2023</div>
+            <div>
+              <h5>NEET UG 2023</h5>
+              <span class="subject-badge badge-bio" style="margin-bottom:0">PCB</span>
+            </div>
+          </div>
+          <div class="pyq-stats mt-3">
+            <div class="pyq-stat"><strong>200</strong>Questions</div>
+            <div class="pyq-stat"><strong>1</strong>Paper</div>
+            <div class="pyq-stat"><strong>PCB</strong>Subjects</div>
+          </div>
+          <p>NEET UG 2023 official question paper with annotated solutions and topic-wise analysis.</p>
+          <a href="assets/pdfs/neet-2023.pdf" class="btn-download" download>
+            <i class="bi bi-cloud-arrow-down-fill"></i> Download PYQ Pack
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="pyq-card">
+          <div class="d-flex align-items-center gap-3">
+            <div class="pyq-year-badge" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)">10yr</div>
+            <div>
+              <h5>10-Year Compilation</h5>
+              <span class="subject-badge" style="background:rgba(124,58,237,0.1);color:#5B21B6;margin-bottom:0">JEE + NEET</span>
+            </div>
+          </div>
+          <div class="pyq-stats mt-3">
+            <div class="pyq-stat"><strong>5000+</strong>Questions</div>
+            <div class="pyq-stat"><strong>2014–24</strong>Years</div>
+            <div class="pyq-stat"><strong>All</strong>Subjects</div>
+          </div>
+          <p>Massive compilation of 10 years of JEE Mains, Advanced, and NEET questions with solutions.</p>
+          <a href="assets/pdfs/10yr-compilation.pdf" class="btn-download" download>
+            <i class="bi bi-cloud-arrow-down-fill"></i> Download PYQ Pack
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ADMISSIONS ============ -->
+<section id="admissions" class="section-pad" aria-label="Admissions form">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5 reveal">
+        <div class="section-label">Get Started</div>
+        <h2 class="section-title">Join <br><span>Bhatia Master Classes</span> Today!</h2>
+        <div class="section-divider"></div>
+        <p class="section-sub">Take the first step towards cracking JEE & NEET. Book a free demo class and experience our teaching methodology.</p>
+        <div class="admit-features mt-4">
+          <div class="admit-feature">
+            <div class="admit-feature-icon"><i class="bi bi-person-check-fill"></i></div>
+            <div class="admit-feature-text">
+              <h5>Expert Faculty</h5>
+              <p>Learn from IIT and NIT alumni with 10+ years of experience coaching toppers.</p>
+            </div>
+          </div>
+          <div class="admit-feature">
+            <div class="admit-feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="admit-feature-text">
+              <h5>Proven Results</h5>
+              <p>500+ students selected in IITs, NITs and top medical colleges every year.</p>
+            </div>
+          </div>
+          <div class="admit-feature">
+            <div class="admit-feature-icon"><i class="bi bi-headset"></i></div>
+            <div class="admit-feature-text">
+              <h5>24/7 Doubt Support</h5>
+              <p>WhatsApp doubt groups and dedicated mentors available round the clock.</p>
+            </div>
+          </div>
+          <div class="admit-feature">
+            <div class="admit-feature-icon"><i class="bi bi-gift-fill"></i></div>
+            <div class="admit-feature-text">
+              <h5>Free Demo Class</h5>
+              <p>Attend one free demo lecture before enrolling. No commitment required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 reveal">
+        <div class="admit-form-wrap">
+          <h3 style="color:#fff;font-size:1.8rem;margin-bottom:6px;">Book Your Free Demo</h3>
+          <p style="color:rgba(255,255,255,0.65);margin-bottom:24px;font-size:0.9rem;">Fill in your details and we'll reach out within 24 hours.</p>
+          <!-- Formspree form — replace YOUR_FORM_ID with actual Formspree ID -->
+          <form id="admitForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="admitName">Full Name *</label>
+                <input type="text" id="admitName" name="name" class="form-control-custom w-100" placeholder="e.g. Rahul Sharma" required aria-required="true" />
+                <div class="invalid-feedback-custom">Please enter your name.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="admitEmail">Email Address *</label>
+                <input type="email" id="admitEmail" name="email" class="form-control-custom w-100" placeholder="you@example.com" required aria-required="true" />
+                <div class="invalid-feedback-custom">Please enter a valid email.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="admitPhone">Phone Number *</label>
+                <input type="tel" id="admitPhone" name="phone" class="form-control-custom w-100" placeholder="+91 98765 43210" pattern="[0-9\+\-\s]{10,14}" required aria-required="true" />
+                <div class="invalid-feedback-custom">Enter a valid 10-digit phone number.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="admitClass">Current Class *</label>
+                <select id="admitClass" name="class" class="form-control-custom w-100" required aria-required="true">
+                  <option value="">— Select Class —</option>
+                  <option>Class 9</option>
+                  <option>Class 10</option>
+                  <option>Class 11</option>
+                  <option>Class 12</option>
+                  <option>12th Passed / Dropper</option>
+                </select>
+                <div class="invalid-feedback-custom">Please select your class.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom" for="admitCourse">Course Interested In *</label>
+                <select id="admitCourse" name="course" class="form-control-custom w-100" required aria-required="true">
+                  <option value="">— Select Course —</option>
+                  <option>JEE Mains + Advanced Prep</option>
+                  <option>NEET UG Preparation</option>
+                  <option>Foundation (Class 9–10)</option>
+                  <option>Crash Course — JEE Mains</option>
+                  <option>Crash Course — NEET</option>
+                  <option>Short-Term Revision Batch</option>
+                </select>
+                <div class="invalid-feedback-custom">Please select a course.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom" for="admitMsg">Message (Optional)</label>
+                <textarea id="admitMsg" name="message" class="form-control-custom w-100" rows="3" placeholder="Any questions or specific topics you need help with?"></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-submit-modal" id="admitSubmitBtn">
+                  <i class="bi bi-send-fill me-2"></i> Enroll & Book Free Demo
+                </button>
+              </div>
+            </div>
+            <div class="success-msg" id="admitSuccess">
+              <p><i class="bi bi-check-circle-fill me-2"></i>Thank you! We'll contact you within 24 hours to schedule your free demo class.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section-pad" aria-label="Contact information">
+  <div class="container">
+    <div class="section-header text-center reveal">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Contact <span>Us</span></h2>
+      <div class="section-divider mx-auto"></div>
+      <p class="section-sub mx-auto">Have questions? Our team is here to help you find the right course and batch.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4 col-lg-3 reveal">
+        <div class="contact-card text-center">
+          <div class="contact-icon-wrap mx-auto"><i class="bi bi-geo-alt-fill"></i></div>
+          <h5 style="font-size:1.1rem;margin-bottom:8px;">Our Centre</h5>
+          <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">10/1 Kalidas Marg, Maxi Road,<br>Near Free Ganj Tower, Near Narmade Ayurvedam,<br>Ujjain</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 reveal">
+        <div class="contact-card text-center">
+          <div class="contact-icon-wrap mx-auto"><i class="bi bi-telephone-fill"></i></div>
+          <h5 style="font-size:1.1rem;margin-bottom:8px;">Call Us</h5>
+          <a href="tel:+919516210209" style="font-size:0.9rem;color:var(--primary);font-weight:600;">+91 95162 10209</a><br>
+          <span style="font-size:0.8rem;color:var(--text-muted);">Mon–Sat: 9am to 7pm</span>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 reveal">
+        <div class="contact-card text-center">
+          <div class="contact-icon-wrap mx-auto"><i class="bi bi-envelope-fill"></i></div>
+          <h5 style="font-size:1.1rem;margin-bottom:8px;">Email Us</h5>
+          <a href="mailto:info@bhatiamasterclasses.com" style="font-size:0.85rem;color:var(--primary);font-weight:600;word-break:break-all;">info@bhatiamasterclasses.com</a>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 reveal">
+        <div class="contact-card text-center">
+          <div class="contact-icon-wrap mx-auto" style="background:#25D366;"><i class="bi bi-whatsapp"></i></div>
+          <h5 style="font-size:1.1rem;margin-bottom:8px;">WhatsApp</h5>
+          <a href="https://wa.me/919516210209" target="_blank" rel="noopener"
+             style="font-size:0.9rem;color:#16A34A;font-weight:600;">Chat with us</a><br>
+          <span style="font-size:0.8rem;color:var(--text-muted);">Quick replies guaranteed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-logo">
+          <img src="image/BMC_LOGO.svg" alt="Bhatia Master Classes" height="52" />
+        </div>
+        <p class="footer-tagline">Ujjain's most trusted coaching institute for JEE, NEET & Foundation since 2025.</p>
+        <div class="social-links">
+          <a href="#" class="social-btn" aria-label="Follow us on Twitter / X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn" aria-label="Follow us on Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="Follow us on YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="https://wa.me/919516210209" class="social-btn" aria-label="Contact on WhatsApp" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h5>Quick Links</h5>
+        <ul class="footer-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#daily-practice">Daily Practice</a></li>
+          <li><a href="#test-series">Test Series</a></li>
+          <li><a href="#pyq">PYQ</a></li>
+          <li><a href="#admissions">Admissions</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <h5>Courses</h5>
+        <ul class="footer-links">
+          <li><a href="#admissions">JEE Mains + Advanced</a></li>
+          <li><a href="#admissions">NEET UG Preparation</a></li>
+          <li><a href="#admissions">Foundation (9–10)</a></li>
+          <li><a href="#admissions">Crash Courses</a></li>
+          <li><a href="#admissions">Revision Batches</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <h5>Contact</h5>
+        <ul class="footer-links">
+          <li><i class="bi bi-geo-alt me-2"></i>10/1 Kalidas Marg, Maxi Road, Ujjain</li>
+          <li><a href="tel:+919516210209"><i class="bi bi-telephone me-2"></i>+91 95162 10209</a></li>
+          <li><a href="mailto:info@bhatiamasterclasses.com"><i class="bi bi-envelope me-2"></i>info@bhatiamasterclasses.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Bhatia Master Classes. All rights reserved.</p>
+      <div class="d-flex gap-3">
+        <a href="#" style="font-size:0.82rem;color:rgba(255,255,255,0.5);">Privacy Policy</a>
+        <a href="#" style="font-size:0.82rem;color:rgba(255,255,255,0.5);">Terms of Use</a>
+        <a href="#" style="font-size:0.82rem;color:rgba(255,255,255,0.5);">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ WHATSAPP FLOAT ============ -->
+<a href="https://wa.me/919516210209" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <i class="bi bi-whatsapp"></i>
+</a>
+
+<!-- ============ SOLUTION MODAL ============ -->
+<div id="solutionModal" class="modal-custom" role="dialog" aria-modal="true" aria-labelledby="solModalTitle" aria-describedby="solModalDesc">
+  <div class="modal-box">
+    <div class="modal-header-custom">
+      <h3 id="solModalTitle"><i class="bi bi-key-fill me-2" style="color:var(--accent)"></i>Unlock Solution</h3>
+      <p id="solModalDesc">Enter your details to view the full step-by-step solution.</p>
+      <button class="modal-close" onclick="closeModal('solutionModal')" aria-label="Close modal">✕</button>
+    </div>
+    <div class="modal-body-custom">
+      <div class="question-display" id="modalQuestionDisplay">
+        <div class="q-label">Question</div>
+        <p id="modalQuestionText"></p>
+      </div>
+      <form id="solutionForm" novalidate>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="solName">Full Name *</label>
+            <input type="text" id="solName" class="form-control-reg" placeholder="Your name" required />
+            <div class="error-msg">Name is required.</div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="solEmail">Email *</label>
+            <input type="email" id="solEmail" class="form-control-reg" placeholder="you@email.com" required />
+            <div class="error-msg">Valid email required.</div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="solPhone">Phone *</label>
+            <input type="tel" id="solPhone" class="form-control-reg" placeholder="+91 XXXXX XXXXX" pattern="[0-9\+\-\s]{10,14}" required />
+            <div class="error-msg">Phone number required.</div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="solClass">Class *</label>
+            <select id="solClass" class="form-control-reg" required>
+              <option value="">— Select —</option>
+              <option>Class 10</option>
+              <option>Class 11</option>
+              <option>Class 12</option>
+              <option>Dropper</option>
+            </select>
+            <div class="error-msg">Please select your class.</div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn-submit-modal" id="solSubmitBtn">
+              <i class="bi bi-unlock-fill me-2"></i> Reveal Solution
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="solution-reveal" id="solutionReveal" role="region" aria-live="polite">
+        <div class="sol-label"><i class="bi bi-check-circle-fill"></i> Step-by-Step Solution</div>
+        <div id="solutionContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DOUBT MODAL ============ -->
+<div id="doubtModal" class="modal-custom" role="dialog" aria-modal="true" aria-labelledby="doubtModalTitle">
+  <div class="modal-box">
+    <div class="modal-header-custom" style="background:linear-gradient(135deg,#00A8A8,#006B6B)">
+      <h3 id="doubtModalTitle"><i class="bi bi-lightbulb-fill me-2" style="color:var(--accent)"></i>Solve Your Doubt</h3>
+      <p>Our experts will email you the solution within 24 hours.</p>
+      <button class="modal-close" onclick="closeModal('doubtModal')" aria-label="Close doubt modal">✕</button>
+    </div>
+    <div class="modal-body-custom">
+      <!-- Formspree doubt form — replace YOUR_DOUBT_FORM_ID -->
+      <form id="doubtForm" action="https://formspree.io/f/YOUR_DOUBT_FORM_ID" method="POST" novalidate>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="dName">Full Name *</label>
+            <input type="text" id="dName" name="name" class="form-control-reg" placeholder="Your name" required />
+            <div class="error-msg">Name is required.</div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="dEmail">Email *</label>
+            <input type="email" id="dEmail" name="email" class="form-control-reg" placeholder="you@email.com" required />
+            <div class="error-msg">Valid email required.</div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="dPhone">Phone *</label>
+            <input type="tel" id="dPhone" name="phone" class="form-control-reg" placeholder="+91 XXXXX XXXXX" required />
+            <div class="error-msg">Phone number required.</div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label-reg" for="dClass">Class *</label>
+            <select id="dClass" name="class" class="form-control-reg" required>
+              <option value="">— Select —</option>
+              <option>Class 10</option>
+              <option>Class 11</option>
+              <option>Class 12</option>
+              <option>Dropper</option>
+            </select>
+            <div class="error-msg">Please select your class.</div>
+          </div>
+          <div class="col-12">
+            <label class="form-label-reg" for="dProblem">Your Problem / Doubt *</label>
+            <textarea id="dProblem" name="problem" class="form-control-reg doubt-textarea" placeholder="Type your question here. Include the subject, chapter, and exact problem..." required></textarea>
+            <div class="error-msg">Please describe your doubt.</div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn-submit-modal" id="doubtSubmitBtn" style="background:linear-gradient(135deg,var(--teal),var(--primary))">
+              <i class="bi bi-send-fill me-2"></i> Submit My Doubt
+            </button>
+          </div>
+        </div>
+        <div class="success-msg" id="doubtSuccess">
+          <p><i class="bi bi-check-circle-fill me-2"></i>Our experts will email the solution within <strong>24 hours</strong>. Thank you!</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ========== DATA ========== */
+const QUESTIONS = [
+  {
+    subject: 'JEE Maths',
+    text: 'If f(x) = x³ − 6x² + 11x − 6, find all roots and verify using Vieta\'s formulas.',
+    solution: `<p><strong>Step 1 — Rational Root Test:</strong><br>Try x = 1: f(1) = 1 − 6 + 11 − 6 = 0 ✓<br>So (x − 1) is a factor.</p>
+    <p><strong>Step 2 — Synthetic Division:</strong><br>x³ − 6x² + 11x − 6 ÷ (x−1) = x² − 5x + 6</p>
+    <p><strong>Step 3 — Factor the Quadratic:</strong><br>x² − 5x + 6 = (x−2)(x−3)</p>
+    <p><strong>Roots: x = 1, 2, 3</strong></p>
+    <p><strong>Verification with Vieta's:</strong><br>Sum = 1+2+3 = 6 = 6/1 ✓<br>Sum of products = 1·2 + 2·3 + 1·3 = 11 ✓<br>Product = 1·2·3 = 6 = 6/1 ✓</p>`
+  },
+  {
+    subject: 'JEE Physics',
+    text: 'A projectile is launched at 45° with initial speed 20 m/s. Find the maximum height and range. (g = 10 m/s²)',
+    solution: `<p><strong>Given:</strong> θ = 45°, u = 20 m/s, g = 10 m/s²</p>
+    <p><strong>Maximum Height:</strong><br>H = u²sin²θ / 2g<br>H = (400 × sin²45°) / 20<br>H = (400 × 0.5) / 20<br><strong>H = 10 m</strong></p>
+    <p><strong>Range:</strong><br>R = u²sin2θ / g<br>R = (400 × sin90°) / 10<br>R = 400 / 10<br><strong>R = 40 m</strong></p>
+    <p><em>Note: At θ = 45°, range is maximum for a given initial speed.</em></p>`
+  },
+  {
+    subject: 'NEET Chemistry',
+    text: 'Calculate the pH of 0.01 M HCl solution. If diluted 100×, what is the new pH?',
+    solution: `<p><strong>Original pH:</strong><br>HCl is a strong acid, fully dissociates.<br>[H⁺] = 0.01 M = 10⁻² M<br><strong>pH = −log(10⁻²) = 2</strong></p>
+    <p><strong>After 100× dilution:</strong><br>New concentration = 0.01/100 = 10⁻⁴ M<br>pH = −log(10⁻⁴) = <strong>4</strong></p>
+    <p><em>Tip: Upon extreme dilution, pH approaches 7 (neutral) but never exceeds 7 for an acid.</em></p>`
+  },
+  {
+    subject: 'NEET Biology',
+    text: 'In a monohybrid cross between Tt × tt, what is the phenotypic ratio? Explain using a Punnett square.',
+    solution: `<p><strong>Cross:</strong> Tt × tt</p>
+    <p><strong>Punnett Square:</strong><br>
+    <code style="font-family:monospace;display:block;padding:8px;background:#f3f4f6;border-radius:6px;line-height:1.8;">
+    &nbsp;&nbsp;&nbsp; T &nbsp;&nbsp;  t<br>
+    t | Tt | tt |<br>
+    t | Tt | tt |</code></p>
+    <p><strong>Offspring:</strong> 2 Tt (Tall) : 2 tt (Dwarf)</p>
+    <p><strong>Phenotypic Ratio: 1 Tall : 1 Dwarf (1:1)</strong></p>
+    <p><em>This is called a Test Cross — used to determine the genotype of a dominant-phenotype individual.</em></p>`
+  }
+];
+
+let currentQuestionIndex = 0;
+
+/* ========== MODAL FUNCTIONS ========== */
+function openSolutionModal(idx) {
+  currentQuestionIndex = idx;
+  const q = QUESTIONS[idx];
+  document.getElementById('modalQuestionText').textContent = q.text;
+  document.getElementById('solutionReveal').classList.remove('show');
+  document.getElementById('solutionForm').reset();
+  clearErrors(document.getElementById('solutionForm'));
+  document.getElementById('solutionModal').classList.add('show');
+  document.getElementById('solName').focus();
+  document.body.style.overflow = 'hidden';
+}
+
+function openDoubtModal() {
+  document.getElementById('doubtForm').reset();
+  document.getElementById('doubtSuccess').classList.remove('show');
+  clearErrors(document.getElementById('doubtForm'));
+  document.getElementById('doubtModal').classList.add('show');
+  document.getElementById('dName').focus();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// Close on backdrop click
+document.querySelectorAll('.modal-custom').forEach(m => {
+  m.addEventListener('click', function(e) {
+    if (e.target === this) closeModal(this.id);
+  });
+});
+
+// Keyboard close
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-custom.show').forEach(m => closeModal(m.id));
+  }
+});
+
+/* ========== VALIDATION ========== */
+function validateField(field) {
+  const errEl = field.nextElementSibling;
+  if (!errEl || !errEl.classList.contains('error-msg')) return true;
+  const valid = field.checkValidity() && field.value.trim() !== '';
+  field.classList.toggle('error', !valid);
+  errEl.style.display = valid ? 'none' : 'block';
+  return valid;
+}
+
+function validateForm(form) {
+  let valid = true;
+  form.querySelectorAll('[required]').forEach(f => {
+    if (!validateField(f)) valid = false;
+  });
+  return valid;
+}
+
+function clearErrors(form) {
+  form.querySelectorAll('.form-control-reg, .form-control-custom').forEach(f => {
+    f.classList.remove('error', 'field-invalid');
+  });
+  form.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
+}
+
+/* ========== SOLUTION FORM SUBMIT ========== */
+document.getElementById('solutionForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (!validateForm(this)) return;
+  const btn = document.getElementById('solSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Unlocking...';
+  // Simulate brief delay then show solution
+  setTimeout(() => {
+    const q = QUESTIONS[currentQuestionIndex];
+    document.getElementById('solutionContent').innerHTML = q.solution;
+    document.getElementById('solutionReveal').classList.add('show');
+    document.getElementById('solutionReveal').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Solution Unlocked!';
+    btn.style.background = '#16A34A';
+  }, 800);
+});
+
+/* ========== DOUBT FORM SUBMIT ========== */
+document.getElementById('doubtForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!validateForm(this)) return;
+  const btn = document.getElementById('doubtSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Submitting...';
+  try {
+    const formData = new FormData(this);
+    const resp = await fetch(this.action, { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
+    if (resp.ok) {
+      document.getElementById('doubtSuccess').classList.add('show');
+      this.reset();
+      btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Submitted!';
+      btn.style.background = '#16A34A';
+    } else { throw new Error(); }
+  } catch {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-send-fill me-2"></i> Submit My Doubt';
+    alert('Something went wrong. Please try again or WhatsApp us directly.');
+  }
+});
+
+/* ========== ADMIT FORM SUBMIT ========== */
+document.getElementById('admitForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  // Validate required fields manually
+  let valid = true;
+  this.querySelectorAll('[required]').forEach(f => {
+    const err = f.parentElement.querySelector('.invalid-feedback-custom');
+    const ok = f.value.trim() !== '' && f.checkValidity();
+    f.classList.toggle('field-invalid', !ok);
+    if (err) err.style.display = ok ? 'none' : 'block';
+    if (!ok) valid = false;
+  });
+  if (!valid) return;
+  const btn = document.getElementById('admitSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Submitting...';
+  try {
+    const formData = new FormData(this);
+    const resp = await fetch(this.action, { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
+    if (resp.ok) {
+      document.getElementById('admitSuccess').classList.add('show');
+      this.reset();
+      btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Enrolled Successfully!';
+      btn.style.background = '#16A34A';
+    } else { throw new Error(); }
+  } catch {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-send-fill me-2"></i> Enroll & Book Free Demo';
+    alert('Submission failed. Please WhatsApp us or call directly.');
+  }
+});
+
+/* ========== SCROLL REVEAL ========== */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const siblings = entry.target.closest('.row')?.querySelectorAll('.reveal') || [];
+      const idx = Array.from(siblings).indexOf(entry.target);
+      entry.target.style.transitionDelay = `${Math.min(idx * 80, 400)}ms`;
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ========== ACTIVE NAV ON SCROLL ========== */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#mainNav .nav-link[href^="#"]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) cur = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
+  });
+}, { passive: true });
+
+/* ========== HELPERS ========== */
+function scrollToSection(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ========== LIVE FIELD VALIDATION ========== */
+document.querySelectorAll('.form-control-reg').forEach(f => {
+  f.addEventListener('blur', () => validateField(f));
+});
+</script>
+<a href="https://wa.me/919516210209" class="whatsapp-float" target="_blank">
+<i class="bi bi-whatsapp"></i>
+</a>
+
+</body>
+</html>
