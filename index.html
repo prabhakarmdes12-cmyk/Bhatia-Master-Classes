@@ -2049,7 +2049,18 @@ function clearErrors(form) {
   });
   form.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
 }
-
+function shareSolution(method) {
+  const text = '✅ I just solved a JEE/NEET question on Bhatia Master Classes!\nTry daily challenges at: ' + window.location.href;
+  if (method === 'whatsapp') {
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+  } else if (method === 'copy') {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = document.querySelector('[onclick="shareSolution(\'copy\')"]');
+      btn.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
+      setTimeout(() => { btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy Link'; }, 2000);
+    });
+  }
+}
 /* ========== SOLUTION FORM SUBMIT ========== */
 document.getElementById('solutionForm').addEventListener('submit', function(e) {
   e.preventDefault();
