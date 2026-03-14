@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>BMC Student Login</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f7fb;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.login-box{
+background:white;
+padding:40px;
+border-radius:10px;
+box-shadow:0 6px 20px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+input{
+padding:10px;
+width:220px;
+margin:10px;
+}
+
+button{
+padding:10px 16px;
+background:#1B3A6B;
+color:white;
+border:none;
+border-radius:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<h2>Student Login</h2>
+
+<input type="password" id="password" placeholder="Enter Password">
+
+<br>
+
+<button onclick="login()">Login</button>
+
+<p id="error" style="color:red"></p>
+
+</div>
+
+<script>
+
+function login(){
+
+var pass=document.getElementById("password").value
+
+if(pass==="bmc2026"){
+
+window.location="portal.html"
+
+}
+
+else{
+
+document.getElementById("error").innerHTML="Wrong password"
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
