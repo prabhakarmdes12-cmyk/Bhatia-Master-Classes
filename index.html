@@ -1936,18 +1936,7 @@ At Bhatia Master Classes (BMC), his mission is to help students achieve academic
     </div>
   </div>
 </div>
-function shareSolution(method) {
-  const text = '✅ I just solved a JEE/NEET question on Bhatia Master Classes!\nTry daily challenges at: ' + window.location.href;
-  if (method === 'whatsapp') {
-    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
-  } else if (method === 'copy') {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      const btn = document.querySelector('[onclick="shareSolution(\'copy\')"]');
-      btn.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
-      setTimeout(() => { btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy Link'; }, 2000);
-    });
-  }
-}
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
