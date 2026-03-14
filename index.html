@@ -800,6 +800,184 @@
       .admit-form-wrap { padding: 24px 18px; }
       .modal-body-custom { padding: 20px; }
     }
+    /* ========== BMC CHALLENGER ========== */
+#bmc-challenger {
+  background: var(--primary-dark);
+  position: relative;
+  overflow: hidden;
+}
+#bmc-challenger::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.challenger-glow {
+  position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(244,168,37,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.challenger-week-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(244,168,37,0.15);
+  border: 1px solid rgba(244,168,37,0.4);
+  color: var(--accent-light);
+  padding: 6px 18px; border-radius: 100px;
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.challenger-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800; color: #fff;
+  line-height: 1.05; margin-bottom: 8px;
+}
+.challenger-title span { color: var(--accent); }
+.challenger-sub {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem; margin-bottom: 0;
+}
+.challenger-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+.challenger-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--teal));
+}
+.challenger-card:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(244,168,37,0.25);
+}
+.challenger-subject-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  margin-bottom: 20px;
+}
+.challenger-subject-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,168,168,0.15);
+  border: 1px solid rgba(0,168,168,0.3);
+  color: var(--teal);
+  padding: 4px 14px; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.challenger-difficulty {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(220,38,38,0.15);
+  border: 1px solid rgba(220,38,38,0.3);
+  color: #f87171;
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;
+}
+.challenger-question-text {
+  color: #fff;
+  font-size: 1.05rem; line-height: 1.75;
+  margin-bottom: 28px;
+}
+.challenger-question-text .math {
+  font-style: italic;
+  color: var(--accent-light);
+}
+.challenger-actions {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  align-items: center;
+}
+.btn-challenger-solve {
+  background: var(--accent);
+  color: var(--primary-dark);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: var(--transition); cursor: pointer;
+}
+.btn-challenger-solve:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244,168,37,0.35);
+}
+.challenger-hint {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.83rem;
+  display: flex; align-items: center; gap: 6px;
+}
+.challenger-meta-strip {
+  display: flex; flex-wrap: wrap; gap: 20px;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 28px;
+}
+.challenger-meta-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.82rem; color: rgba(255,255,255,0.5);
+}
+.challenger-meta-item strong { color: rgba(255,255,255,0.8); }
+/* Countdown timer */
+.challenger-timer {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 6px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--accent-light);
+  letter-spacing: 0.5px;
+}
+/* Solution modal share button */
+.btn-share-solution {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: transparent;
+  border: 1px solid rgba(27,58,107,0.25);
+  color: var(--primary);
+  padding: 8px 16px; border-radius: 8px;
+  font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+  margin-top: 12px;
+}
+.btn-share-solution:hover {
+  background: var(--primary); color: #fff;
+  border-color: var(--primary);
+}
+.btn-share-whatsapp {
+  background: #25D366; color: #fff;
+  border-color: #25D366;
+}
+.btn-share-whatsapp:hover { background: #1ebe5a; border-color: #1ebe5a; color: #fff; }
+.share-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid #e5e9f0;
+}
+/* Challenger modal solution */
+.challenger-solution-box {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: var(--radius);
+  padding: 20px; margin-top: 20px;
+  display: none;
+}
+.challenger-solution-box.show { display: block; animation: slideUp 0.3s ease; }
+.challenger-solution-box .sol-label {
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--success); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
   </style>
 </head>
 <body>
@@ -967,6 +1145,79 @@ At Bhatia Master Classes (BMC), his mission is to help students achieve academic
       </div>
 
     </div>
+  </div>
+</section>
+  <!-- ============ BMC CHALLENGER ============ -->
+<section id="bmc-challenger" class="section-pad" aria-label="BMC Challenger Weekly Question">
+  <div class="challenger-glow"></div>
+  <div class="container" style="position:relative;z-index:1;">
+
+    <!-- Header -->
+    <div class="row align-items-end mb-5">
+      <div class="col-lg-8 reveal">
+        <div class="challenger-week-badge">
+          <i class="bi bi-lightning-charge-fill"></i> Weekly Challenge
+        </div>
+        <h2 class="challenger-title">BMC <span>Challenger</span></h2>
+        <p class="challenger-sub">One elite question every week. Crack it, share it, own it.</p>
+      </div>
+      <div class="col-lg-4 text-lg-end reveal">
+        <div class="challenger-timer">
+          <i class="bi bi-clock-history"></i>
+          <span id="challengerCountdown">Refreshes in: 6d 14h 22m</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="row justify-content-center">
+      <div class="col-lg-10 reveal">
+        <div class="challenger-card">
+
+          <!-- Subject + Difficulty -->
+          <div class="challenger-subject-row">
+            <span class="challenger-subject-tag"><i class="bi bi-calculator"></i> JEE Advanced · Mathematics</span>
+            <span class="challenger-difficulty"><i class="bi bi-fire"></i> Hard</span>
+          </div>
+
+          <!-- Question Text — UPDATE THIS EACH WEEK -->
+          <p class="challenger-question-text">
+            Let <span class="math">f : ℝ → ℝ</span> be a twice differentiable function such that
+            <span class="math">f(x + y) = f(x) · f(y)</span> for all <span class="math">x, y ∈ ℝ</span>.
+            If <span class="math">f'(0) = 2</span> and <span class="math">f(3) = e⁶</span>, find the value of
+            <span class="math">∫₀³ f(x) dx</span>.
+          </p>
+
+          <!-- CTA -->
+          <div class="challenger-actions">
+            <button class="btn-challenger-solve" onclick="openChallengerModal()">
+              <i class="bi bi-unlock-fill"></i> Attempt &amp; Reveal Solution
+            </button>
+            <span class="challenger-hint">
+              <i class="bi bi-lightbulb"></i> Submit your name to unlock the full solution
+            </span>
+          </div>
+
+          <!-- Meta strip -->
+          <div class="challenger-meta-strip">
+            <div class="challenger-meta-item">
+              <i class="bi bi-calendar3"></i>
+              <span>Week of <strong>Mar 10 – Mar 16, 2026</strong></span>
+            </div>
+            <div class="challenger-meta-item">
+              <i class="bi bi-mortarboard"></i>
+              <span>Level: <strong>JEE Advanced</strong></span>
+            </div>
+            <div class="challenger-meta-item">
+              <i class="bi bi-people"></i>
+              <span><strong>124</strong> attempts this week</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 <!-- ============ DAILY PRACTICE ============ -->
@@ -1901,5 +2152,77 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
   f.addEventListener('blur', () => validateField(f));
 });
 </script>
+  <!-- ===== BMC CHALLENGER MODAL ===== -->
+<div id="challengerModal" class="modal-custom" role="dialog" aria-modal="true" aria-labelledby="challengerModalTitle">
+  <div class="modal-box" style="max-width:560px;">
+    <div class="modal-header-custom" style="background:linear-gradient(135deg,#0F2245,#1B3A6B);">
+      <button class="modal-close" onclick="closeModal('challengerModal')" aria-label="Close">&times;</button>
+      <h3 id="challengerModalTitle"><i class="bi bi-lightning-charge-fill" style="color:var(--accent);"></i> BMC Challenger</h3>
+      <p>Enter your details to unlock the full solution</p>
+    </div>
+    <div class="modal-body-custom">
+      <!-- Question display -->
+      <div class="question-display">
+        <div class="q-label">This Week's Question</div>
+        <p>Let <em>f : ℝ → ℝ</em> be twice differentiable with f(x+y) = f(x)·f(y). If f'(0) = 2 and f(3) = e⁶, find ∫₀³ f(x) dx.</p>
+      </div>
+
+      <!-- Form -->
+      <form id="challengerForm" novalidate>
+        <div class="mb-3">
+          <label class="form-label-reg" for="chName">Full Name *</label>
+          <input type="text" id="chName" name="name" class="form-control-reg" placeholder="Your name" required />
+          <div class="error-msg">Name is required.</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label-reg" for="chPhone">Phone / WhatsApp *</label>
+          <input type="tel" id="chPhone" name="phone" class="form-control-reg" placeholder="10-digit number"
+            pattern="[6-9][0-9]{9}" required />
+          <div class="error-msg">Enter a valid 10-digit number.</div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label-reg" for="chClass">Class *</label>
+          <select id="chClass" name="class" class="form-control-reg" required>
+            <option value="">— Select —</option>
+            <option>Class 11</option>
+            <option>Class 12</option>
+            <option>Dropper</option>
+          </select>
+          <div class="error-msg">Please select your class.</div>
+        </div>
+        <button type="submit" class="btn-submit-modal" id="chSubmitBtn">
+          <i class="bi bi-unlock-fill me-2"></i> Reveal Solution
+        </button>
+      </form>
+
+      <!-- Solution box — shown after form submit -->
+      <div class="challenger-solution-box" id="challengerSolution">
+        <div class="sol-label"><i class="bi bi-check-circle-fill"></i> Full Solution</div>
+        <div id="challengerSolutionContent">
+          <p><strong>Since f(x+y) = f(x)·f(y)</strong>, this is the exponential functional equation.</p>
+          <p>Setting y = 0: f(x) = f(x)·f(0) → f(0) = 1</p>
+          <p>Differentiating: f'(x) = f'(0)·f(x) = 2·f(x)</p>
+          <p>So <strong>f(x) = e²ˣ</strong></p>
+          <p><strong>∫₀³ e²ˣ dx = [e²ˣ/2]₀³ = (e⁶ − 1)/2</strong></p>
+          <p style="color:var(--success);font-weight:700;margin-top:8px;">Answer: (e⁶ − 1) / 2</p>
+        </div>
+        <!-- Share buttons -->
+        <div class="share-row">
+          <span style="font-size:0.8rem;font-weight:600;color:var(--text-muted);align-self:center;">Share:</span>
+          <button class="btn-share-solution btn-share-whatsapp" onclick="shareChallenger('whatsapp')">
+            <i class="bi bi-whatsapp"></i> WhatsApp
+          </button>
+          <button class="btn-share-solution" onclick="shareChallenger('copy')">
+            <i class="bi bi-clipboard"></i> Copy Link
+          </button>
+          <button class="btn-share-solution" onclick="shareChallenger('native')" id="btnNativeShare" style="display:none;">
+            <i class="bi bi-share"></i> Share
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 </body>
 </html>
