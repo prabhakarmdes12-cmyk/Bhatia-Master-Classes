@@ -332,8 +332,12 @@
   pointer-events: none;
 }
 .mentor-photo-col {
-  display: flex; align-items: flex-end; justify-content: center;
-  min-height: 500px; padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 520px;
+  padding: 0;
+  align-self: stretch;
 }
 .mentor-photo-wrap {
   position: relative;
@@ -349,11 +353,15 @@
 }
 .mentor-photo-wrap img {
   position: relative; z-index: 1;
-  width: 100%; max-width: 320px;
-  height: 480px;
-  object-fit: cover; object-position: top center;
+  width: 100%;
+  max-width: 320px;
+  height: 100%;
+  min-height: 500px;
+  object-fit: cover;
+  object-position: center top;
   border-radius: 20px 20px 0 0;
-  display: block; margin: 0 auto;
+  display: block;
+  margin: 0 auto;
   filter: drop-shadow(0 -8px 40px rgba(0,0,0,0.4));
 }
 .mentor-exp-badge {
