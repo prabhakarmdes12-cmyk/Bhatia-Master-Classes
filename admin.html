@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Bhatia Master Classes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #1B3A6B;
+      --primary-dark: #0F2245;
+      --accent: #F4A825;
+      --accent-light: #FCC84A;
+      --teal: #00A8A8;
+      --light-bg: #F0F2F7;
+      --card-bg: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6B7280;
+      --border: #E5E9F0;
+      --success: #16A34A;
+      --danger: #DC2626;
+      --warning: #D97706;
+      --shadow-sm: 0 2px 8px rgba(27,58,107,0.08);
+      --shadow-md: 0 8px 32px rgba(27,58,107,0.12);
+      --radius: 12px;
+      --radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --sidebar-w: 260px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--light-bg); line-height: 1.6; overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; line-height: 1.15; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--primary-dark);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+      transition: var(--transition);
+    }
+    .sidebar-logo {
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      color: var(--primary-dark);
+      flex-shrink: 0;
+    }
+    .brand-text h3 { font-size: 1.05rem; color: #fff; margin-bottom: 1px; }
+    .brand-text p { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+
+    /* Admin badge */
+    .admin-strip {
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .admin-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1rem;
+      color: var(--primary-dark);
+      flex-shrink: 0;
+    }
+    .admin-strip-info h4 { font-size: 0.9rem; color: #fff; font-weight: 600; }
+    .admin-strip-info .admin-role {
+      font-size: 0.68rem;
+      background: rgba(244,168,37,0.2);
+      border: 1px solid rgba(244,168,37,0.3);
+      color: var(--accent-light);
+      padding: 1px 8px;
+      border-radius: 100px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
+    .nav-section-label {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 1.2px;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+      padding: 0 8px; margin: 12px 0 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      cursor: pointer; transition: var(--transition);
+      color: rgba(255,255,255,0.65);
+      font-size: 0.92rem; font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .nav-item i { font-size: 1.05rem; width: 20px; text-align: center; }
+    .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .nav-item.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: var(--primary-dark); font-weight: 700;
+      box-shadow: 0 4px 12px rgba(244,168,37,0.3);
+    }
+    .nav-badge {
+      margin-left: auto; background: var(--danger); color: #fff;
+      font-size: 0.65rem; font-weight: 700;
+      padding: 1px 6px; border-radius: 100px;
+    }
+    .sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-footer .nav-item { color: rgba(255,255,255,0.4); }
+    .sidebar-footer .nav-item:hover { color: rgba(255,255,255,0.7); }
+
+    /* ====== MAIN ====== */
+    .main { margin-left: var(--sidebar-w); min-height: 100vh; }
+    .topbar {
+      background: #fff; padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .topbar-left h2 { font-size: 1.5rem; color: var(--primary-dark); }
+    .topbar-left p { font-size: 0.82rem; color: var(--text-muted); }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .topbar-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      border: 1.5px solid var(--border); background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition);
+      color: var(--text-muted); font-size: 1rem; position: relative;
+    }
+    .topbar-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .topbar-btn .dot {
+      position: absolute; top: 6px; right: 6px;
+      width: 8px; height: 8px; background: var(--danger);
+      border-radius: 50%; border: 2px solid #fff;
+    }
+    .admin-profile-pill {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 12px; border-radius: 10px;
+      border: 1.5px solid var(--border); cursor: pointer;
+      transition: var(--transition);
+    }
+    .admin-profile-pill:hover { border-color: var(--accent); }
+    .pill-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 0.8rem; color: var(--primary-dark);
+    }
+    .pill-name { font-size: 0.85rem; font-weight: 600; }
+    .pill-role {
+      font-size: 0.68rem; font-weight: 600;
+      background: rgba(244,168,37,0.15);
+      color: var(--warning); padding: 1px 7px;
+      border-radius: 100px; border: 1px solid rgba(244,168,37,0.3);
+    }
+
+    .content { padding: 28px; }
+    .page-section { display: none; }
+    .page-section.active { display: block; animation: fadeIn 0.35s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ====== STATS ====== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-bottom: 24px;
+    }
+    .stat-card {
+      background: #fff; border-radius: var(--radius);
+      padding: 20px 22px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .stat-card.s1::after { background: var(--primary); }
+    .stat-card.s2::after { background: var(--accent); }
+    .stat-card.s3::after { background: var(--teal); }
+    .stat-card.s4::after { background: var(--success); }
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .stat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .stat-icon {
+      width: 46px; height: 46px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .stat-icon.blue { background: rgba(27,58,107,0.1); color: var(--primary); }
+    .stat-icon.gold { background: rgba(244,168,37,0.12); color: var(--accent); }
+    .stat-icon.teal { background: rgba(0,168,168,0.1); color: var(--teal); }
+    .stat-icon.green { background: rgba(22,163,74,0.1); color: var(--success); }
+    .stat-trend {
+      font-size: 0.72rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 100px;
+      display: flex; align-items: center; gap: 3px;
+    }
+    .trend-up { background: rgba(22,163,74,0.1); color: var(--success); }
+    .trend-down { background: rgba(220,38,38,0.1); color: var(--danger); }
+    .stat-num { font-size: 2rem; font-weight: 800; font-family: 'Barlow Condensed', sans-serif; line-height: 1; margin-bottom: 3px; }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ====== SECTION CARD ====== */
+    .section-card {
+      background: #fff; border-radius: var(--radius-lg);
+      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+      margin-bottom: 24px; overflow: hidden;
+    }
+    .card-header {
+      padding: 18px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-header h3 {
+      font-size: 1.25rem; color: var(--primary-dark);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-header h3 i { color: var(--accent); }
+    .card-body { padding: 24px; }
+
+    /* ====== STUDENT TABLE ====== */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th {
+      background: var(--light-bg); color: var(--text);
+      padding: 11px 16px; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; letter-spacing: 0.5px; text-align: left;
+      font-weight: 700; border-bottom: 2px solid var(--border);
+    }
+    .data-table td {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      font-size: 0.88rem; vertical-align: middle;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(27,58,107,0.02); }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.3px;
+    }
+    .badge-active { background: rgba(22,163,74,0.1); color: var(--success); border: 1px solid rgba(22,163,74,0.2); }
+    .badge-pending { background: rgba(217,119,6,0.1); color: var(--warning); border: 1px solid rgba(217,119,6,0.2); }
+    .badge-inactive { background: rgba(220,38,38,0.1); color: var(--danger); border: 1px solid rgba(220,38,38,0.2); }
+
+    /* Avatar mini */
+    .av-mini {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 0.85rem; color: #fff; flex-shrink: 0;
+    }
+    .student-row-name { display: flex; align-items: center; gap: 10px; }
+    .student-name { font-weight: 600; font-size: 0.9rem; }
+    .student-id { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* Action buttons */
+    .btn-sm {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 10px; border-radius: 7px;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid transparent;
+      transition: var(--transition);
+    }
+    .btn-sm-primary { background: rgba(27,58,107,0.08); color: var(--primary); border-color: rgba(27,58,107,0.15); }
+    .btn-sm-primary:hover { background: var(--primary-dark); color: #fff; }
+    .btn-sm-danger { background: rgba(220,38,38,0.08); color: var(--danger); border-color: rgba(220,38,38,0.15); }
+    .btn-sm-danger:hover { background: var(--danger); color: #fff; }
+
+    /* ====== UPLOAD ZONE ====== */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .upload-zone:hover { border-color: var(--accent); background: rgba(244,168,37,0.03); }
+    .upload-zone i { font-size: 2.5rem; color: var(--border); margin-bottom: 12px; display: block; }
+    .upload-zone h4 { font-size: 1rem; margin-bottom: 4px; }
+    .upload-zone p { font-size: 0.82rem; color: var(--text-muted); }
+    .btn-upload {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 16px; padding: 10px 24px;
+      background: var(--primary-dark); color: #fff;
+      border: none; border-radius: 9px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: var(--transition);
+    }
+    .btn-upload:hover { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: var(--primary-dark); }
+
+    /* ====== TWO COL ====== */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+    /* ====== FORM STYLES ====== */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group-admin { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .form-control-admin {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid var(--border); border-radius: 9px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      color: var(--text); background: #fff;
+      transition: var(--transition); outline: none;
+    }
+    .form-control-admin:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(27,58,107,0.1); }
+    select.form-control-admin { cursor: pointer; }
+    .btn-primary-admin {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff; border: none; padding: 12px 28px;
+      border-radius: 9px; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary-admin:hover { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: var(--primary-dark); transform: translateY(-1px); }
+
+    /* ====== NOTICE FORM ====== */
+    .notice-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .notice-tag-btn {
+      padding: 5px 14px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: var(--transition);
+      background: #fff; color: var(--text-muted);
+    }
+    .notice-tag-btn.sel { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); }
+
+    /* ====== ACTIVITY FEED ====== */
+    .activity-list { display: flex; flex-direction: column; gap: 0; }
+    .activity-item {
+      display: flex; gap: 12px; padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0; margin-top: 1px;
+    }
+    .ad-blue { background: rgba(27,58,107,0.1); color: var(--primary); }
+    .ad-gold { background: rgba(244,168,37,0.1); color: var(--accent); }
+    .ad-teal { background: rgba(0,168,168,0.1); color: var(--teal); }
+    .ad-green { background: rgba(22,163,74,0.1); color: var(--success); }
+    .ad-red { background: rgba(220,38,38,0.1); color: var(--danger); }
+    .activity-content h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 1px; }
+    .activity-content p { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ====== SECTION HEAD ====== */
+    .section-head { margin-bottom: 20px; }
+    .section-head h2 { font-size: 1.8rem; color: var(--primary-dark); margin-bottom: 4px; }
+    .section-head p { font-size: 0.88rem; color: var(--text-muted); }
+
+    /* ====== HAMBURGER ====== */
+    .hamburger { display: none; font-size: 1.2rem; cursor: pointer; color: var(--text); margin-right: 8px; }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+    .overlay.show { display: block; }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .hamburger { display: block; }
+      .content { padding: 16px; }
+      .topbar { padding: 12px 16px; }
+      .pill-role { display: none; }
+    }
+
+    /* Notice item styled */
+    .notice-row {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px; border-radius: var(--radius);
+      border: 1px solid var(--border); margin-bottom: 10px;
+      transition: var(--transition);
+    }
+    .notice-row:hover { border-color: var(--primary); }
+    .notice-row:last-child { margin-bottom: 0; }
+    .notice-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .dot-accent { background: var(--accent); }
+    .dot-teal { background: var(--teal); }
+    .dot-success { background: var(--success); }
+    .dot-danger { background: var(--danger); }
+    .notice-body { flex: 1; }
+    .notice-body h4 { font-size: 0.9rem; margin-bottom: 2px; }
+    .notice-body p { font-size: 0.8rem; color: var(--text-muted); }
+    .notice-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    /* Pill select filter */
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-pill {
+      padding: 6px 14px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: var(--transition);
+      background: #fff; color: var(--text-muted);
+    }
+    .filter-pill.active { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); }
+
+    /* Search bar */
+    .search-bar {
+      display: flex; align-items: center; gap: 10px;
+      background: #fff; border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 8px 14px;
+      margin-bottom: 16px;
+    }
+    .search-bar i { color: var(--text-muted); }
+    .search-bar input {
+      border: none; outline: none; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; color: var(--text); flex: 1;
+    }
+
+    /* Score tag */
+    .score-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+    }
+    .score-good { color: var(--success); }
+    .score-ok { color: var(--warning); }
+    .score-low { color: var(--danger); }
+  </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">
+      <div class="brand-icon">BMC</div>
+      <div class="brand-text">
+        <h3>BHATIA MC</h3>
+        <p>Admin Panel</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-strip">
+    <div class="admin-avatar">AB</div>
+    <div class="admin-strip-info">
+      <h4>Admin Bhatia</h4>
+      <span class="admin-role">SUPER ADMIN</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="showPage('dashboard')">
+      <i class="bi bi-grid-fill"></i> Dashboard
+    </div>
+
+    <div class="nav-section-label">Students</div>
+    <div class="nav-item" onclick="showPage('students')">
+      <i class="bi bi-people-fill"></i> All Students
+    </div>
+    <div class="nav-item" onclick="showPage('admissions')">
+      <i class="bi bi-person-plus-fill"></i> New Admissions
+      <span class="nav-badge">4</span>
+    </div>
+
+    <div class="nav-section-label">Content</div>
+    <div class="nav-item" onclick="showPage('upload')">
+      <i class="bi bi-cloud-upload-fill"></i> Upload Material
+    </div>
+    <div class="nav-item" onclick="showPage('tests')">
+      <i class="bi bi-clipboard2-check-fill"></i> Manage Tests
+    </div>
+    <div class="nav-item" onclick="showPage('notices')">
+      <i class="bi bi-megaphone-fill"></i> Post Notices
+    </div>
+
+    <div class="nav-section-label">Reports</div>
+    <div class="nav-item" onclick="showPage('performance')">
+      <i class="bi bi-bar-chart-fill"></i> Performance
+    </div>
+    <div class="nav-item" onclick="showPage('leads')">
+      <i class="bi bi-person-lines-fill"></i> Question Leads
+    </div>
+    <div class="nav-item" onclick="showPage('fees')">
+      <i class="bi bi-cash-stack"></i> Fee Tracker
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="nav-item" onclick="window.location='index.html'">
+      <i class="bi bi-house-fill"></i> View Website
+    </div>
+    <div class="nav-item" onclick="logout()">
+      <i class="bi bi-box-arrow-left"></i> Sign Out
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="hamburger" onclick="openSidebar()"><i class="bi bi-list"></i></span>
+      <div>
+        <h2 id="topbar-title">Dashboard</h2>
+        <p id="topbar-sub">Sunday, 15 March 2026 · BMC Admin</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-btn" title="Notifications"><i class="bi bi-bell"></i><span class="dot"></span></div>
+      <div class="topbar-btn" title="Settings"><i class="bi bi-gear"></i></div>
+      <div class="admin-profile-pill">
+        <div class="pill-avatar">AB</div>
+        <span class="pill-name">Admin Bhatia</span>
+        <span class="pill-role">ADMIN</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="page-section active" id="page-dashboard">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card s1">
+          <div class="stat-top">
+            <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+            <span class="stat-trend trend-up"><i class="bi bi-arrow-up-right"></i>+8 this month</span>
+          </div>
+          <div class="stat-num">142</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-card s2">
+          <div class="stat-top">
+            <div class="stat-icon gold"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="stat-trend trend-up"><i class="bi bi-arrow-up-right"></i>6 new</span>
+          </div>
+          <div class="stat-num">38</div>
+          <div class="stat-label">DPPs Published</div>
+        </div>
+        <div class="stat-card s3">
+          <div class="stat-top">
+            <div class="stat-icon teal"><i class="bi bi-clipboard2-check-fill"></i></div>
+            <span class="stat-trend trend-up"><i class="bi bi-arrow-up-right"></i>+2</span>
+          </div>
+          <div class="stat-num">7</div>
+          <div class="stat-label">Mock Tests Done</div>
+        </div>
+        <div class="stat-card s4">
+          <div class="stat-top">
+            <div class="stat-icon green"><i class="bi bi-cash-coin"></i></div>
+            <span class="stat-trend trend-down"><i class="bi bi-arrow-down-right"></i>12 pending</span>
+          </div>
+          <div class="stat-num">₹2.8L</div>
+          <div class="stat-label">Fee Collected (Mar)</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <!-- Recent Activity -->
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-clock-fill"></i> Recent Activity</h3></div>
+          <div class="card-body">
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-dot ad-gold"><i class="bi bi-cloud-upload-fill"></i></div>
+                <div class="activity-content">
+                  <h4>DPP Uploaded — Physics EMI</h4>
+                  <p>Today, 10:32 AM · by Admin Bhatia</p>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot ad-green"><i class="bi bi-person-check-fill"></i></div>
+                <div class="activity-content">
+                  <h4>New Student Enrolled — Priya Sharma</h4>
+                  <p>Today, 9:14 AM · JEE 2026 Batch</p>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot ad-blue"><i class="bi bi-megaphone-fill"></i></div>
+                <div class="activity-content">
+                  <h4>Notice Posted — Mock Test 08</h4>
+                  <p>Yesterday, 6:00 PM</p>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot ad-teal"><i class="bi bi-clipboard2-check-fill"></i></div>
+                <div class="activity-content">
+                  <h4>Mock Test 07 Results Published</h4>
+                  <p>14 Mar 2026 · 35 students graded</p>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot ad-red"><i class="bi bi-cash-coin"></i></div>
+                <div class="activity-content">
+                  <h4>Fee Reminder Sent — 12 Students</h4>
+                  <p>13 Mar 2026</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Admissions -->
+        <div class="section-card">
+          <div class="card-header">
+            <h3><i class="bi bi-person-plus-fill"></i> Pending Admissions</h3>
+            <span class="status-badge badge-pending">4 pending</span>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Course</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div style="font-weight:600;">Priya Sharma</div><div style="font-size:0.75rem;color:var(--text-muted);">+91-9876543210</div></td>
+                  <td><span class="status-badge badge-pending">JEE 2027</span></td>
+                  <td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i> Approve</button></td>
+                </tr>
+                <tr>
+                  <td><div style="font-weight:600;">Arjun Singh</div><div style="font-size:0.75rem;color:var(--text-muted);">+91-9123456789</div></td>
+                  <td><span class="status-badge badge-pending">NEET 2027</span></td>
+                  <td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i> Approve</button></td>
+                </tr>
+                <tr>
+                  <td><div style="font-weight:600;">Sneha Gupta</div><div style="font-size:0.75rem;color:var(--text-muted);">+91-9512345678</div></td>
+                  <td><span class="status-badge badge-pending">JEE 2026</span></td>
+                  <td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i> Approve</button></td>
+                </tr>
+                <tr>
+                  <td><div style="font-weight:600;">Ravi Verma</div><div style="font-size:0.75rem;color:var(--text-muted);">+91-9988776655</div></td>
+                  <td><span class="status-badge badge-pending">Foundation</span></td>
+                  <td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i> Approve</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Performers -->
+      <div class="section-card">
+        <div class="card-header">
+          <h3><i class="bi bi-trophy-fill"></i> Top Performing Students</h3>
+          <span style="font-size:0.8rem;color:var(--text-muted);cursor:pointer;font-weight:600;" onclick="showPage('performance')">Full Report →</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="data-table">
+            <thead><tr><th>#</th><th>Student</th><th>Batch</th><th>Avg Score</th><th>Tests</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);">🥇</td>
+                <td><div style="font-weight:600;">Amit Jha</div><div style="font-size:0.75rem;color:var(--text-muted);">BMC-2026-014</div></td>
+                <td>JEE 2026</td>
+                <td><span class="score-tag score-good">89%</span></td>
+                <td>7/7</td>
+                <td><span class="status-badge badge-active">Active</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text-muted);">🥈</td>
+                <td><div style="font-weight:600;">Neha Singh</div><div style="font-size:0.75rem;color:var(--text-muted);">BMC-2026-007</div></td>
+                <td>JEE 2026</td>
+                <td><span class="score-tag score-good">85%</span></td>
+                <td>7/7</td>
+                <td><span class="status-badge badge-active">Active</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);">🥉</td>
+                <td><div style="font-weight:600;">Kavya Tiwari</div><div style="font-size:0.75rem;color:var(--text-muted);">BMC-2026-023</div></td>
+                <td>JEE 2026</td>
+                <td><span class="score-tag score-good">82%</span></td>
+                <td>6/7</td>
+                <td><span class="status-badge badge-active">Active</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:700;color:var(--text-muted);">4</td>
+                <td><div style="font-weight:600;">Rahul Kumar</div><div style="font-size:0.75rem;color:var(--text-muted);">BMC-2026-001</div></td>
+                <td>JEE 2026</td>
+                <td><span class="score-tag score-ok">74%</span></td>
+                <td>7/7</td>
+                <td><span class="status-badge badge-active">Active</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STUDENTS PAGE ===== -->
+    <div class="page-section" id="page-students">
+      <div class="section-head">
+        <h2>ALL STUDENTS</h2>
+        <p>Manage all enrolled students across batches</p>
+      </div>
+      <div class="section-card">
+        <div class="card-header">
+          <h3><i class="bi bi-people-fill"></i> Student Directory</h3>
+          <button class="btn-primary-admin" style="font-size:0.9rem;padding:8px 18px;" onclick="showPage('admissions')"><i class="bi bi-person-plus-fill"></i> Add Student</button>
+        </div>
+        <div class="card-body">
+          <div class="filter-bar">
+            <div class="filter-pill active">All (142)</div>
+            <div class="filter-pill" onclick="filterClick(this)">JEE 2026 (52)</div>
+            <div class="filter-pill" onclick="filterClick(this)">JEE 2027 (38)</div>
+            <div class="filter-pill" onclick="filterClick(this)">NEET (31)</div>
+            <div class="filter-pill" onclick="filterClick(this)">Foundation (21)</div>
+          </div>
+          <div class="search-bar">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search by name, ID or phone..." oninput="searchStudents(this.value)" />
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table" id="students-table">
+              <thead><tr><th>Student</th><th>Roll No.</th><th>Batch</th><th>Fee Status</th><th>Avg Score</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><div class="student-row-name"><div class="av-mini" style="background:linear-gradient(135deg,#1B3A6B,#00A8A8)">RK</div><div><div class="student-name">Rahul Kumar</div><div class="student-id">+91-98XXXXXXXX</div></div></div></td><td>BMC-2026-001</td><td>JEE 2026</td><td><span class="status-badge badge-active">Paid</span></td><td><span class="score-tag score-ok">74%</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-eye"></i> View</button></td></tr>
+                <tr><td><div class="student-row-name"><div class="av-mini" style="background:linear-gradient(135deg,#F4A825,#FCC84A);color:#0F2245">AJ</div><div><div class="student-name">Amit Jha</div><div class="student-id">+91-97XXXXXXXX</div></div></div></td><td>BMC-2026-014</td><td>JEE 2026</td><td><span class="status-badge badge-active">Paid</span></td><td><span class="score-tag score-good">89%</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-eye"></i> View</button></td></tr>
+                <tr><td><div class="student-row-name"><div class="av-mini" style="background:linear-gradient(135deg,#00A8A8,#007a7a)">NS</div><div><div class="student-name">Neha Singh</div><div class="student-id">+91-96XXXXXXXX</div></div></div></td><td>BMC-2026-007</td><td>JEE 2026</td><td><span class="status-badge badge-active">Paid</span></td><td><span class="score-tag score-good">85%</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-eye"></i> View</button></td></tr>
+                <tr><td><div class="student-row-name"><div class="av-mini" style="background:linear-gradient(135deg,#16A34A,#22c55e)">KT</div><div><div class="student-name">Kavya Tiwari</div><div class="student-id">+91-95XXXXXXXX</div></div></div></td><td>BMC-2026-023</td><td>JEE 2026</td><td><span class="status-badge badge-pending">Pending</span></td><td><span class="score-tag score-good">82%</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-eye"></i> View</button></td></tr>
+                <tr><td><div class="student-row-name"><div class="av-mini" style="background:linear-gradient(135deg,#DC2626,#ef4444)">MV</div><div><div class="student-name">Manish Verma</div><div class="student-id">+91-94XXXXXXXX</div></div></div></td><td>BMC-2026-031</td><td>NEET 2026</td><td><span class="status-badge badge-inactive">Overdue</span></td><td><span class="score-tag score-ok">68%</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-eye"></i> View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ADMISSIONS ===== -->
+    <div class="page-section" id="page-admissions">
+      <div class="section-head">
+        <h2>NEW ADMISSIONS</h2>
+        <p>Register new students to the system</p>
+      </div>
+      <div class="two-col">
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-person-plus-fill"></i> Student Registration</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group-admin">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control-admin" placeholder="Student full name" />
+              </div>
+              <div class="form-group-admin">
+                <label class="form-label">Father's Name</label>
+                <input type="text" class="form-control-admin" placeholder="Father's name" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group-admin">
+                <label class="form-label">Mobile Number</label>
+                <input type="tel" class="form-control-admin" placeholder="+91-XXXXXXXXXX" />
+              </div>
+              <div class="form-group-admin">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control-admin" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group-admin">
+                <label class="form-label">Course</label>
+                <select class="form-control-admin">
+                  <option>JEE Advanced 2026</option>
+                  <option>JEE Advanced 2027</option>
+                  <option>NEET 2026</option>
+                  <option>NEET 2027</option>
+                  <option>Foundation (Class 9-10)</option>
+                </select>
+              </div>
+              <div class="form-group-admin">
+                <label class="form-label">Batch Timing</label>
+                <select class="form-control-admin">
+                  <option>7:00 AM – 10:00 AM</option>
+                  <option>11:00 AM – 2:00 PM</option>
+                  <option>4:00 PM – 7:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control-admin" placeholder="Student's address in Patna" />
+            </div>
+            <div class="form-row" style="margin-top:8px;">
+              <div class="form-group-admin">
+                <label class="form-label">Admission Fee (₹)</label>
+                <input type="number" class="form-control-admin" placeholder="e.g. 15000" />
+              </div>
+              <div class="form-group-admin">
+                <label class="form-label">Payment Status</label>
+                <select class="form-control-admin">
+                  <option>Paid</option>
+                  <option>Pending</option>
+                  <option>Partial</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-primary-admin" style="margin-top:8px;" onclick="showToastAdmin('Student registered successfully!')"><i class="bi bi-person-check-fill"></i> Register Student</button>
+          </div>
+        </div>
+
+        <!-- Pending list -->
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-hourglass-split"></i> Pending Requests</h3><span class="status-badge badge-pending">4 pending</span></div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Course</th><th>Date</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><b>Priya Sharma</b></td><td>JEE 2027</td><td>15 Mar</td><td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i></button></td></tr>
+                <tr><td><b>Arjun Singh</b></td><td>NEET 2027</td><td>15 Mar</td><td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i></button></td></tr>
+                <tr><td><b>Sneha Gupta</b></td><td>JEE 2026</td><td>14 Mar</td><td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i></button></td></tr>
+                <tr><td><b>Ravi Verma</b></td><td>Foundation</td><td>13 Mar</td><td><button class="btn-sm btn-sm-primary" onclick="approveStu(this)"><i class="bi bi-check-lg"></i></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== UPLOAD MATERIAL ===== -->
+    <div class="page-section" id="page-upload">
+      <div class="section-head">
+        <h2>UPLOAD MATERIAL</h2>
+        <p>Add new DPPs, solutions, test papers and PYQs</p>
+      </div>
+      <div class="two-col">
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-cloud-upload-fill"></i> Upload New File</h3></div>
+          <div class="card-body">
+            <div class="form-group-admin">
+              <label class="form-label">Material Type</label>
+              <select class="form-control-admin" id="mat-type">
+                <option>DPP (Daily Practice Paper)</option>
+                <option>Mock Test Paper</option>
+                <option>Test Solutions</option>
+                <option>PYQ (Previous Year Questions)</option>
+                <option>Lecture Notes</option>
+                <option>Study Material</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group-admin">
+                <label class="form-label">Subject</label>
+                <select class="form-control-admin">
+                  <option>Physics</option>
+                  <option>Chemistry</option>
+                  <option>Mathematics</option>
+                  <option>Biology</option>
+                  <option>All Subjects (PCM)</option>
+                </select>
+              </div>
+              <div class="form-group-admin">
+                <label class="form-label">Target Batch</label>
+                <select class="form-control-admin">
+                  <option>All Batches</option>
+                  <option>JEE 2026</option>
+                  <option>JEE 2027</option>
+                  <option>NEET 2026</option>
+                  <option>Foundation</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label">Title / Description</label>
+              <input type="text" class="form-control-admin" placeholder="e.g. DPP — Electromagnetic Induction (Advanced)" />
+            </div>
+            <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <h4>Click to upload or drag & drop</h4>
+              <p>Supports PDF, DOCX, ZIP · Max 50MB</p>
+              <button type="button" class="btn-upload"><i class="bi bi-folder-fill"></i> Browse Files</button>
+              <input type="file" id="file-input" style="display:none" accept=".pdf,.docx,.zip" onchange="fileSelected(this)" />
+            </div>
+            <div id="selected-file" style="display:none;margin-top:12px;padding:10px 14px;background:rgba(22,163,74,0.08);border:1px solid rgba(22,163,74,0.2);border-radius:9px;font-size:0.85rem;font-weight:600;color:var(--success);">
+              <i class="bi bi-check-circle-fill"></i> <span id="filename-label"></span>
+            </div>
+            <button class="btn-primary-admin" style="margin-top:16px;width:100%;justify-content:center;" onclick="showToastAdmin('File uploaded successfully!')">
+              <i class="bi bi-cloud-upload-fill"></i> Upload & Publish
+            </button>
+          </div>
+        </div>
+
+        <!-- Recently Uploaded -->
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-files"></i> Recently Uploaded</h3></div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead><tr><th>File</th><th>Subject</th><th>Date</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><div style="font-weight:600;font-size:0.88rem;">DPP — EMI</div><div style="font-size:0.75rem;color:var(--text-muted);">Physics · JEE 2026</div></td><td><span class="subject-chip" style="background:rgba(0,168,168,0.1);color:var(--teal);padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600;">Physics</span></td><td style="font-size:0.82rem;">Today</td><td><button class="btn-sm btn-sm-danger"><i class="bi bi-trash"></i></button></td></tr>
+                <tr><td><div style="font-weight:600;font-size:0.88rem;">Ionic Equilibrium DPP</div><div style="font-size:0.75rem;color:var(--text-muted);">Chemistry · All</div></td><td><span class="subject-chip" style="background:rgba(244,168,37,0.1);color:var(--warning);padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600;">Chem</span></td><td style="font-size:0.82rem;">13 Mar</td><td><button class="btn-sm btn-sm-danger"><i class="bi bi-trash"></i></button></td></tr>
+                <tr><td><div style="font-weight:600;font-size:0.88rem;">Quadratic DPP</div><div style="font-size:0.75rem;color:var(--text-muted);">Maths · JEE 2026</div></td><td><span class="subject-chip" style="background:rgba(27,58,107,0.1);color:var(--primary);padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600;">Maths</span></td><td style="font-size:0.82rem;">12 Mar</td><td><button class="btn-sm btn-sm-danger"><i class="bi bi-trash"></i></button></td></tr>
+                <tr><td><div style="font-weight:600;font-size:0.88rem;">JEE Adv 2024 P1 Hindi</div><div style="font-size:0.75rem;color:var(--text-muted);">PYQ · All JEE</div></td><td><span class="subject-chip" style="background:rgba(27,58,107,0.08);color:var(--primary);padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600;">PYQ</span></td><td style="font-size:0.82rem;">10 Mar</td><td><button class="btn-sm btn-sm-danger"><i class="bi bi-trash"></i></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TESTS ===== -->
+    <div class="page-section" id="page-tests">
+      <div class="section-head">
+        <h2>MANAGE TEST SERIES</h2>
+        <p>Schedule, publish and grade mock tests</p>
+      </div>
+      <div class="section-card">
+        <div class="card-header">
+          <h3><i class="bi bi-clipboard2-check-fill"></i> Test Schedule</h3>
+          <button class="btn-primary-admin" style="font-size:0.9rem;padding:8px 18px;" onclick="showToastAdmin('Test scheduled!')"><i class="bi bi-plus-lg"></i> Schedule Test</button>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="data-table">
+            <thead><tr><th>Test</th><th>Date & Time</th><th>Batch</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><b>Mock Test 08</b><br><span style="font-size:0.75rem;color:var(--text-muted);">Full Syllabus · 3 hrs</span></td><td>18 Mar 2026<br>8:00 AM</td><td>JEE 2026</td><td><span class="status-badge badge-pending">Upcoming</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-pencil"></i> Edit</button></td></tr>
+              <tr><td><b>Mock Test 07</b><br><span style="font-size:0.75rem;color:var(--text-muted);">Full Syllabus · 3 hrs</span></td><td>8 Mar 2026</td><td>JEE 2026</td><td><span class="status-badge badge-active">Graded</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-eye"></i> Results</button></td></tr>
+              <tr><td><b>Mock Test 06</b><br><span style="font-size:0.75rem;color:var(--text-muted);">Full Syllabus · 3 hrs</span></td><td>1 Mar 2026</td><td>JEE 2026</td><td><span class="status-badge badge-active">Graded</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-eye"></i> Results</button></td></tr>
+              <tr><td><b>NEET Mock 04</b><br><span style="font-size:0.75rem;color:var(--text-muted);">PCB · 3 hrs 20 min</span></td><td>22 Mar 2026</td><td>NEET 2026</td><td><span class="status-badge badge-pending">Upcoming</span></td><td><button class="btn-sm btn-sm-primary"><i class="bi bi-pencil"></i> Edit</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NOTICES ===== -->
+    <div class="page-section" id="page-notices">
+      <div class="section-head">
+        <h2>POST NOTICES</h2>
+        <p>Send announcements to all students or specific batches</p>
+      </div>
+      <div class="two-col">
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-megaphone-fill"></i> New Notice</h3></div>
+          <div class="card-body">
+            <div class="form-group-admin">
+              <label class="form-label">Notice Title</label>
+              <input type="text" class="form-control-admin" placeholder="e.g. Mock Test on 18 March 2026" id="notice-title" />
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label">Message</label>
+              <textarea class="form-control-admin" rows="4" placeholder="Full details of the notice..." id="notice-body" style="resize:vertical"></textarea>
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label">Target Audience</label>
+              <div class="notice-tags">
+                <button class="notice-tag-btn sel" onclick="toggleTag(this)">All Students</button>
+                <button class="notice-tag-btn" onclick="toggleTag(this)">JEE 2026</button>
+                <button class="notice-tag-btn" onclick="toggleTag(this)">JEE 2027</button>
+                <button class="notice-tag-btn" onclick="toggleTag(this)">NEET</button>
+                <button class="notice-tag-btn" onclick="toggleTag(this)">Foundation</button>
+              </div>
+            </div>
+            <div class="form-group-admin">
+              <label class="form-label">Priority</label>
+              <select class="form-control-admin">
+                <option>Normal</option>
+                <option>Important</option>
+                <option>Urgent</option>
+              </select>
+            </div>
+            <button class="btn-primary-admin" style="width:100%;justify-content:center;" onclick="postNotice()">
+              <i class="bi bi-send-fill"></i> Post Notice
+            </button>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-list-ul"></i> Posted Notices</h3></div>
+          <div class="card-body" id="notices-list">
+            <div class="notice-row">
+              <div class="notice-dot dot-accent"></div>
+              <div class="notice-body"><h4>Mock Test 08 — 18 March 2026</h4><p>Full Syllabus JEE Mock. 15 Mar 2026</p></div>
+              <div class="notice-actions"><button class="btn-sm btn-sm-danger" onclick="this.closest('.notice-row').remove()"><i class="bi bi-trash"></i></button></div>
+            </div>
+            <div class="notice-row">
+              <div class="notice-dot dot-teal"></div>
+              <div class="notice-body"><h4>Holi Holiday — 17 March</h4><p>Classes resume 18th March. 14 Mar 2026</p></div>
+              <div class="notice-actions"><button class="btn-sm btn-sm-danger" onclick="this.closest('.notice-row').remove()"><i class="bi bi-trash"></i></button></div>
+            </div>
+            <div class="notice-row">
+              <div class="notice-dot dot-success"></div>
+              <div class="notice-body"><h4>New DPPs Uploaded</h4><p>Physics & Chemistry DPPs added. 13 Mar 2026</p></div>
+              <div class="notice-actions"><button class="btn-sm btn-sm-danger" onclick="this.closest('.notice-row').remove()"><i class="bi bi-trash"></i></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PERFORMANCE ===== -->
+    <div class="page-section" id="page-performance">
+      <div class="section-head">
+        <h2>PERFORMANCE REPORTS</h2>
+        <p>Batch-wise and student-wise analytics</p>
+      </div>
+      <div class="section-card">
+        <div class="card-header"><h3><i class="bi bi-bar-chart-fill"></i> Batch Average — JEE 2026</h3></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">
+            <div style="text-align:center;padding:20px;background:rgba(0,168,168,0.06);border-radius:var(--radius);border:1px solid rgba(0,168,168,0.15);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:2.5rem;font-weight:800;color:var(--teal);">74%</div>
+              <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Physics Avg</div>
+            </div>
+            <div style="text-align:center;padding:20px;background:rgba(244,168,37,0.06);border-radius:var(--radius);border:1px solid rgba(244,168,37,0.15);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:2.5rem;font-weight:800;color:var(--accent);">68%</div>
+              <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Chemistry Avg</div>
+            </div>
+            <div style="text-align:center;padding:20px;background:rgba(27,58,107,0.06);border-radius:var(--radius);border:1px solid rgba(27,58,107,0.1);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:2.5rem;font-weight:800;color:var(--primary);">79%</div>
+              <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Maths Avg</div>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead><tr><th>Student</th><th>Mock 05</th><th>Mock 06</th><th>Mock 07</th><th>Avg</th><th>Trend</th></tr></thead>
+              <tbody>
+                <tr><td><b>Amit Jha</b></td><td><span class="score-tag score-good">91%</span></td><td><span class="score-tag score-good">88%</span></td><td><span class="score-tag score-good">87%</span></td><td><span class="score-tag score-good">89%</span></td><td style="color:var(--success)"><i class="bi bi-arrow-up-right-circle-fill"></i> Rising</td></tr>
+                <tr><td><b>Neha Singh</b></td><td><span class="score-tag score-good">84%</span></td><td><span class="score-tag score-good">86%</span></td><td><span class="score-tag score-good">85%</span></td><td><span class="score-tag score-good">85%</span></td><td style="color:var(--success)"><i class="bi bi-arrow-up-right-circle-fill"></i> Stable</td></tr>
+                <tr><td><b>Kavya Tiwari</b></td><td><span class="score-tag score-good">79%</span></td><td><span class="score-tag score-good">83%</span></td><td><span class="score-tag score-good">85%</span></td><td><span class="score-tag score-good">82%</span></td><td style="color:var(--success)"><i class="bi bi-arrow-up-right-circle-fill"></i> Rising</td></tr>
+                <tr><td><b>Rahul Kumar</b></td><td><span class="score-tag score-ok">71%</span></td><td><span class="score-tag score-ok">76%</span></td><td><span class="score-tag score-ok">74%</span></td><td><span class="score-tag score-ok">74%</span></td><td style="color:var(--warning)"><i class="bi bi-arrow-right-circle-fill"></i> Average</td></tr>
+                <tr><td><b>Manish Verma</b></td><td><span class="score-tag score-ok">72%</span></td><td><span class="score-tag score-low">64%</span></td><td><span class="score-tag score-low">63%</span></td><td><span class="score-tag score-low">66%</span></td><td style="color:var(--danger)"><i class="bi bi-arrow-down-right-circle-fill"></i> Declining</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FEES ===== -->
+    <div class="page-section" id="page-fees">
+      <div class="section-head">
+        <h2>FEE TRACKER</h2>
+        <p>Monthly fee collection status</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card s1"><div class="stat-top"><div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div></div><div class="stat-num">130</div><div class="stat-label">Paid (Mar)</div></div>
+        <div class="stat-card s2"><div class="stat-top"><div class="stat-icon gold"><i class="bi bi-clock-fill"></i></div></div><div class="stat-num">12</div><div class="stat-label">Pending</div></div>
+        <div class="stat-card s3"><div class="stat-top"><div class="stat-icon teal"><i class="bi bi-cash-coin"></i></div></div><div class="stat-num">₹2.8L</div><div class="stat-label">Collected</div></div>
+        <div class="stat-card s4"><div class="stat-top"><div class="stat-icon blue"><i class="bi bi-exclamation-circle-fill"></i></div></div><div class="stat-num">₹36K</div><div class="stat-label">Pending Amount</div></div>
+      </div>
+      <div class="section-card">
+        <div class="card-header"><h3><i class="bi bi-cash-stack"></i> Fee Status — March 2026</h3></div>
+        <div class="card-body" style="padding:0;overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Student</th><th>Roll No.</th><th>Course</th><th>Amount</th><th>Status</th><th>Due Date</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><b>Rahul Kumar</b></td><td>BMC-2026-001</td><td>JEE 2026</td><td>₹3,000</td><td><span class="status-badge badge-active">Paid</span></td><td>20 Mar</td><td>—</td></tr>
+              <tr><td><b>Amit Jha</b></td><td>BMC-2026-014</td><td>JEE 2026</td><td>₹3,000</td><td><span class="status-badge badge-active">Paid</span></td><td>20 Mar</td><td>—</td></tr>
+              <tr><td><b>Kavya Tiwari</b></td><td>BMC-2026-023</td><td>JEE 2026</td><td>₹3,000</td><td><span class="status-badge badge-pending">Pending</span></td><td>20 Mar</td><td><button class="btn-sm btn-sm-primary" onclick="showToastAdmin('Reminder sent!')"><i class="bi bi-bell"></i> Remind</button></td></tr>
+              <tr><td><b>Manish Verma</b></td><td>BMC-2026-031</td><td>NEET 2026</td><td>₹3,000</td><td><span class="status-badge badge-inactive">Overdue</span></td><td>20 Mar</td><td><button class="btn-sm btn-sm-danger" onclick="showToastAdmin('Reminder sent!')"><i class="bi bi-bell"></i> Remind</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+    <!-- ===== LEADS PAGE ===== -->
+    <div class="page-section" id="page-leads">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+        <div>
+          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.8rem;color:var(--primary-dark);margin-bottom:2px;">Question Leads</h2>
+          <p style="color:var(--text-muted);font-size:0.88rem;">Students who verified OTP to unlock the BMC Challenger solution</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="exportLeadsCSV()" style="display:inline-flex;align-items:center;gap:7px;background:var(--primary);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:0.88rem;font-weight:600;cursor:pointer;transition:var(--transition);">
+            <i class="bi bi-download"></i> Export CSV
+          </button>
+          <button onclick="clearLeads()" style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--danger);border:1px solid var(--danger);padding:9px 20px;border-radius:8px;font-size:0.88rem;font-weight:600;cursor:pointer;transition:var(--transition);">
+            <i class="bi bi-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats strip -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px;" id="leads-stats-strip">
+        <div style="background:#fff;border-radius:14px;border:1px solid var(--border);padding:20px;box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Total Leads</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--primary-dark);" id="stat-total-leads">0</div>
+        </div>
+        <div style="background:#fff;border-radius:14px;border:1px solid var(--border);padding:20px;box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Today</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);" id="stat-today-leads">0</div>
+        </div>
+        <div style="background:#fff;border-radius:14px;border:1px solid var(--border);padding:20px;box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">This Week</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--teal);" id="stat-week-leads">0</div>
+        </div>
+        <div style="background:#fff;border-radius:14px;border:1px solid var(--border);padding:20px;box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Challenger</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--primary);" id="stat-challenger-leads">0</div>
+        </div>
+      </div>
+
+      <!-- Search bar -->
+      <div style="margin-bottom:16px;">
+        <input type="text" id="leads-search" oninput="filterLeads(this.value)" placeholder="🔍  Search by name or phone…"
+          style="width:100%;max-width:360px;padding:10px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:0.9rem;outline:none;font-family:'DM Sans',sans-serif;" />
+      </div>
+
+      <!-- Leads table -->
+      <div style="background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-sm);overflow:hidden;">
+        <div style="overflow-x:auto;">
+          <table class="data-table" id="leads-table" style="width:100%;">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Class</th>
+                <th>Source</th>
+                <th>Date & Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="leads-tbody">
+              <tr id="leads-empty-row">
+                <td colspan="7" style="text-align:center;padding:48px;color:var(--text-muted);">
+                  <i class="bi bi-inbox" style="font-size:2rem;display:block;margin-bottom:8px;opacity:0.4;"></i>
+                  No leads yet. Students who unlock the BMC Challenger solution will appear here.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /page-leads -->
+
+</main>
+
+<!-- Toast -->
+<div id="admin-toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--success);color:#fff;padding:12px 24px;border-radius:10px;font-size:0.9rem;font-weight:500;opacity:0;transition:all 0.3s ease;z-index:999;display:flex;align-items:center;gap:8px;">
+  <i class="bi bi-check-circle-fill"></i>
+  <span id="admin-toast-text"></span>
+</div>
+
+<script>
+  const pageTitles = {
+    dashboard: ['Dashboard', 'Sunday, 15 March 2026 · BMC Admin'],
+    students: ['All Students', '142 students enrolled across all batches'],
+    admissions: ['New Admissions', '4 pending admission requests'],
+    upload: ['Upload Material', 'Add DPPs, test papers and study material'],
+    tests: ['Manage Tests', 'Schedule and manage mock tests'],
+    notices: ['Post Notices', 'Broadcast announcements to students'],
+    performance: ['Performance Reports', 'Batch and student analytics'],
+    fees: ['Fee Tracker', 'March 2026 — 12 pending payments'],
+    leads: ['Question Leads', 'Students who unlocked BMC Challenger via OTP'],
+  };
+
+  function showPage(page) {
+    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => {
+      if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + page + "'")) {
+        n.classList.add('active');
+      }
+    });
+    const t = pageTitles[page] || [page, ''];
+    document.getElementById('topbar-title').textContent = t[0];
+    document.getElementById('topbar-sub').textContent = t[1];
+    closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+  function logout() {
+    if (confirm('Sign out from Admin Panel?')) window.location.href = 'login.html';
+  }
+
+  function showToastAdmin(msg) {
+    const t = document.getElementById('admin-toast');
+    document.getElementById('admin-toast-text').textContent = msg;
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(() => {
+      t.style.opacity = '0';
+      t.style.transform = 'translateX(-50%) translateY(20px)';
+    }, 3000);
+  }
+
+  function approveStu(btn) {
+    const row = btn.closest('tr');
+    btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Approved';
+    btn.style.background = 'var(--success)';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    showToastAdmin('Student approved and enrolled!');
+  }
+
+  function filterClick(el) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function toggleTag(btn) {
+    btn.classList.toggle('sel');
+  }
+
+  function fileSelected(input) {
+    if (input.files.length > 0) {
+      document.getElementById('selected-file').style.display = 'flex';
+      document.getElementById('filename-label').textContent = input.files[0].name;
+    }
+  }
+
+  function postNotice() {
+    const title = document.getElementById('notice-title').value.trim();
+    const body = document.getElementById('notice-body').value.trim();
+    if (!title || !body) { showToastAdmin('Please fill title and message.'); return; }
+    const list = document.getElementById('notices-list');
+    const el = document.createElement('div');
+    el.className = 'notice-row';
+    el.innerHTML = `<div class="notice-dot dot-accent"></div><div class="notice-body"><h4>${title}</h4><p>${body.substring(0,80)}... · Just now</p></div><div class="notice-actions"><button class="btn-sm btn-sm-danger" onclick="this.closest('.notice-row').remove()"><i class="bi bi-trash"></i></button></div>`;
+    list.prepend(el);
+    document.getElementById('notice-title').value = '';
+    document.getElementById('notice-body').value = '';
+    showToastAdmin('Notice posted to all students!');
+  }
+
+  function searchStudents(val) {
+    const rows = document.querySelectorAll('#students-table tbody tr');
+    rows.forEach(r => {
+      r.style.display = r.textContent.toLowerCase().includes(val.toLowerCase()) ? '' : 'none';
+    });
+  }
+
+  /* ========== LEADS FUNCTIONS ========== */
+  function loadLeads() {
+    const leads = JSON.parse(localStorage.getItem('bmc_leads') || '[]');
+    const tbody = document.getElementById('leads-tbody');
+    const emptyRow = document.getElementById('leads-empty-row');
+    const today = new Date().toDateString();
+    const weekAgo = new Date(Date.now() - 7 * 86400000);
+
+    // Stats
+    const todayCount = leads.filter(l => new Date(l.timestamp).toDateString() === today).length;
+    const weekCount  = leads.filter(l => new Date(l.timestamp) >= weekAgo).length;
+    const chalCount  = leads.filter(l => l.source === 'challenger').length;
+    document.getElementById('stat-total-leads').textContent = leads.length;
+    document.getElementById('stat-today-leads').textContent = todayCount;
+    document.getElementById('stat-week-leads').textContent  = weekCount;
+    document.getElementById('stat-challenger-leads').textContent = chalCount;
+
+    // Table
+    // Remove old rows (keep empty row)
+    tbody.querySelectorAll('tr:not(#leads-empty-row)').forEach(r => r.remove());
+
+    if (leads.length === 0) {
+      emptyRow.style.display = '';
+      return;
+    }
+    emptyRow.style.display = 'none';
+
+    // Sort newest first
+    const sorted = [...leads].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    sorted.forEach((lead, i) => {
+      const dt = new Date(lead.timestamp);
+      const dateStr = dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      const timeStr = dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+      const sourceLabel = lead.source === 'challenger'
+        ? '<span style="background:rgba(244,168,37,0.15);color:#8B5A00;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">⚡ Challenger</span>'
+        : '<span style="background:rgba(27,58,107,0.1);color:var(--primary);border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">🧩 Crack These</span>';
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-search', (lead.name + lead.phone).toLowerCase());
+      tr.innerHTML = `
+        <td style="color:var(--text-muted);font-size:0.82rem;">${sorted.length - i}</td>
+        <td><strong>${escHtml(lead.name)}</strong></td>
+        <td>
+          <a href="tel:+91${escHtml(lead.phone)}" style="color:var(--primary);font-weight:600;font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:0.5px;">
+            +91 ${escHtml(lead.phone)}
+          </a>
+        </td>
+        <td>${escHtml(lead.class || '—')}</td>
+        <td>${sourceLabel}</td>
+        <td style="font-size:0.82rem;color:var(--text-muted);">${dateStr}<br><span style="font-size:0.75rem;">${timeStr}</span></td>
+        <td>
+          <a href="https://wa.me/91${escHtml(lead.phone)}?text=${encodeURIComponent('Hi ' + lead.name + ', This is Bhatia Master Classes. We noticed you attempted the BMC Challenger question! 🔥 Would you like to join our next JEE/NEET batch? Reply to know more.')}"
+            target="_blank" rel="noopener"
+            style="display:inline-flex;align-items:center;gap:5px;background:#25D366;color:#fff;border-radius:7px;padding:5px 12px;font-size:0.78rem;font-weight:600;text-decoration:none;">
+            <i class="bi bi-whatsapp"></i> Follow Up
+          </a>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filterLeads(val) {
+    const rows = document.querySelectorAll('#leads-tbody tr:not(#leads-empty-row)');
+    rows.forEach(r => {
+      const searchVal = r.getAttribute('data-search') || '';
+      r.style.display = searchVal.includes(val.toLowerCase()) ? '' : 'none';
+    });
+  }
+
+  function exportLeadsCSV() {
+    const leads = JSON.parse(localStorage.getItem('bmc_leads') || '[]');
+    if (leads.length === 0) { showToastAdmin('No leads to export yet.'); return; }
+    const headers = ['Name', 'Phone', 'Class', 'Source', 'Timestamp'];
+    const rows = leads.map(l => [
+      `"${l.name}"`, `"${l.phone}"`, `"${l.class || ''}"`, `"${l.source}"`, `"${l.timestamp}"`
+    ]);
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bmc_leads_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    showToastAdmin('Leads exported as CSV!');
+  }
+
+  function clearLeads() {
+    if (!confirm('Clear ALL leads? This cannot be undone.')) return;
+    localStorage.removeItem('bmc_leads');
+    loadLeads();
+    showToastAdmin('All leads cleared.');
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Reload leads every time the page is shown
+  const _origShowPage = showPage;
+  function showPage(page) {
+    _origShowPage(page);
+    if (page === 'leads') loadLeads();
+  }
+  // Also load on first visit if leads tab is default
+  document.addEventListener('DOMContentLoaded', () => { loadLeads(); });
+</script>
+</body>
+</html>
