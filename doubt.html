@@ -1133,56 +1133,50 @@ async function submitDoubt() {
   const btn = document.getElementById('btnFinalSubmit');
   btn.classList.add('loading'); btn.disabled = true;
 
-  // If image attachment exists — download it so student can send via WhatsApp
-  if (state.attachBlob && state.attachType === 'image') {
-    const url = URL.createObjectURL(state.attachBlob);
-    const a = document.createElement('a');
-    a.href = url; a.download = state.attachFileName || 'doubt-question.jpg';
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 3000);
-  }
+  // ── 1. SHOW SUCCESS IMMEDIATELY — don't wait for network ──
+  // Populate success summary fields
+  document.getElementById('sd-name').textContent    = state.name + ' · ' + state.cls;
+  document.getElementById('sd-subject').textContent = state.subject;
+  document.getElementById('sd-chapter').textContent = state.chapter ? ' — ' + state.chapter : '';
+  document.getElementById('sd-attach-row').style.display = state.attachType === 'image' ? 'flex' : 'none';
+  if (navigator.share) document.getElementById('btnNativeShare').style.display = 'flex';
 
-  // Submit text fields via Formspree
-  try {
-    const formData = new FormData();
-    formData.append('name',    state.name);
-    formData.append('phone',   state.phone);
-    formData.append('class',   state.cls);
-    formData.append('subject', state.subject);
-    formData.append('chapter', state.chapter);
-    formData.append('doubt',   state.doubt);
-    formData.append('has_attachment', state.attachType ? 'Yes — ' + state.attachFileName : 'No');
-
-    // Replace YOUR_DOUBT_FORM_ID with actual Formspree ID
-    await fetch('https://formspree.io/f/YOUR_DOUBT_FORM_ID', {
-      method: 'POST', body: formData,
-      headers: { 'Accept': 'application/json' }
-    });
-  } catch(e) { /* fail silently — WhatsApp is primary channel */ }
+  // Hide step3 cards, show success panel
+  document.querySelectorAll('#step3 > .card').forEach(el => el.style.display = 'none');
+  document.getElementById('successPanel').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
   btn.classList.remove('loading'); btn.disabled = false;
 
-  // Update WA CTA message
-  const waMsg = state.attachType === 'image'
-    ? 'Your image was saved. Now tap to attach it on WhatsApp!'
-    : 'Tap to send a follow-up message to your teacher.';
-  document.getElementById('waCtaMsg').textContent = waMsg;
+  // ── 2. DOWNLOAD IMAGE (after UI shown, 600ms delay so user sees success first) ──
+  if (state.attachBlob && state.attachType === 'image') {
+    setTimeout(() => {
+      const url = URL.createObjectURL(state.attachBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = state.attachFileName || 'doubt-question.jpg';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }, 600);
+  }
 
-  // Hide form cards, show success
-  // Populate success summary
-  document.getElementById('sd-name').textContent    = state.name + ' · ' + state.cls;
-  document.getElementById('sd-subject').textContent = state.subject;
-  const chap = document.getElementById('sd-chapter');
-  chap.textContent = state.chapter ? ' — ' + state.chapter : '';
-  const attachRow = document.getElementById('sd-attach-row');
-  attachRow.style.display = state.attachType === 'image' ? 'flex' : 'none';
-  // Show native share button if supported
-  if (navigator.share) document.getElementById('btnNativeShare').style.display = 'flex';
-
-  document.querySelectorAll('#step3 .card').forEach(c => c.style.display = 'none');
-  document.getElementById('successPanel').classList.add('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // ── 3. SUBMIT TO FORMSPREE IN BACKGROUND (non-blocking) ──
+  try {
+    const formData = new FormData();
+    formData.append('name',           state.name);
+    formData.append('phone',          state.phone);
+    formData.append('class',          state.cls);
+    formData.append('subject',        state.subject);
+    formData.append('chapter',        state.chapter);
+    formData.append('doubt',          state.doubt);
+    formData.append('has_attachment', state.attachType ? 'Yes — ' + state.attachFileName : 'No');
+    // Replace YOUR_DOUBT_FORM_ID with your actual Formspree form ID
+    fetch('https://formspree.io/f/YOUR_DOUBT_FORM_ID', {
+      method: 'POST', body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).catch(() => {}); // fire-and-forget, never blocks UI
+  } catch(e) { /* silent */ }
 }
 
 /* ══════════════════════════════════════════════
