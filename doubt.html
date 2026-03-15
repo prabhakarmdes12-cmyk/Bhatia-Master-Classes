@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask a Doubt — Bhatia Master Classes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="icon" type="image/svg+xml" href="image/BMC_LOGO.svg" />
+  <style>
+    :root {
+      --primary:      #1B3A6B;
+      --primary-dark: #0F2245;
+      --accent:       #F4A825;
+      --accent-light: #FCC84A;
+      --teal:         #00A8A8;
+      --light-bg:     #F5F7FA;
+      --text:         #1A1A2E;
+      --text-muted:   #6B7280;
+      --border:       #E5E9F0;
+      --success:      #16A34A;
+      --danger:       #DC2626;
+      --shadow-sm:    0 2px 8px rgba(27,58,107,0.08);
+      --shadow-md:    0 8px 32px rgba(27,58,107,0.12);
+      --shadow-lg:    0 20px 60px rgba(27,58,107,0.18);
+      --radius:       12px;
+      --radius-lg:    20px;
+      --transition:   all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--light-bg);
+      min-height: 100vh;
+    }
+    h1,h2,h3,h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; line-height: 1.1; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--primary-dark);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    }
+    .topbar-back {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1rem; cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .topbar-back:hover { background: rgba(255,255,255,0.2); }
+    .topbar-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 800; color: #fff; }
+    .topbar-title span { color: var(--accent); }
+    .topbar-badge {
+      margin-left: auto;
+      background: rgba(244,168,37,0.15);
+      border: 1px solid rgba(244,168,37,0.4);
+      color: var(--accent-light);
+      padding: 4px 12px; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+    }
+
+    /* ── PROGRESS STEPS ── */
+    .steps-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: stretch;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .steps-bar::-webkit-scrollbar { display: none; }
+    .step-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 20px 14px 0;
+      color: var(--text-muted);
+      font-size: 0.82rem; font-weight: 600;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+      cursor: default;
+    }
+    .step-item + .step-item::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--border);
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+    .step-item.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .step-item.done   { color: var(--success); }
+    .step-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--border);
+      color: var(--text-muted);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: var(--transition);
+    }
+    .step-item.active .step-num { background: var(--primary); color: #fff; }
+    .step-item.done   .step-num { background: var(--success); color: #fff; }
+
+    /* ── MAIN CONTAINER ── */
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 28px;
+      margin-bottom: 20px;
+      animation: slideUp 0.35s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    @keyframes slideUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    .card-title {
+      font-size: 1.3rem; color: var(--primary-dark);
+      margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title i { color: var(--accent); }
+    .card-sub { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 22px; }
+
+    /* ── FORM ELEMENTS ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-size: 0.82rem; font-weight: 600;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; color: var(--text);
+      background: #fff;
+      transition: var(--transition); outline: none;
+    }
+    .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(27,58,107,0.1); }
+    .form-control.error { border-color: var(--danger); }
+    .error-msg { font-size: 0.75rem; color: var(--danger); margin-top: 4px; display: none; }
+    textarea.form-control { min-height: 100px; resize: vertical; }
+
+    /* Subject pills */
+    .subject-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .subject-pill {
+      padding: 7px 18px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; transition: var(--transition);
+      color: var(--text-muted); background: #fff;
+      user-select: none;
+    }
+    .subject-pill:hover { border-color: var(--primary); color: var(--primary); }
+    .subject-pill.sel { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .subject-pill.sel.math  { background: #1B3A6B; }
+    .subject-pill.sel.phys  { background: #00A8A8; border-color: #00A8A8; }
+    .subject-pill.sel.chem  { background: #B7750A; border-color: #B7750A; }
+    .subject-pill.sel.bio   { background: #16A34A; border-color: #16A34A; }
+
+    /* ── ATTACHMENT TABS ── */
+    .att-tabs {
+      display: flex; gap: 0;
+      border: 1.5px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .att-tab {
+      flex: 1; padding: 11px 8px;
+      background: #fff; border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer; transition: var(--transition);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      border-right: 1px solid var(--border);
+    }
+    .att-tab:last-child { border-right: none; }
+    .att-tab i { font-size: 1.1rem; }
+    .att-tab.active { background: var(--primary-dark); color: #fff; }
+    .att-tab.active i { color: var(--accent); }
+
+    .att-panel { display: none; }
+    .att-panel.active { display: block; animation: slideUp 0.25s ease both; }
+
+    /* Camera / Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--light-bg);
+    }
+    .upload-zone:hover { border-color: var(--primary); background: rgba(27,58,107,0.03); }
+    .upload-zone i { font-size: 2.2rem; color: var(--text-muted); margin-bottom: 10px; display: block; }
+    .upload-zone p { font-size: 0.88rem; color: var(--text-muted); margin: 0; }
+    .upload-zone strong { color: var(--primary); }
+
+    /* ── DRAW CANVAS ── */
+    .draw-toolbar {
+      display: flex; align-items: center; gap: 8px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      background: var(--light-bg);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .draw-tool-btn {
+      width: 34px; height: 34px;
+      border-radius: 8px; border: 1.5px solid var(--border);
+      background: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .draw-tool-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .draw-tool-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .draw-size-wrap { display: flex; align-items: center; gap: 6px; }
+    .draw-size-wrap input[type="range"] { width: 70px; accent-color: var(--primary); }
+    .draw-colors { display: flex; gap: 5px; align-items: center; }
+    .draw-color-dot {
+      width: 22px; height: 22px; border-radius: 50%;
+      cursor: pointer; border: 2px solid transparent;
+      transition: var(--transition); flex-shrink: 0;
+    }
+    .draw-color-dot.sel { border-color: #fff; box-shadow: 0 0 0 2px var(--primary); }
+    .draw-canvas-wrap {
+      border: 1px solid var(--border);
+      border-radius: 0 0 var(--radius) var(--radius);
+      overflow: hidden; background: #fff;
+      cursor: crosshair;
+    }
+    #drawCanvas { display: block; width: 100%; touch-action: none; }
+    .draw-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; text-align: center; }
+
+    /* ── PREVIEW PANEL ── */
+    #previewPanel { display: none; }
+    #previewPanel.show { display: block; animation: slideUp 0.3s ease; }
+    .preview-img-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #000;
+      max-height: 340px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #previewImg {
+      max-width: 100%; max-height: 340px;
+      object-fit: contain; display: block;
+      transition: transform 0.3s ease;
+    }
+    /* Crop overlay */
+    #cropOverlay {
+      position: absolute; inset: 0;
+      cursor: crosshair; display: none;
+    }
+    #cropBox {
+      position: absolute;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.45);
+      display: none; pointer-events: none;
+    }
+    .preview-actions {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 12px;
+    }
+    .btn-preview-action {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 8px;
+      font-size: 0.82rem; font-weight: 600;
+      border: 1.5px solid var(--border);
+      background: #fff; color: var(--text);
+      cursor: pointer; transition: var(--transition);
+    }
+    .btn-preview-action:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-preview-action.danger { color: var(--danger); }
+    .btn-preview-action.danger:hover { border-color: var(--danger); }
+    .crop-active-hint {
+      display: none; font-size: 0.78rem;
+      color: var(--accent); font-weight: 600;
+      margin-top: 6px;
+    }
+    .crop-active-hint.show { display: block; }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: #fff; border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 800; letter-spacing: 0.5px;
+      cursor: pointer; transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .btn-submit:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(27,58,107,0.25); }
+    .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    /* ── SUCCESS / WHATSAPP CTA ── */
+    #successPanel { display: none; }
+    #successPanel.show { display: block; animation: slideUp 0.4s ease; }
+    .success-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, #16A34A, #22C55E);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 1.8rem; color: #fff;
+      box-shadow: 0 8px 24px rgba(22,163,74,0.35);
+    }
+    .wa-cta-card {
+      background: linear-gradient(135deg, #075E54, #128C7E);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      margin-top: 16px;
+    }
+    .wa-cta-card p { color: rgba(255,255,255,0.8); font-size: 0.88rem; margin-bottom: 4px; }
+    .wa-cta-card strong { color: #fff; font-size: 0.95rem; display: block; margin-bottom: 16px; }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #25D366; color: #fff;
+      padding: 14px 28px; border-radius: 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px;
+      transition: var(--transition); cursor: pointer; border: none;
+    }
+    .btn-wa:hover { background: #1ebe5a; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
+    .wa-note { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-top: 10px; }
+
+    /* ── FILE PILL ── */
+    .file-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(27,58,107,0.06);
+      border: 1px solid rgba(27,58,107,0.15);
+      border-radius: 100px; padding: 6px 14px;
+      font-size: 0.82rem; color: var(--primary); font-weight: 600;
+      margin-top: 10px;
+    }
+    .file-pill i { color: var(--accent); }
+
+    /* ── MISC ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin 0.7s linear infinite; display: none;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-label { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* background pattern */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: -1;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231B3A6B' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="index.html" class="topbar-back" aria-label="Back to home"><i class="bi bi-arrow-left"></i></a>
+  <div class="topbar-title">Ask a <span>Doubt</span></div>
+  <div class="topbar-badge">LIVE SUPPORT</div>
+</header>
+
+<!-- STEP PROGRESS -->
+<div class="steps-bar" id="stepsBar">
+  <div class="step-item active" id="step-tab-1">
+    <div class="step-num">1</div> Your Details
+  </div>
+  <div class="step-item" id="step-tab-2">
+    <div class="step-num">2</div> Attach Question
+  </div>
+  <div class="step-item" id="step-tab-3">
+    <div class="step-num">3</div> Preview & Send
+  </div>
+</div>
+
+<main class="page-wrap">
+
+  <!-- ═══ STEP 1: DETAILS ═══ -->
+  <div id="step1">
+    <div class="card">
+      <h2 class="card-title"><i class="bi bi-person-fill"></i> Your Details</h2>
+      <p class="card-sub">Tell us who you are so our faculty can reach you with the solution.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" id="dName" class="form-control" placeholder="e.g. Rahul Sharma" />
+          <div class="error-msg" id="err-dName">Name is required.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone / WhatsApp *</label>
+          <input type="tel" id="dPhone" class="form-control" placeholder="10-digit number" />
+          <div class="error-msg" id="err-dPhone">Valid 10-digit number required.</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Class *</label>
+          <select id="dClass" class="form-control">
+            <option value="">— Select —</option>
+            <option>Class 10</option>
+            <option>Class 11</option>
+            <option>Class 12</option>
+            <option>Dropper</option>
+          </select>
+          <div class="error-msg" id="err-dClass">Please select your class.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Chapter / Topic</label>
+          <input type="text" id="dChapter" class="form-control" placeholder="e.g. Integration, Optics" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Subject *</label>
+        <div class="subject-pills">
+          <div class="subject-pill math" data-val="Mathematics" onclick="selectSubject(this)">📐 Mathematics</div>
+          <div class="subject-pill phys" data-val="Physics"     onclick="selectSubject(this)">⚡ Physics</div>
+          <div class="subject-pill chem" data-val="Chemistry"   onclick="selectSubject(this)">🧪 Chemistry</div>
+          <div class="subject-pill bio"  data-val="Biology"     onclick="selectSubject(this)">🧬 Biology</div>
+        </div>
+        <div class="error-msg" id="err-dSubject" style="margin-top:8px;">Please select a subject.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Describe your doubt *</label>
+        <textarea id="dDoubt" class="form-control" placeholder="Describe the concept or problem you're stuck on. Be as specific as possible…"></textarea>
+        <div class="error-msg" id="err-dDoubt">Please describe your doubt.</div>
+      </div>
+
+      <button class="btn-submit" onclick="goStep2()">
+        <span class="btn-label"><i class="bi bi-arrow-right-circle-fill"></i> Continue to Attach</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: ATTACH ═══ -->
+  <div id="step2" style="display:none;">
+    <div class="card">
+      <h2 class="card-title"><i class="bi bi-paperclip"></i> Attach Your Question</h2>
+      <p class="card-sub">Take a photo, upload a file, or draw your question directly.</p>
+
+      <!-- Tabs -->
+      <div class="att-tabs">
+        <button class="att-tab active" id="tab-camera" onclick="switchAttTab('camera')">
+          <i class="bi bi-camera-fill"></i> Camera
+        </button>
+        <button class="att-tab" id="tab-upload" onclick="switchAttTab('upload')">
+          <i class="bi bi-upload"></i> Upload
+        </button>
+        <button class="att-tab" id="tab-draw" onclick="switchAttTab('draw')">
+          <i class="bi bi-pencil-fill"></i> Draw
+        </button>
+      </div>
+
+      <!-- Camera panel -->
+      <div class="att-panel active" id="panel-camera">
+        <div class="upload-zone" onclick="triggerCamera()">
+          <i class="bi bi-camera-fill"></i>
+          <p><strong>Open Camera</strong></p>
+          <p>Take a photo of your question or notebook</p>
+        </div>
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleFileSelect(this,'camera')" />
+      </div>
+
+      <!-- Upload panel -->
+      <div class="att-panel" id="panel-upload">
+        <div class="upload-zone" onclick="document.getElementById('uploadInput').click()"
+          id="uploadZone"
+          ondragover="event.preventDefault();this.style.borderColor='var(--primary)'"
+          ondragleave="this.style.borderColor=''"
+          ondrop="handleDrop(event)">
+          <i class="bi bi-cloud-arrow-up-fill"></i>
+          <p><strong>Click to upload</strong> or drag & drop</p>
+          <p>Images, PDF, DOC — max 10 MB</p>
+        </div>
+        <input type="file" id="uploadInput" accept="image/*,.pdf,.doc,.docx" style="display:none;" onchange="handleFileSelect(this,'upload')" />
+      </div>
+
+      <!-- Draw panel -->
+      <div class="att-panel" id="panel-draw">
+        <div class="draw-toolbar">
+          <button class="draw-tool-btn active" id="tool-pen"    onclick="setTool('pen')"    title="Pen"><i class="bi bi-pencil-fill"></i></button>
+          <button class="draw-tool-btn"         id="tool-eraser" onclick="setTool('eraser')" title="Eraser"><i class="bi bi-eraser-fill"></i></button>
+          <div class="draw-size-wrap">
+            <i class="bi bi-circle-fill" style="font-size:0.5rem;color:var(--text-muted);"></i>
+            <input type="range" id="brushSize" min="1" max="24" value="3" oninput="updateBrushSize(this.value)" />
+            <i class="bi bi-circle-fill" style="font-size:1rem;color:var(--text-muted);"></i>
+          </div>
+          <div class="draw-colors">
+            <div class="draw-color-dot sel" style="background:#1A1A2E;" data-color="#1A1A2E" onclick="setColor(this)" title="Black"></div>
+            <div class="draw-color-dot"     style="background:#DC2626;" data-color="#DC2626" onclick="setColor(this)" title="Red"></div>
+            <div class="draw-color-dot"     style="background:#1B3A6B;" data-color="#1B3A6B" onclick="setColor(this)" title="Blue"></div>
+            <div class="draw-color-dot"     style="background:#16A34A;" data-color="#16A34A" onclick="setColor(this)" title="Green"></div>
+            <div class="draw-color-dot"     style="background:#F4A825;" data-color="#F4A825" onclick="setColor(this)" title="Gold"></div>
+          </div>
+          <button class="draw-tool-btn" onclick="clearCanvas()" title="Clear all" style="margin-left:auto;color:var(--danger);">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </div>
+        <div class="draw-canvas-wrap">
+          <canvas id="drawCanvas" height="320"></canvas>
+        </div>
+        <p class="draw-hint">✏️ Draw your question, equation or diagram</p>
+        <button class="btn-submit" style="margin-top:14px;" onclick="useDrawing()">
+          <span class="btn-label"><i class="bi bi-check-circle-fill"></i> Use This Drawing</span>
+        </button>
+      </div>
+
+      <!-- File preview pill -->
+      <div id="filePill" style="display:none;">
+        <div class="file-pill">
+          <i class="bi bi-file-earmark-check-fill"></i>
+          <span id="filePillName">file.jpg</span>
+        </div>
+      </div>
+
+      <hr class="divider" />
+      <div style="display:flex;gap:10px;">
+        <button class="btn-submit" style="background:var(--light-bg);color:var(--text-muted);box-shadow:none;flex:0 0 auto;width:auto;padding:14px 20px;" onclick="goStep1()">
+          <span class="btn-label"><i class="bi bi-arrow-left"></i></span>
+        </button>
+        <button class="btn-submit" id="btnStep2Next" onclick="goStep3()" style="flex:1;">
+          <span class="btn-label"><i class="bi bi-eye-fill"></i> Preview & Send</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: PREVIEW & SEND ═══ -->
+  <div id="step3" style="display:none;">
+
+    <!-- Summary card -->
+    <div class="card">
+      <h2 class="card-title"><i class="bi bi-clipboard-check-fill"></i> Review Your Doubt</h2>
+      <p class="card-sub">Check everything looks right before sending.</p>
+      <div id="summaryBox" style="background:var(--light-bg);border-radius:var(--radius);padding:16px;font-size:0.88rem;line-height:1.8;"></div>
+    </div>
+
+    <!-- Image preview card -->
+    <div class="card" id="imgPreviewCard" style="display:none;">
+      <h2 class="card-title"><i class="bi bi-image-fill"></i> Question Image</h2>
+      <p class="card-sub">Crop or rotate if needed, then send.</p>
+
+      <div class="preview-img-wrap" id="previewWrap">
+        <img id="previewImg" src="" alt="Question preview" />
+        <div id="cropOverlay"></div>
+        <div id="cropBox"></div>
+      </div>
+
+      <div class="preview-actions">
+        <button class="btn-preview-action" onclick="rotateImage(-90)" title="Rotate left">
+          <i class="bi bi-arrow-counterclockwise"></i> Rotate Left
+        </button>
+        <button class="btn-preview-action" onclick="rotateImage(90)" title="Rotate right">
+          <i class="bi bi-arrow-clockwise"></i> Rotate Right
+        </button>
+        <button class="btn-preview-action" id="btnCrop" onclick="toggleCrop()">
+          <i class="bi bi-crop"></i> Crop
+        </button>
+        <button class="btn-preview-action danger" onclick="removeAttachment()">
+          <i class="bi bi-x-circle"></i> Remove
+        </button>
+      </div>
+      <p class="crop-active-hint" id="cropHint">Drag on the image to select the crop region. Click "Apply Crop" to confirm.</p>
+    </div>
+
+    <!-- PDF preview card -->
+    <div class="card" id="pdfPreviewCard" style="display:none;">
+      <h2 class="card-title"><i class="bi bi-file-earmark-pdf-fill" style="color:#DC2626;"></i> Attached Document</h2>
+      <div class="file-pill" style="margin-top:0;">
+        <i class="bi bi-file-earmark-check-fill"></i>
+        <span id="pdfPillName">document.pdf</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="btn-submit" id="btnFinalSubmit" onclick="submitDoubt()">
+        <span class="btn-label"><i class="bi bi-send-fill"></i> Submit Doubt to BMC</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+
+    <!-- Success panel -->
+    <div id="successPanel">
+      <div class="card" style="text-align:center;padding:36px;">
+        <div class="success-icon"><i class="bi bi-check-lg"></i></div>
+        <h2 style="font-size:1.8rem;color:var(--primary-dark);margin-bottom:6px;">Doubt Submitted!</h2>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0;">Our faculty will review and reply within <strong>24 hours</strong>.</p>
+
+        <div class="wa-cta-card" style="margin-top:24px;">
+          <p>If you attached an image, send it via WhatsApp</p>
+          <strong id="waCtaMsg">so your teacher can see it immediately.</strong>
+          <button class="btn-wa" id="btnWhatsApp" onclick="openWhatsApp()">
+            <i class="bi bi-whatsapp" style="font-size:1.2rem;"></i> Send Image on WhatsApp
+          </button>
+          <p class="wa-note">Opens WhatsApp with your doubt pre-filled. Attach the downloaded image.</p>
+        </div>
+
+        <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:20px;color:var(--text-muted);font-size:0.85rem;font-weight:600;">
+          <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /step3 -->
+
+</main>
+
+<script>
+/* ══════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════ */
+const state = {
+  name: '', phone: '', cls: '', subject: '', chapter: '', doubt: '',
+  attachType: null,   // 'image' | 'pdf-doc' | null
+  attachBlob: null,   // compressed image Blob
+  attachFileName: '',
+  imageRotation: 0,   // degrees
+  cropActive: false,
+  crop: null,         // { x, y, w, h } in natural image coords
+};
+
+/* ══════════════════════════════════════════════
+   STEP NAVIGATION
+══════════════════════════════════════════════ */
+function setStepUI(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('step'+i).style.display = i===n ? 'block' : 'none';
+    const tab = document.getElementById('step-tab-'+i);
+    tab.classList.toggle('active', i===n);
+    tab.classList.toggle('done', i<n);
+    tab.querySelector('.step-num').innerHTML = i<n ? '<i class="bi bi-check-lg"></i>' : i;
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goStep1() { setStepUI(1); }
+
+function goStep2() {
+  if (!validateStep1()) return;
+  state.name    = document.getElementById('dName').value.trim();
+  state.phone   = document.getElementById('dPhone').value.trim();
+  state.cls     = document.getElementById('dClass').value;
+  state.chapter = document.getElementById('dChapter').value.trim();
+  state.doubt   = document.getElementById('dDoubt').value.trim();
+  setStepUI(2);
+}
+
+function goStep3() {
+  buildSummary();
+  // Show right preview card
+  document.getElementById('imgPreviewCard').style.display = state.attachType === 'image' ? 'block' : 'none';
+  document.getElementById('pdfPreviewCard').style.display = state.attachType === 'pdf-doc' ? 'block' : 'none';
+  if (state.attachType === 'image' && state.attachBlob) {
+    const url = URL.createObjectURL(state.attachBlob);
+    document.getElementById('previewImg').src = url;
+    applyImageTransform();
+  }
+  if (state.attachType === 'pdf-doc') {
+    document.getElementById('pdfPillName').textContent = state.attachFileName;
+  }
+  setStepUI(3);
+}
+
+/* ══════════════════════════════════════════════
+   STEP 1 VALIDATION
+══════════════════════════════════════════════ */
+let _selectedSubject = '';
+function selectSubject(el) {
+  document.querySelectorAll('.subject-pill').forEach(p => p.classList.remove('sel'));
+  el.classList.add('sel');
+  _selectedSubject = el.getAttribute('data-val');
+  state.subject = _selectedSubject;
+  document.getElementById('err-dSubject').style.display = 'none';
+}
+
+function validateStep1() {
+  let ok = true;
+  const checks = [
+    ['dName',    v => v.trim().length > 1,           'err-dName'],
+    ['dPhone',   v => /^[6-9][0-9]{9}$/.test(v.trim()), 'err-dPhone'],
+    ['dClass',   v => v !== '',                       'err-dClass'],
+    ['dDoubt',   v => v.trim().length > 5,            'err-dDoubt'],
+  ];
+  checks.forEach(([id, fn, errId]) => {
+    const el = document.getElementById(id);
+    const valid = fn(el.value);
+    el.classList.toggle('error', !valid);
+    document.getElementById(errId).style.display = valid ? 'none' : 'block';
+    if (!valid) ok = false;
+  });
+  if (!_selectedSubject) {
+    document.getElementById('err-dSubject').style.display = 'block';
+    ok = false;
+  }
+  return ok;
+}
+
+/* ══════════════════════════════════════════════
+   ATTACHMENT TABS
+══════════════════════════════════════════════ */
+function switchAttTab(tab) {
+  ['camera','upload','draw'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('panel-'+t).classList.toggle('active', t===tab);
+  });
+}
+
+function triggerCamera() { document.getElementById('cameraInput').click(); }
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').style.borderColor = '';
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+}
+
+function handleFileSelect(input, source) {
+  if (!input.files.length) return;
+  processFile(input.files[0]);
+}
+
+function processFile(file) {
+  const isImage = file.type.startsWith('image/');
+  const isPdf   = file.type === 'application/pdf' || file.name.match(/\.(doc|docx)$/i);
+
+  if (isImage) {
+    compressImage(file, (blob) => {
+      state.attachType     = 'image';
+      state.attachBlob     = blob;
+      state.attachFileName = file.name;
+      state.imageRotation  = 0;
+      showFilePill(file.name);
+    });
+  } else if (isPdf) {
+    state.attachType     = 'pdf-doc';
+    state.attachBlob     = file;
+    state.attachFileName = file.name;
+    showFilePill(file.name);
+  } else {
+    alert('Unsupported file type. Please use an image, PDF, or Word document.');
+  }
+}
+
+function showFilePill(name) {
+  document.getElementById('filePillName').textContent = name;
+  document.getElementById('filePill').style.display = 'block';
+}
+
+/* Image compression — resize to max 1200px, JPEG q=0.82 */
+function compressImage(file, cb) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const MAX = 1200;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      c.toBlob(cb, 'image/jpeg', 0.82);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ══════════════════════════════════════════════
+   DRAWING CANVAS
+══════════════════════════════════════════════ */
+let _drawCtx, _drawing = false, _tool = 'pen', _color = '#1A1A2E', _brushSize = 3;
+
+function initDrawCanvas() {
+  const canvas = document.getElementById('drawCanvas');
+  canvas.width = canvas.offsetWidth || 620;
+  _drawCtx = canvas.getContext('2d');
+  _drawCtx.fillStyle = '#fff';
+  _drawCtx.fillRect(0, 0, canvas.width, canvas.height);
+  _drawCtx.lineCap = 'round';
+  _drawCtx.lineJoin = 'round';
+
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    const src = e.touches ? e.touches[0] : e;
+    return { x: (src.clientX - r.left) * (canvas.width / r.width),
+             y: (src.clientY - r.top)  * (canvas.height / r.height) };
+  }
+
+  function start(e) { e.preventDefault(); _drawing = true; const p = pos(e); _drawCtx.beginPath(); _drawCtx.moveTo(p.x, p.y); }
+  function move(e)  { e.preventDefault(); if (!_drawing) return; const p = pos(e);
+    if (_tool === 'eraser') {
+      _drawCtx.clearRect(p.x - _brushSize*2, p.y - _brushSize*2, _brushSize*4, _brushSize*4);
+    } else {
+      _drawCtx.lineTo(p.x, p.y); _drawCtx.stroke();
+    }
+  }
+  function end()   { _drawing = false; }
+
+  canvas.addEventListener('mousedown',  start);
+  canvas.addEventListener('mousemove',  move);
+  canvas.addEventListener('mouseup',    end);
+  canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove',  move,  { passive: false });
+  canvas.addEventListener('touchend',   end);
+}
+
+function setTool(t) {
+  _tool = t;
+  document.querySelectorAll('.draw-tool-btn[id^="tool-"]').forEach(b => b.classList.remove('active'));
+  document.getElementById('tool-'+t).classList.add('active');
+  updateDrawStyle();
+}
+
+function setColor(el) {
+  document.querySelectorAll('.draw-color-dot').forEach(d => d.classList.remove('sel'));
+  el.classList.add('sel');
+  _color = el.getAttribute('data-color');
+  updateDrawStyle();
+}
+
+function updateBrushSize(v) { _brushSize = +v; updateDrawStyle(); }
+
+function updateDrawStyle() {
+  if (!_drawCtx) return;
+  _drawCtx.strokeStyle = _color;
+  _drawCtx.lineWidth   = _brushSize;
+}
+
+function clearCanvas() {
+  if (!_drawCtx) return;
+  const c = document.getElementById('drawCanvas');
+  _drawCtx.fillStyle = '#fff';
+  _drawCtx.fillRect(0, 0, c.width, c.height);
+}
+
+function useDrawing() {
+  const canvas = document.getElementById('drawCanvas');
+  canvas.toBlob(blob => {
+    state.attachType     = 'image';
+    state.attachBlob     = blob;
+    state.attachFileName = 'drawn-question.png';
+    state.imageRotation  = 0;
+    showFilePill('drawn-question.png');
+    // Switch to upload tab just to show the pill cleanly
+    switchAttTab('upload');
+  }, 'image/png');
+}
+
+// Init draw canvas when its tab is clicked
+document.getElementById('tab-draw').addEventListener('click', () => {
+  setTimeout(() => {
+    if (!_drawCtx) initDrawCanvas();
+    updateDrawStyle();
+  }, 50);
+});
+
+/* ══════════════════════════════════════════════
+   PREVIEW — ROTATE & CROP
+══════════════════════════════════════════════ */
+function applyImageTransform() {
+  document.getElementById('previewImg').style.transform = `rotate(${state.imageRotation}deg)`;
+}
+
+function rotateImage(deg) {
+  state.imageRotation = (state.imageRotation + deg + 360) % 360;
+  applyImageTransform();
+  // Re-bake rotation into the blob
+  const img = document.getElementById('previewImg');
+  const c = document.createElement('canvas');
+  const r = state.imageRotation;
+  if (r === 90 || r === 270) { c.width = img.naturalHeight; c.height = img.naturalWidth; }
+  else { c.width = img.naturalWidth; c.height = img.naturalHeight; }
+  const ctx = c.getContext('2d');
+  ctx.translate(c.width/2, c.height/2);
+  ctx.rotate(r * Math.PI/180);
+  ctx.drawImage(img, -img.naturalWidth/2, -img.naturalHeight/2);
+  c.toBlob(blob => {
+    state.attachBlob = blob;
+    state.imageRotation = 0;
+    const url = URL.createObjectURL(blob);
+    img.src = url;
+    img.style.transform = '';
+  }, 'image/jpeg', 0.88);
+}
+
+/* ── CROP ── */
+let _cropStart = null, _cropEnd = null;
+
+function toggleCrop() {
+  state.cropActive = !state.cropActive;
+  const overlay = document.getElementById('cropOverlay');
+  const hint    = document.getElementById('cropHint');
+  const btn     = document.getElementById('btnCrop');
+  if (state.cropActive) {
+    overlay.style.display = 'block';
+    hint.classList.add('show');
+    btn.innerHTML = '<i class="bi bi-scissors"></i> Apply Crop';
+    _cropStart = null; _cropEnd = null;
+    document.getElementById('cropBox').style.display = 'none';
+    overlay.onmousedown  = cropStart;
+    overlay.onmousemove  = cropMove;
+    overlay.onmouseup    = cropEnd;
+    overlay.ontouchstart = e => cropStart(e.touches[0]);
+    overlay.ontouchmove  = e => { e.preventDefault(); cropMove(e.touches[0]); };
+    overlay.ontouchend   = e => cropEnd(e.changedTouches[0]);
+  } else {
+    applyCrop();
+    overlay.style.display = 'none';
+    hint.classList.remove('show');
+    btn.innerHTML = '<i class="bi bi-crop"></i> Crop';
+    document.getElementById('cropBox').style.display = 'none';
+  }
+}
+
+function cropCoords(e) {
+  const wrap = document.getElementById('previewWrap').getBoundingClientRect();
+  return { x: e.clientX - wrap.left, y: e.clientY - wrap.top };
+}
+
+function cropStart(e) { _cropStart = cropCoords(e); _cropEnd = null; }
+function cropMove(e) {
+  if (!_cropStart) return;
+  _cropEnd = cropCoords(e);
+  const box = document.getElementById('cropBox');
+  const x = Math.min(_cropStart.x, _cropEnd.x);
+  const y = Math.min(_cropStart.y, _cropEnd.y);
+  const w = Math.abs(_cropEnd.x - _cropStart.x);
+  const h = Math.abs(_cropEnd.y - _cropStart.y);
+  box.style.cssText = `display:block;left:${x}px;top:${y}px;width:${w}px;height:${h}px;`;
+}
+function cropEnd(e) { _cropEnd = cropCoords(e); }
+
+function applyCrop() {
+  if (!_cropStart || !_cropEnd) return;
+  const img  = document.getElementById('previewImg');
+  const wrap = document.getElementById('previewWrap');
+  const wrapRect = wrap.getBoundingClientRect();
+  const scaleX = img.naturalWidth  / img.getBoundingClientRect().width;
+  const scaleY = img.naturalHeight / img.getBoundingClientRect().height;
+  const ox = img.getBoundingClientRect().left - wrapRect.left;
+  const oy = img.getBoundingClientRect().top  - wrapRect.top;
+  const rx = (Math.min(_cropStart.x, _cropEnd.x) - ox) * scaleX;
+  const ry = (Math.min(_cropStart.y, _cropEnd.y) - oy) * scaleY;
+  const rw = Math.abs(_cropEnd.x - _cropStart.x) * scaleX;
+  const rh = Math.abs(_cropEnd.y - _cropStart.y) * scaleY;
+  if (rw < 20 || rh < 20) return;
+  const c = document.createElement('canvas');
+  c.width = rw; c.height = rh;
+  c.getContext('2d').drawImage(img, rx, ry, rw, rh, 0, 0, rw, rh);
+  c.toBlob(blob => {
+    state.attachBlob = blob;
+    const url = URL.createObjectURL(blob);
+    img.src = url;
+  }, 'image/jpeg', 0.88);
+}
+
+function removeAttachment() {
+  state.attachType = null; state.attachBlob = null; state.attachFileName = '';
+  document.getElementById('imgPreviewCard').style.display = 'none';
+  document.getElementById('pdfPreviewCard').style.display = 'none';
+  document.getElementById('filePill').style.display = 'none';
+}
+
+/* ══════════════════════════════════════════════
+   SUMMARY
+══════════════════════════════════════════════ */
+function buildSummary() {
+  document.getElementById('summaryBox').innerHTML = `
+    <span style="color:var(--text-muted);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Student</span><br>
+    <strong>${esc(state.name)}</strong> · ${esc(state.cls)} · +91 ${esc(state.phone)}<br><br>
+    <span style="color:var(--text-muted);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Subject</span><br>
+    <strong>${esc(state.subject)}</strong>${state.chapter ? ' — ' + esc(state.chapter) : ''}<br><br>
+    <span style="color:var(--text-muted);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Doubt</span><br>
+    ${esc(state.doubt)}
+    ${state.attachType ? `<br><br><span style="color:var(--success);font-weight:600;"><i class="bi bi-paperclip"></i> Attachment: ${esc(state.attachFileName)}</span>` : ''}
+  `;
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ══════════════════════════════════════════════
+   SUBMIT
+══════════════════════════════════════════════ */
+async function submitDoubt() {
+  const btn = document.getElementById('btnFinalSubmit');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  // If image attachment exists — download it so student can send via WhatsApp
+  if (state.attachBlob && state.attachType === 'image') {
+    const url = URL.createObjectURL(state.attachBlob);
+    const a = document.createElement('a');
+    a.href = url; a.download = state.attachFileName || 'doubt-question.jpg';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+  }
+
+  // Submit text fields via Formspree
+  try {
+    const formData = new FormData();
+    formData.append('name',    state.name);
+    formData.append('phone',   state.phone);
+    formData.append('class',   state.cls);
+    formData.append('subject', state.subject);
+    formData.append('chapter', state.chapter);
+    formData.append('doubt',   state.doubt);
+    formData.append('has_attachment', state.attachType ? 'Yes — ' + state.attachFileName : 'No');
+
+    // Replace YOUR_DOUBT_FORM_ID with actual Formspree ID
+    await fetch('https://formspree.io/f/YOUR_DOUBT_FORM_ID', {
+      method: 'POST', body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+  } catch(e) { /* fail silently — WhatsApp is primary channel */ }
+
+  btn.classList.remove('loading'); btn.disabled = false;
+
+  // Update WA CTA message
+  const waMsg = state.attachType === 'image'
+    ? 'Your image was saved. Now tap to attach it on WhatsApp!'
+    : 'Tap to send a follow-up message to your teacher.';
+  document.getElementById('waCtaMsg').textContent = waMsg;
+
+  // Hide form cards, show success
+  document.querySelectorAll('#step3 .card').forEach(c => c.style.display = 'none');
+  document.getElementById('successPanel').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ══════════════════════════════════════════════
+   WHATSAPP CTA
+══════════════════════════════════════════════ */
+function openWhatsApp() {
+  const ph    = '919516210209'; // BMC WhatsApp number — update as needed
+  const subj  = state.subject || 'General';
+  const chap  = state.chapter ? ` (${state.chapter})` : '';
+  const msg   = `Hi, I'm ${state.name} (${state.cls}). I have a doubt in *${subj}${chap}*.\n\n📝 *My Doubt:*\n${state.doubt}\n\n${state.attachType === 'image' ? '📎 I am attaching my question image.' : ''}`;
+  window.open('https://wa.me/' + ph + '?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body>
+</html>
