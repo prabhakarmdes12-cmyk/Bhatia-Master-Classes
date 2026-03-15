@@ -384,6 +384,68 @@
       position: fixed; inset: 0; z-index: -1;
       background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231B3A6B' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
     }
+
+    /* ── SUCCESS PANEL ENHANCEMENTS ── */
+    .success-confetti {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 6px;
+      animation: bounceIn 0.6s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    @keyframes bounceIn {
+      0%   { transform: scale(0.4); opacity: 0; }
+      60%  { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .success-detail-row {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--light-bg);
+      border-radius: 10px; padding: 12px 16px;
+      margin: 8px 0; text-align: left;
+      font-size: 0.85rem;
+    }
+    .success-detail-row i { color: var(--accent); font-size: 1.1rem; flex-shrink: 0; }
+    .success-detail-row span { color: var(--text-muted); }
+    .success-detail-row strong { color: var(--text); }
+    .success-actions {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-top: 24px;
+    }
+    .btn-action-row {
+      display: flex; gap: 10px;
+    }
+    .btn-success-share {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 16px; border-radius: 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 800; letter-spacing: 0.5px;
+      cursor: pointer; transition: var(--transition); border: none;
+    }
+    .btn-ss-whatsapp { background: #25D366; color: #fff; }
+    .btn-ss-whatsapp:hover { background: #1ebe5a; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,211,102,0.35); }
+    .btn-ss-copy {
+      background: #fff; color: var(--primary);
+      border: 1.5px solid var(--border) !important;
+      font-size: 0.9rem; font-weight: 700;
+    }
+    .btn-ss-copy:hover { border-color: var(--primary) !important; background: rgba(27,58,107,0.04); }
+    .btn-ss-home {
+      width: 100%;
+      background: var(--light-bg); color: var(--text-muted);
+      border: 1.5px solid var(--border) !important;
+      font-size: 0.9rem; font-weight: 600;
+    }
+    .btn-ss-home:hover { background: #e9ecf2; color: var(--text); }
+    .share-copy-toast {
+      display: none;
+      background: var(--primary-dark); color: #fff;
+      border-radius: 100px; padding: 7px 18px;
+      font-size: 0.8rem; font-weight: 600;
+      text-align: center; margin-top: 8px;
+      animation: slideUp 0.2s ease;
+    }
+    .share-copy-toast.show { display: block; }
   </style>
 </head>
 <body>
@@ -621,23 +683,63 @@
 
     <!-- Success panel -->
     <div id="successPanel">
-      <div class="card" style="text-align:center;padding:36px;">
-        <div class="success-icon"><i class="bi bi-check-lg"></i></div>
-        <h2 style="font-size:1.8rem;color:var(--primary-dark);margin-bottom:6px;">Doubt Submitted!</h2>
-        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0;">Our faculty will review and reply within <strong>24 hours</strong>.</p>
+      <div class="card" style="padding:32px 28px;">
 
-        <div class="wa-cta-card" style="margin-top:24px;">
-          <p>If you attached an image, send it via WhatsApp</p>
-          <strong id="waCtaMsg">so your teacher can see it immediately.</strong>
-          <button class="btn-wa" id="btnWhatsApp" onclick="openWhatsApp()">
-            <i class="bi bi-whatsapp" style="font-size:1.2rem;"></i> Send Image on WhatsApp
-          </button>
-          <p class="wa-note">Opens WhatsApp with your doubt pre-filled. Attach the downloaded image.</p>
+        <!-- Animated tick + heading -->
+        <div style="text-align:center;margin-bottom:20px;">
+          <span class="success-confetti">🎉</span>
+          <div class="success-icon" style="margin-bottom:14px;"><i class="bi bi-check-lg"></i></div>
+          <h2 style="font-size:2rem;color:var(--primary-dark);margin-bottom:6px;">Doubt Sent!</h2>
+          <p style="color:var(--text-muted);font-size:0.88rem;">Your doubt has been submitted successfully to Bhatia Master Classes.</p>
         </div>
 
-        <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:20px;color:var(--text-muted);font-size:0.85rem;font-weight:600;">
-          <i class="bi bi-arrow-left"></i> Back to Home
-        </a>
+        <!-- Doubt summary strip -->
+        <div id="successDetails">
+          <div class="success-detail-row">
+            <i class="bi bi-person-fill"></i>
+            <span>Submitted by <strong id="sd-name">—</strong></span>
+          </div>
+          <div class="success-detail-row">
+            <i class="bi bi-book-fill"></i>
+            <span>Subject: <strong id="sd-subject">—</strong><span id="sd-chapter"></span></span>
+          </div>
+          <div class="success-detail-row">
+            <i class="bi bi-clock-fill"></i>
+            <span>Expected reply within <strong>24 hours</strong> on WhatsApp</span>
+          </div>
+          <div class="success-detail-row" id="sd-attach-row" style="display:none;">
+            <i class="bi bi-image-fill"></i>
+            <span>Image saved to your device — <strong>attach it on WhatsApp below</strong></span>
+          </div>
+        </div>
+
+        <!-- Share / action buttons -->
+        <div class="success-actions">
+
+          <!-- WhatsApp (primary) -->
+          <button class="btn-success-share btn-ss-whatsapp" onclick="openWhatsApp()">
+            <i class="bi bi-whatsapp" style="font-size:1.1rem;"></i>
+            Send on WhatsApp
+          </button>
+
+          <!-- Copy link + Go home (secondary row) -->
+          <div class="btn-action-row">
+            <button class="btn-success-share btn-ss-copy" onclick="copyDoubtLink()">
+              <i class="bi bi-link-45deg"></i> Copy Link
+            </button>
+            <button class="btn-success-share btn-ss-copy" onclick="shareDoubt()" id="btnNativeShare" style="display:none;">
+              <i class="bi bi-share-fill"></i> Share
+            </button>
+          </div>
+
+          <div class="share-copy-toast" id="shareCopyToast">✅ Link copied!</div>
+
+          <!-- Home -->
+          <button class="btn-success-share btn-ss-home" onclick="window.location.href='index.html'">
+            <i class="bi bi-house-fill"></i> Back to Home
+          </button>
+        </div>
+
       </div>
     </div>
 
@@ -1068,6 +1170,16 @@ async function submitDoubt() {
   document.getElementById('waCtaMsg').textContent = waMsg;
 
   // Hide form cards, show success
+  // Populate success summary
+  document.getElementById('sd-name').textContent    = state.name + ' · ' + state.cls;
+  document.getElementById('sd-subject').textContent = state.subject;
+  const chap = document.getElementById('sd-chapter');
+  chap.textContent = state.chapter ? ' — ' + state.chapter : '';
+  const attachRow = document.getElementById('sd-attach-row');
+  attachRow.style.display = state.attachType === 'image' ? 'flex' : 'none';
+  // Show native share button if supported
+  if (navigator.share) document.getElementById('btnNativeShare').style.display = 'flex';
+
   document.querySelectorAll('#step3 .card').forEach(c => c.style.display = 'none');
   document.getElementById('successPanel').classList.add('show');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1082,6 +1194,27 @@ function openWhatsApp() {
   const chap  = state.chapter ? ` (${state.chapter})` : '';
   const msg   = `Hi, I'm ${state.name} (${state.cls}). I have a doubt in *${subj}${chap}*.\n\n📝 *My Doubt:*\n${state.doubt}\n\n${state.attachType === 'image' ? '📎 I am attaching my question image.' : ''}`;
   window.open('https://wa.me/' + ph + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ══════════════════════════════════════════════
+   SUCCESS SHARE ACTIONS
+══════════════════════════════════════════════ */
+function copyDoubtLink() {
+  const url = window.location.origin + '/index.html#hero';
+  navigator.clipboard.writeText(url).then(() => {
+    const t = document.getElementById('shareCopyToast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  });
+}
+
+function shareDoubt() {
+  if (!navigator.share) return;
+  navigator.share({
+    title: 'Bhatia Master Classes — Ask a Doubt',
+    text: 'Get your JEE & NEET doubts solved by expert faculty at Bhatia Master Classes!',
+    url: window.location.origin + '/index.html'
+  });
 }
 </script>
 </body>
