@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Portal — Bhatia Master Classes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #1B3A6B;
+      --primary-dark: #0F2245;
+      --accent: #F4A825;
+      --accent-light: #FCC84A;
+      --teal: #00A8A8;
+      --light-bg: #F5F7FA;
+      --card-bg: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6B7280;
+      --border: #E5E9F0;
+      --success: #16A34A;
+      --danger: #DC2626;
+      --warning: #D97706;
+      --shadow-sm: 0 2px 8px rgba(27,58,107,0.08);
+      --shadow-md: 0 8px 32px rgba(27,58,107,0.12);
+      --radius: 12px;
+      --radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --sidebar-w: 260px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--light-bg); line-height: 1.6; overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; line-height: 1.15; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: linear-gradient(180deg, var(--primary-dark) 0%, #142d56 100%);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+      transition: var(--transition);
+    }
+    .sidebar-logo {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-logo .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      flex-shrink: 0;
+    }
+    .brand-text h3 {
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 1px;
+    }
+    .brand-text p { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+
+    /* Student info strip */
+    .student-strip {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .student-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), #007a7a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .student-strip-info h4 {
+      font-size: 0.9rem;
+      color: #fff;
+      font-weight: 600;
+    }
+    .student-strip-info p { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+
+    /* Nav */
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+    .nav-section-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      padding: 0 8px;
+      margin: 12px 0 6px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      color: rgba(255,255,255,0.65);
+      font-size: 0.92rem;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .nav-item i { font-size: 1.05rem; width: 20px; text-align: center; }
+    .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .nav-item.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: var(--primary-dark);
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(244,168,37,0.3);
+    }
+    .nav-badge {
+      margin-left: auto;
+      background: var(--danger);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 100px;
+    }
+
+    /* Sidebar footer */
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-footer .nav-item { color: rgba(255,255,255,0.4); }
+    .sidebar-footer .nav-item:hover { color: rgba(255,255,255,0.7); }
+
+    /* ====== MAIN CONTENT ====== */
+    .main {
+      margin-left: var(--sidebar-w);
+      min-height: 100vh;
+      transition: var(--transition);
+    }
+
+    /* Top bar */
+    .topbar {
+      background: #fff;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar-left h2 { font-size: 1.5rem; color: var(--primary-dark); }
+    .topbar-left p { font-size: 0.82rem; color: var(--text-muted); }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar-btn {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-muted);
+      font-size: 1rem;
+      position: relative;
+    }
+    .topbar-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .topbar-btn .dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 8px; height: 8px;
+      background: var(--danger);
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .topbar-student {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .topbar-student:hover { border-color: var(--primary); }
+    .avatar-sm {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), #007a7a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #fff;
+    }
+    .topbar-name { font-size: 0.85rem; font-weight: 600; }
+
+    /* Content area */
+    .content { padding: 28px; }
+
+    /* ====== PAGE SECTIONS ====== */
+    .page-section { display: none; }
+    .page-section.active { display: block; animation: fadeIn 0.35s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ====== STATS ROW ====== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition);
+    }
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .stat-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .stat-icon.blue { background: rgba(27,58,107,0.1); color: var(--primary); }
+    .stat-icon.gold { background: rgba(244,168,37,0.12); color: var(--accent); }
+    .stat-icon.teal { background: rgba(0,168,168,0.1); color: var(--teal); }
+    .stat-icon.green { background: rgba(22,163,74,0.1); color: var(--success); }
+    .stat-num { font-size: 1.7rem; font-weight: 800; font-family: 'Barlow Condensed', sans-serif; line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ====== CARDS ====== */
+    .section-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-header h3 {
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-header h3 i { color: var(--accent); }
+    .card-body { padding: 24px; }
+
+    /* ====== PROFILE CARD ====== */
+    .profile-hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .profile-avatar-lg {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), #007a7a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: #fff;
+      border: 3px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .profile-info { flex: 1; position: relative; }
+    .profile-info h2 { font-size: 2rem; color: #fff; margin-bottom: 4px; }
+    .profile-info .batch-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(244,168,37,0.2);
+      border: 1px solid rgba(244,168,37,0.4);
+      color: var(--accent-light);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .profile-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .profile-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .profile-meta-item i { color: var(--accent); }
+
+    /* ====== DPP / FILES ====== */
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .file-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .file-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .file-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .file-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .file-icon.physics { background: rgba(0,168,168,0.1); color: var(--teal); }
+    .file-icon.chem { background: rgba(244,168,37,0.12); color: var(--accent); }
+    .file-icon.maths { background: rgba(27,58,107,0.1); color: var(--primary); }
+    .file-icon.bio { background: rgba(22,163,74,0.1); color: var(--success); }
+    .file-meta h4 { font-size: 1rem; margin-bottom: 2px; }
+    .file-meta p { font-size: 0.78rem; color: var(--text-muted); }
+    .file-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--light-bg);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .tag.new { background: rgba(22,163,74,0.1); color: var(--success); border-color: rgba(22,163,74,0.2); }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 9px;
+      border-radius: 8px;
+      background: var(--primary-dark);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-download:hover {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ====== PERFORMANCE ====== */
+    .perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .score-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .score-item:last-child { border-bottom: none; }
+    .score-bar-wrap { flex: 1; margin: 0 16px; }
+    .score-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .score-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--primary), var(--teal));
+      transition: width 1s ease;
+    }
+    .score-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      min-width: 50px;
+      text-align: right;
+    }
+
+    /* ====== TIMETABLE ====== */
+    .timetable { width: 100%; border-collapse: collapse; }
+    .timetable th {
+      background: var(--primary-dark);
+      color: #fff;
+      padding: 11px 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .timetable th:first-child { border-radius: 8px 0 0 0; }
+    .timetable th:last-child { border-radius: 0 8px 0 0; }
+    .timetable td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .timetable tr:hover td { background: rgba(27,58,107,0.03); }
+    .subject-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .chip-phy { background: rgba(0,168,168,0.1); color: var(--teal); }
+    .chip-chem { background: rgba(244,168,37,0.12); color: var(--warning); }
+    .chip-math { background: rgba(27,58,107,0.1); color: var(--primary); }
+    .chip-bio { background: rgba(22,163,74,0.1); color: var(--success); }
+
+    /* ====== NOTICES ====== */
+    .notice-list { display: flex; flex-direction: column; gap: 12px; }
+    .notice-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .notice-item:hover { border-color: var(--primary); background: rgba(27,58,107,0.02); }
+    .notice-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .dot-accent { background: var(--accent); }
+    .dot-teal { background: var(--teal); }
+    .dot-success { background: var(--success); }
+    .dot-danger { background: var(--danger); }
+    .notice-content h4 { font-size: 0.92rem; margin-bottom: 2px; }
+    .notice-content p { font-size: 0.8rem; color: var(--text-muted); }
+    .notice-date { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ====== SECTION HEADERS ====== */
+    .section-head {
+      margin-bottom: 20px;
+    }
+    .section-head h2 { font-size: 1.8rem; color: var(--primary-dark); margin-bottom: 4px; }
+    .section-head p { font-size: 0.88rem; color: var(--text-muted); }
+
+    /* Two col layout */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .two-col, .perf-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .content { padding: 16px; }
+      .topbar { padding: 12px 16px; }
+      .profile-hero { flex-direction: column; text-align: center; }
+      .profile-meta { justify-content: center; }
+    }
+
+    /* Mobile overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+    .overlay.show { display: block; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text);
+      margin-right: 8px;
+    }
+    @media (max-width: 700px) { .hamburger { display: block; } }
+
+    /* Accent border on active section */
+    .section-card.accent-top { border-top: 3px solid var(--accent); }
+
+    /* Progress ring */
+    .progress-ring-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+    .progress-ring { transform: rotate(-90deg); }
+    .ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+    .ring-fill { fill: none; stroke: url(#ring-gradient); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 251; stroke-dashoffset: 63; transition: stroke-dashoffset 1s ease; }
+    .ring-label { font-family: 'Barlow Condensed', sans-serif; font-size: 1.6rem; font-weight: 800; fill: var(--primary-dark); dominant-baseline: middle; text-anchor: middle; }
+    .ring-sub { font-size: 0.7rem; fill: var(--text-muted); dominant-baseline: middle; text-anchor: middle; }
+
+    /* Quick action buttons */
+    .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .quick-action {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .quick-action:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .quick-action i { font-size: 1.4rem; color: var(--primary); }
+    .quick-action span { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+
+    @media (max-width: 600px) {
+      .quick-actions { grid-template-columns: repeat(2, 1fr); }
+      .file-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar overlay -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">
+      <div class="brand-icon">BMC</div>
+      <div class="brand-text">
+        <h3>BHATIA MC</h3>
+        <p>Student Portal</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="student-strip">
+    <div class="student-avatar">RK</div>
+    <div class="student-strip-info">
+      <h4>Rahul Kumar</h4>
+      <p>BMC-2026-001 · JEE</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <div class="nav-item active" onclick="showPage('dashboard')">
+      <i class="bi bi-grid-fill"></i> Dashboard
+    </div>
+    <div class="nav-item" onclick="showPage('profile')">
+      <i class="bi bi-person-circle"></i> My Profile
+    </div>
+
+    <div class="nav-section-label">Academics</div>
+    <div class="nav-item" onclick="showPage('dpp')">
+      <i class="bi bi-file-earmark-text-fill"></i> DPP Material
+      <span class="nav-badge">6</span>
+    </div>
+    <div class="nav-item" onclick="showPage('tests')">
+      <i class="bi bi-clipboard2-check-fill"></i> Test Series
+    </div>
+    <div class="nav-item" onclick="showPage('pyq')">
+      <i class="bi bi-archive-fill"></i> PYQ Papers
+    </div>
+    <div class="nav-item" onclick="showPage('performance')">
+      <i class="bi bi-bar-chart-fill"></i> Performance
+    </div>
+
+    <div class="nav-section-label">Info</div>
+    <div class="nav-item" onclick="showPage('timetable')">
+      <i class="bi bi-calendar3"></i> Timetable
+    </div>
+    <div class="nav-item" onclick="showPage('notices')">
+      <i class="bi bi-megaphone-fill"></i> Notices
+      <span class="nav-badge">3</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="nav-item" onclick="window.location='index.html'">
+      <i class="bi bi-house-fill"></i> Back to Website
+    </div>
+    <div class="nav-item" onclick="logout()">
+      <i class="bi bi-box-arrow-left"></i> Sign Out
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="hamburger" onclick="openSidebar()"><i class="bi bi-list"></i></span>
+      <div>
+        <h2 id="topbar-title">Dashboard</h2>
+        <p id="topbar-sub">Welcome back, Rahul 👋</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-btn" title="Notifications">
+        <i class="bi bi-bell"></i>
+        <span class="dot"></span>
+      </div>
+      <div class="topbar-btn" title="WhatsApp Help">
+        <i class="bi bi-whatsapp"></i>
+      </div>
+      <div class="topbar-student">
+        <div class="avatar-sm">RK</div>
+        <span class="topbar-name">Rahul Kumar</span>
+        <i class="bi bi-chevron-down" style="font-size:0.7rem;color:var(--text-muted)"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <div class="page-section active" id="page-dashboard">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="bi bi-file-earmark-text"></i></div>
+          <div>
+            <div class="stat-num">18</div>
+            <div class="stat-label">DPPs Completed</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold"><i class="bi bi-clipboard2-check"></i></div>
+          <div>
+            <div class="stat-num">7</div>
+            <div class="stat-label">Tests Taken</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon teal"><i class="bi bi-percent"></i></div>
+          <div>
+            <div class="stat-num">74%</div>
+            <div class="stat-label">Avg Score</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="bi bi-trophy"></i></div>
+          <div>
+            <div class="stat-num">#12</div>
+            <div class="stat-label">Batch Rank</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="quick-actions">
+        <div class="quick-action" onclick="showPage('dpp')">
+          <i class="bi bi-download"></i>
+          <span>Download DPP</span>
+        </div>
+        <div class="quick-action" onclick="showPage('tests')">
+          <i class="bi bi-pencil-square"></i>
+          <span>Test Series</span>
+        </div>
+        <div class="quick-action" onclick="showPage('pyq')">
+          <i class="bi bi-archive"></i>
+          <span>PYQ Papers</span>
+        </div>
+        <div class="quick-action" onclick="showPage('notices')">
+          <i class="bi bi-megaphone"></i>
+          <span>Notices</span>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <!-- Recent material -->
+        <div class="section-card accent-top">
+          <div class="card-header">
+            <h3><i class="bi bi-clock-fill"></i> Recent Material</h3>
+            <span style="font-size:0.8rem;color:var(--text-muted);cursor:pointer;font-weight:600;" onclick="showPage('dpp')">View All →</span>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <div class="score-item" style="padding:14px 24px;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Physics DPP — EMI</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Added today</div>
+              </div>
+              <span class="tag new">New</span>
+            </div>
+            <div class="score-item" style="padding:14px 24px;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Chemistry — Ionic Eq.</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Added 2 days ago</div>
+              </div>
+              <span class="tag new">New</span>
+            </div>
+            <div class="score-item" style="padding:14px 24px;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Maths — Quadratic</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Added 3 days ago</div>
+              </div>
+              <span class="tag">PDF</span>
+            </div>
+            <div class="score-item" style="padding:14px 24px;border-bottom:none;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">JEE Adv 2024 Paper 1</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Added 5 days ago</div>
+              </div>
+              <span class="tag">PYQ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notices preview -->
+        <div class="section-card accent-top">
+          <div class="card-header">
+            <h3><i class="bi bi-megaphone-fill"></i> Latest Notices</h3>
+            <span style="font-size:0.8rem;color:var(--text-muted);cursor:pointer;font-weight:600;" onclick="showPage('notices')">View All →</span>
+          </div>
+          <div class="card-body">
+            <div class="notice-list">
+              <div class="notice-item">
+                <div class="notice-dot dot-accent"></div>
+                <div class="notice-content">
+                  <h4>Mock Test on 18 March 2026</h4>
+                  <p>Full Syllabus JEE Mock — Physics, Chem, Maths</p>
+                  <div class="notice-date">📅 15 Mar 2026</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <div class="notice-dot dot-teal"></div>
+                <div class="notice-content">
+                  <h4>Holiday on 17 March (Holi)</h4>
+                  <p>Classes resume on 18th March normally</p>
+                  <div class="notice-date">📅 14 Mar 2026</div>
+                </div>
+              </div>
+              <div class="notice-item">
+                <div class="notice-dot dot-success"></div>
+                <div class="notice-content">
+                  <h4>New DPP Batches Uploaded</h4>
+                  <p>Physics Thermodynamics & Chem DPPs added</p>
+                  <div class="notice-date">📅 13 Mar 2026</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance overview -->
+      <div class="section-card">
+        <div class="card-header">
+          <h3><i class="bi bi-bar-chart-fill"></i> Subject Performance</h3>
+          <span style="font-size:0.8rem;color:var(--text-muted);">Last 7 tests</span>
+        </div>
+        <div class="card-body">
+          <div class="score-item">
+            <span style="font-size:0.88rem;font-weight:600;min-width:80px;">Physics</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar"><div class="score-fill" style="width:78%"></div></div>
+            </div>
+            <span class="score-val">78%</span>
+          </div>
+          <div class="score-item">
+            <span style="font-size:0.88rem;font-weight:600;min-width:80px;">Chemistry</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar"><div class="score-fill" style="width:71%"></div></div>
+            </div>
+            <span class="score-val">71%</span>
+          </div>
+          <div class="score-item">
+            <span style="font-size:0.88rem;font-weight:600;min-width:80px;">Maths</span>
+            <div class="score-bar-wrap">
+              <div class="score-bar"><div class="score-fill" style="width:82%"></div></div>
+            </div>
+            <span class="score-val">82%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROFILE PAGE ===== -->
+    <div class="page-section" id="page-profile">
+      <div class="section-head">
+        <h2>MY PROFILE</h2>
+        <p>Your academic information and batch details</p>
+      </div>
+      <div class="profile-hero">
+        <div class="profile-avatar-lg">RK</div>
+        <div class="profile-info">
+          <div class="batch-badge"><i class="bi bi-mortarboard-fill"></i> JEE Advanced 2026 Batch</div>
+          <h2>Rahul Kumar</h2>
+          <div class="profile-meta">
+            <div class="profile-meta-item"><i class="bi bi-person-badge"></i> BMC-2026-001</div>
+            <div class="profile-meta-item"><i class="bi bi-telephone"></i> +91-98XXXXXXXX</div>
+            <div class="profile-meta-item"><i class="bi bi-geo-alt"></i> Patna, Bihar</div>
+            <div class="profile-meta-item"><i class="bi bi-calendar-check"></i> Enrolled: Jan 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-info-circle-fill"></i> Academic Info</h3></div>
+          <div class="card-body">
+            <table style="width:100%;border-collapse:collapse;">
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;font-size:0.85rem;color:var(--text-muted);">Course</td><td style="padding:10px 0;font-size:0.88rem;font-weight:600;">JEE Advanced 2026</td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;font-size:0.85rem;color:var(--text-muted);">Batch Timing</td><td style="padding:10px 0;font-size:0.88rem;font-weight:600;">7:00 AM – 10:00 AM</td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;font-size:0.85rem;color:var(--text-muted);">Subjects</td><td style="padding:10px 0;font-size:0.88rem;font-weight:600;">Physics, Chemistry, Maths</td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;font-size:0.85rem;color:var(--text-muted);">Batch Strength</td><td style="padding:10px 0;font-size:0.88rem;font-weight:600;">35 Students</td></tr>
+              <tr><td style="padding:10px 0;font-size:0.85rem;color:var(--text-muted);">Faculty</td><td style="padding:10px 0;font-size:0.88rem;font-weight:600;">Sh. Bhatia Sir & Team</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-trophy-fill"></i> Achievements</h3></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(244,168,37,0.06);border-radius:10px;border:1px solid rgba(244,168,37,0.2);">
+                <span style="font-size:1.5rem;">🥇</span>
+                <div><div style="font-weight:700;font-size:0.9rem;">Top 3 — Mock Test #5</div><div style="font-size:0.78rem;color:var(--text-muted);">February 2026</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,168,168,0.06);border-radius:10px;border:1px solid rgba(0,168,168,0.15);">
+                <span style="font-size:1.5rem;">⭐</span>
+                <div><div style="font-weight:700;font-size:0.9rem;">100% DPP Submission — Jan</div><div style="font-size:0.78rem;color:var(--text-muted);">January 2026</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(22,163,74,0.06);border-radius:10px;border:1px solid rgba(22,163,74,0.15);">
+                <span style="font-size:1.5rem;">📈</span>
+                <div><div style="font-weight:700;font-size:0.9rem;">20% Score Improvement</div><div style="font-size:0.78rem;color:var(--text-muted);">Dec 2025 → Feb 2026</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DPP PAGE ===== -->
+    <div class="page-section" id="page-dpp">
+      <div class="section-head">
+        <h2>DAILY PRACTICE PAPERS</h2>
+        <p>Download your subject-wise DPP materials</p>
+      </div>
+      <div class="section-card">
+        <div class="card-header">
+          <h3><i class="bi bi-lightning-charge-fill"></i> Physics DPPs</h3>
+        </div>
+        <div class="card-body">
+          <div class="file-grid">
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon physics"><i class="bi bi-zap-fill"></i></div>
+                <div class="file-meta">
+                  <h4>DPP — Electromagnetic Induction</h4>
+                  <p>Advanced Problems · 28 questions</p>
+                </div>
+              </div>
+              <div class="file-tags"><span class="tag new">New</span><span class="tag">JEE Adv</span><span class="tag">PDF</span></div>
+              <button class="btn-download" onclick="downloadFile('DPP_EMI-Physics.docx')"><i class="bi bi-download"></i> Download DPP</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon physics"><i class="bi bi-thermometer-half"></i></div>
+                <div class="file-meta">
+                  <h4>DPP — Thermodynamics</h4>
+                  <p>Concept + Problems · 22 questions</p>
+                </div>
+              </div>
+              <div class="file-tags"><span class="tag new">New</span><span class="tag">JEE Main</span><span class="tag">PDF</span></div>
+              <button class="btn-download" onclick="downloadFile('DPP-Thermodynamics-Physics.docx')"><i class="bi bi-download"></i> Download DPP</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon physics"><i class="bi bi-graph-up-arrow"></i></div>
+                <div class="file-meta">
+                  <h4>Advanced Problems — Physics</h4>
+                  <p>IIT Level · 35 questions</p>
+                </div>
+              </div>
+              <div class="file-tags"><span class="tag">JEE Adv</span><span class="tag">Hard</span><span class="tag">PDF</span></div>
+              <button class="btn-download" onclick="downloadFile('DPP_Advance_Problem_in_physics.docx')"><i class="bi bi-download"></i> Download DPP</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="card-header">
+          <h3><i class="bi bi-flask-fill"></i> Chemistry DPPs</h3>
+        </div>
+        <div class="card-body">
+          <div class="file-grid">
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon chem"><i class="bi bi-droplet-half"></i></div>
+                <div class="file-meta">
+                  <h4>DPP — Ionic Equilibrium</h4>
+                  <p>pH, Buffer, Salts · 30 questions</p>
+                </div>
+              </div>
+              <div class="file-tags"><span class="tag new">New</span><span class="tag">JEE Main</span><span class="tag">PDF</span></div>
+              <button class="btn-download" onclick="downloadFile('Chemistry_DPP__Ionic_Equilirium.docx')"><i class="bi bi-download"></i> Download DPP</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon chem"><i class="bi bi-tree-fill"></i></div>
+                <div class="file-meta">
+                  <h4>DPP — Hydrocarbons</h4>
+                  <p>Organic Chemistry · 25 questions</p>
+                </div>
+              </div>
+              <div class="file-tags"><span class="tag">Organic</span><span class="tag">NEET</span><span class="tag">PDF</span></div>
+              <button class="btn-download" onclick="downloadFile('DPP-DPP_hydrocarben_chemistry.docx')"><i class="bi bi-download"></i> Download DPP</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="card-header">
+          <h3><i class="bi bi-calculator-fill"></i> Mathematics DPPs</h3>
+        </div>
+        <div class="card-body">
+          <div class="file-grid">
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon maths"><i class="bi bi-x-diamond-fill"></i></div>
+                <div class="file-meta">
+                  <h4>DPP — Quadratic Equations</h4>
+                  <p>Algebra · 28 questions</p>
+                </div>
+              </div>
+              <div class="file-tags"><span class="tag new">New</span><span class="tag">JEE Main</span><span class="tag">PDF</span></div>
+              <button class="btn-download" onclick="downloadFile('DPP-Maths_Quadratic.docx')"><i class="bi bi-download"></i> Download DPP</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TESTS PAGE ===== -->
+    <div class="page-section" id="page-tests">
+      <div class="section-head">
+        <h2>TEST SERIES</h2>
+        <p>Mock tests and chapter-wise assessments</p>
+      </div>
+      <div class="section-card">
+        <div class="card-header"><h3><i class="bi bi-clipboard2-check-fill"></i> Mock Tests</h3></div>
+        <div class="card-body">
+          <div class="file-grid">
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon blue" style="background:rgba(27,58,107,0.1);color:var(--primary)"><i class="bi bi-file-earmark-check-fill"></i></div>
+                <div class="file-meta"><h4>Mock Test 01 — Full Syllabus</h4><p>3 hrs · PCM · JEE Pattern</p></div>
+              </div>
+              <div class="file-tags"><span class="tag">Completed</span><span class="tag">Score: 68%</span></div>
+              <button class="btn-download"><i class="bi bi-eye"></i> View Solutions</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon blue" style="background:rgba(27,58,107,0.1);color:var(--primary)"><i class="bi bi-file-earmark-check-fill"></i></div>
+                <div class="file-meta"><h4>Mock Test 02 — Full Syllabus</h4><p>3 hrs · PCM · JEE Pattern</p></div>
+              </div>
+              <div class="file-tags"><span class="tag">Completed</span><span class="tag">Score: 73%</span></div>
+              <button class="btn-download"><i class="bi bi-eye"></i> View Solutions</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon gold" style="background:rgba(244,168,37,0.1);color:var(--accent)"><i class="bi bi-calendar-event-fill"></i></div>
+                <div class="file-meta"><h4>Mock Test 08 — Upcoming</h4><p>18 Mar 2026 · 8:00 AM</p></div>
+              </div>
+              <div class="file-tags"><span class="tag new">Upcoming</span><span class="tag">Full Syllabus</span></div>
+              <button class="btn-download" style="background:var(--accent);color:var(--primary-dark);"><i class="bi bi-bell-fill"></i> Set Reminder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PYQ PAGE ===== -->
+    <div class="page-section" id="page-pyq">
+      <div class="section-head">
+        <h2>PREVIOUS YEAR QUESTIONS</h2>
+        <p>JEE Advanced official papers — Hindi & English</p>
+      </div>
+      <div class="section-card">
+        <div class="card-header"><h3><i class="bi bi-archive-fill"></i> JEE Advanced Papers</h3></div>
+        <div class="card-body">
+          <div class="file-grid">
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon blue" style="background:rgba(27,58,107,0.08);color:var(--primary)"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                <div class="file-meta"><h4>JEE Adv 2024 Paper 1</h4><p>Hindi · Official Paper</p></div>
+              </div>
+              <div class="file-tags"><span class="tag">2024</span><span class="tag">Hindi</span></div>
+              <button class="btn-download" onclick="downloadFile('jeeadv2024_1_Hindi.pdf')"><i class="bi bi-download"></i> Download PDF</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon blue" style="background:rgba(27,58,107,0.08);color:var(--primary)"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                <div class="file-meta"><h4>JEE Adv 2023 Paper 1</h4><p>English · Official Paper</p></div>
+              </div>
+              <div class="file-tags"><span class="tag">2023</span><span class="tag">English</span></div>
+              <button class="btn-download" onclick="downloadFile('jee_adv2023_1_English.pdf')"><i class="bi bi-download"></i> Download PDF</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon blue" style="background:rgba(27,58,107,0.08);color:var(--primary)"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                <div class="file-meta"><h4>JEE Adv 2023 Paper 1</h4><p>Hindi · Official Paper</p></div>
+              </div>
+              <div class="file-tags"><span class="tag">2023</span><span class="tag">Hindi</span></div>
+              <button class="btn-download" onclick="downloadFile('jee_adev_2023_1_Hindi.pdf')"><i class="bi bi-download"></i> Download PDF</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon blue" style="background:rgba(27,58,107,0.08);color:var(--primary)"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                <div class="file-meta"><h4>JEE Adv 2023 Paper 2</h4><p>English · Official Paper</p></div>
+              </div>
+              <div class="file-tags"><span class="tag">2023</span><span class="tag">English</span></div>
+              <button class="btn-download" onclick="downloadFile('jee_adv_2023_2_English.pdf')"><i class="bi bi-download"></i> Download PDF</button>
+            </div>
+            <div class="file-card">
+              <div class="file-card-top">
+                <div class="file-icon blue" style="background:rgba(27,58,107,0.08);color:var(--primary)"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                <div class="file-meta"><h4>JEE Adv 2023 Paper 2</h4><p>Hindi · Official Paper</p></div>
+              </div>
+              <div class="file-tags"><span class="tag">2023</span><span class="tag">Hindi</span></div>
+              <button class="btn-download" onclick="downloadFile('jeea_dv_2023_2_Hindi.pdf')"><i class="bi bi-download"></i> Download PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PERFORMANCE PAGE ===== -->
+    <div class="page-section" id="page-performance">
+      <div class="section-head">
+        <h2>PERFORMANCE ANALYTICS</h2>
+        <p>Track your progress across tests and subjects</p>
+      </div>
+      <div class="two-col">
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-bar-chart-fill"></i> Subject-wise Scores</h3></div>
+          <div class="card-body">
+            <div class="score-item">
+              <span style="font-size:0.88rem;font-weight:600;min-width:80px;">Physics</span>
+              <div class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:78%"></div></div></div>
+              <span class="score-val">78%</span>
+            </div>
+            <div class="score-item">
+              <span style="font-size:0.88rem;font-weight:600;min-width:80px;">Chemistry</span>
+              <div class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:71%"></div></div></div>
+              <span class="score-val">71%</span>
+            </div>
+            <div class="score-item">
+              <span style="font-size:0.88rem;font-weight:600;min-width:80px;">Maths</span>
+              <div class="score-bar-wrap"><div class="score-bar"><div class="score-fill" style="width:82%"></div></div></div>
+              <span class="score-val">82%</span>
+            </div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="card-header"><h3><i class="bi bi-list-check"></i> Test History</h3></div>
+          <div class="card-body" style="padding:0;">
+            <table class="timetable">
+              <thead><tr><th>Test</th><th>Score</th><th>Rank</th></tr></thead>
+              <tbody>
+                <tr><td>Mock 01</td><td><span style="color:var(--warning);font-weight:700;">68%</span></td><td>#18</td></tr>
+                <tr><td>Mock 02</td><td><span style="color:var(--primary);font-weight:700;">73%</span></td><td>#14</td></tr>
+                <tr><td>Mock 03</td><td><span style="color:var(--primary);font-weight:700;">70%</span></td><td>#16</td></tr>
+                <tr><td>Mock 04</td><td><span style="color:var(--success);font-weight:700;">79%</span></td><td>#11</td></tr>
+                <tr><td>Mock 05</td><td><span style="color:var(--success);font-weight:700;">81%</span></td><td>#9</td></tr>
+                <tr><td>Mock 06</td><td><span style="color:var(--success);font-weight:700;">76%</span></td><td>#12</td></tr>
+                <tr><td>Mock 07</td><td><span style="color:var(--primary);font-weight:700;">74%</span></td><td>#12</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TIMETABLE ===== -->
+    <div class="page-section" id="page-timetable">
+      <div class="section-head">
+        <h2>CLASS TIMETABLE</h2>
+        <p>Weekly schedule for JEE Advanced 2026 Batch</p>
+      </div>
+      <div class="section-card">
+        <div class="card-header"><h3><i class="bi bi-calendar3"></i> Weekly Schedule</h3></div>
+        <div class="card-body" style="padding:0;overflow-x:auto;">
+          <table class="timetable">
+            <thead>
+              <tr><th>Day</th><th>7:00 – 8:30 AM</th><th>8:45 – 10:00 AM</th><th>Extra</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:700;">Monday</td>
+                <td><span class="subject-chip chip-phy"><i class="bi bi-lightning-charge-fill"></i> Physics</span></td>
+                <td><span class="subject-chip chip-chem"><i class="bi bi-flask-fill"></i> Chemistry</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td style="font-weight:700;">Tuesday</td>
+                <td><span class="subject-chip chip-math"><i class="bi bi-calculator-fill"></i> Maths</span></td>
+                <td><span class="subject-chip chip-phy"><i class="bi bi-lightning-charge-fill"></i> Physics</span></td>
+                <td>DPP Discussion</td>
+              </tr>
+              <tr>
+                <td style="font-weight:700;">Wednesday</td>
+                <td><span class="subject-chip chip-chem"><i class="bi bi-flask-fill"></i> Chemistry</span></td>
+                <td><span class="subject-chip chip-math"><i class="bi bi-calculator-fill"></i> Maths</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td style="font-weight:700;">Thursday</td>
+                <td><span class="subject-chip chip-phy"><i class="bi bi-lightning-charge-fill"></i> Physics</span></td>
+                <td><span class="subject-chip chip-chem"><i class="bi bi-flask-fill"></i> Chemistry</span></td>
+                <td>Doubt Session</td>
+              </tr>
+              <tr>
+                <td style="font-weight:700;">Friday</td>
+                <td><span class="subject-chip chip-math"><i class="bi bi-calculator-fill"></i> Maths</span></td>
+                <td><span class="subject-chip chip-phy"><i class="bi bi-lightning-charge-fill"></i> Physics</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td style="font-weight:700;">Saturday</td>
+                <td colspan="2" style="text-align:center;"><span style="font-weight:700;color:var(--danger);">📝 Weekly Mock Test</span></td>
+                <td>3 Hours</td>
+              </tr>
+              <tr>
+                <td style="font-weight:700;">Sunday</td>
+                <td colspan="3" style="text-align:center;color:var(--text-muted);font-style:italic;">Holiday / Self Study</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NOTICES ===== -->
+    <div class="page-section" id="page-notices">
+      <div class="section-head">
+        <h2>NOTICES & ANNOUNCEMENTS</h2>
+        <p>Stay updated with the latest from BMC</p>
+      </div>
+      <div class="section-card">
+        <div class="card-body">
+          <div class="notice-list">
+            <div class="notice-item">
+              <div class="notice-dot dot-accent"></div>
+              <div class="notice-content">
+                <h4>Mock Test 08 — 18 March 2026 at 8:00 AM</h4>
+                <p>Full Syllabus JEE Mock Test. Physics, Chemistry & Maths. Bring OMR sheet and admit card. Test duration: 3 hours.</p>
+                <div class="notice-date">📅 Posted: 15 Mar 2026</div>
+              </div>
+            </div>
+            <div class="notice-item">
+              <div class="notice-dot dot-teal"></div>
+              <div class="notice-content">
+                <h4>Holi Holiday — 17 March 2026</h4>
+                <p>The institute will remain closed on 17th March 2026 (Holi). Regular classes resume from 18th March.</p>
+                <div class="notice-date">📅 Posted: 14 Mar 2026</div>
+              </div>
+            </div>
+            <div class="notice-item">
+              <div class="notice-dot dot-success"></div>
+              <div class="notice-content">
+                <h4>New DPPs Uploaded — Physics & Chemistry</h4>
+                <p>New DPP batches for Thermodynamics (Physics) and Ionic Equilibrium (Chemistry) have been uploaded. Download from the portal.</p>
+                <div class="notice-date">📅 Posted: 13 Mar 2026</div>
+              </div>
+            </div>
+            <div class="notice-item">
+              <div class="notice-dot dot-danger"></div>
+              <div class="notice-content">
+                <h4>Fee Reminder — March 2026</h4>
+                <p>Monthly fee for March 2026 is due. Please submit at the institute counter before 20th March to avoid late charges.</p>
+                <div class="notice-date">📅 Posted: 10 Mar 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<script>
+  const pageTitles = {
+    dashboard: ['Dashboard', 'Welcome back, Rahul 👋'],
+    profile: ['My Profile', 'Your academic information'],
+    dpp: ['DPP Material', 'Download daily practice papers'],
+    tests: ['Test Series', 'Mock tests and assessments'],
+    pyq: ['PYQ Papers', 'Previous Year Questions — JEE Advanced'],
+    performance: ['Performance', 'Your scores and analytics'],
+    timetable: ['Timetable', 'Weekly class schedule'],
+    notices: ['Notices', '3 new announcements'],
+  };
+
+  function showPage(page) {
+    // Hide all
+    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    // Show target
+    document.getElementById('page-' + page).classList.add('active');
+
+    // Active nav
+    document.querySelectorAll('.nav-item').forEach(n => {
+      if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + page + "'")) {
+        n.classList.add('active');
+      }
+    });
+
+    // Update topbar
+    const titles = pageTitles[page] || [page, ''];
+    document.getElementById('topbar-title').textContent = titles[0];
+    document.getElementById('topbar-sub').textContent = titles[1];
+
+    closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  function logout() {
+    if (confirm('Sign out from BMC Student Portal?')) {
+      window.location.href = 'login.html';
+    }
+  }
+
+  function downloadFile(filename) {
+    // In production, these would be actual file paths
+    const link = document.createElement('a');
+    link.href = filename;
+    link.download = filename;
+    link.click();
+  }
+</script>
+</body>
+</html>
