@@ -378,12 +378,23 @@
       margin-top: 8px;
     }
     .security-badge i { color: #16A34A; }
+    /* Symbol canvas — interactive + grid */
+    #symbolCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .login-wrapper { z-index: 10; }
   </style>
 </head>
 <body>
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
+  <canvas id="symbolCanvas"></canvas>
 
   <div class="login-wrapper">
     <!-- Logo -->
@@ -610,6 +621,131 @@
       document.getElementById('loginBtn').click();
     }
   });
+
+  /* ========== INTERACTIVE + GRID ANIMATION ========== */
+  (function() {
+    const canvas = document.getElementById('symbolCanvas');
+    const ctx    = canvas.getContext('2d');
+
+    const MATH_SYMBOLS = ['∫','Σ','π','λ','∂','√','∞','α','β','γ','θ','φ','Δ','Ω','μ','ε','ρ','≈','±','∇'];
+    const GRID_GAP  = 44;   // px between cells
+    const BASE_OP   = 0.055; // resting opacity of +
+    const REACT_R   = 130;   // mouse influence radius px
+    const FONT_SIZE = 13;
+
+    let W, H, mouse = { x: -9999, y: -9999 }, cells = [], raf;
+
+    // Each cell: { x, y, symbol, opacity, targetOp, morphT (0=plus,1=math), morphTarget }
+    function buildGrid() {
+      cells = [];
+      const cols = Math.ceil(W / GRID_GAP) + 1;
+      const rows = Math.ceil(H / GRID_GAP) + 1;
+      const offX = (W % GRID_GAP) / 2;
+      const offY = (H % GRID_GAP) / 2;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          cells.push({
+            x:           offX + c * GRID_GAP,
+            y:           offY + r * GRID_GAP,
+            symbol:      MATH_SYMBOLS[Math.floor(Math.random() * MATH_SYMBOLS.length)],
+            opacity:     BASE_OP * Math.random(), // stagger initial fade-in
+            morphT:      0,      // 0 = showing '+', 1 = showing math symbol
+            active:      false,
+          });
+        }
+      }
+    }
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      buildGrid();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Track mouse
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+    // Touch support
+    window.addEventListener('touchmove', e => {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; });
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+
+      const now = performance.now();
+
+      for (let i = 0; i < cells.length; i++) {
+        const cell = cells[i];
+        const dx   = cell.x - mouse.x;
+        const dy   = cell.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const inRange = dist < REACT_R;
+
+        // Morph direction
+        if (inRange) {
+          cell.morphT += 0.07;
+          if (cell.morphT > 1) cell.morphT = 1;
+        } else {
+          cell.morphT -= 0.035;
+          if (cell.morphT < 0) {
+            cell.morphT = 0;
+            // Assign fresh symbol when fully reverted, so next hover shows something new
+            if (Math.random() < 0.05) {
+              cell.symbol = MATH_SYMBOLS[Math.floor(Math.random() * MATH_SYMBOLS.length)];
+            }
+          }
+        }
+
+        // Opacity: resting = BASE_OP, near mouse = brighter, eased by morphT
+        const proximity = inRange ? easeOut(1 - dist / REACT_R) : 0;
+        const targetOp  = BASE_OP + proximity * 0.55;
+        cell.opacity += (targetOp - cell.opacity) * 0.12;
+
+        // Scale: slightly enlarge near mouse
+        const scale = 1 + cell.morphT * 0.6;
+
+        // Color: interpolate white → gold as morphT increases
+        const r = Math.round(255 + (244 - 255) * cell.morphT); // 255→244
+        const g = Math.round(255 + (168 - 255) * cell.morphT); // 255→168
+        const b = Math.round(255 + ( 37 - 255) * cell.morphT); // 255→37
+
+        ctx.save();
+        ctx.translate(cell.x, cell.y);
+        ctx.scale(scale, scale);
+        ctx.globalAlpha = cell.opacity;
+        ctx.fillStyle   = `rgb(${r},${g},${b})`;
+
+        if (cell.morphT < 0.5) {
+          // Draw + (crosshair)
+          const arm = FONT_SIZE * 0.45;
+          const w   = FONT_SIZE * 0.18;
+          ctx.fillRect(-w / 2, -arm, w, arm * 2);
+          ctx.fillRect(-arm,  -w / 2, arm * 2, w);
+        } else {
+          // Draw math symbol
+          const alpha = (cell.morphT - 0.5) * 2; // 0→1 in second half
+          ctx.globalAlpha = cell.opacity * alpha;
+          ctx.font = `${FONT_SIZE}px "Barlow Condensed", Georgia, serif`;
+          ctx.fillText(cell.symbol, 0, 0);
+        }
+
+        ctx.restore();
+      }
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    draw();
+  })();
 </script>
 </body>
 </html>
