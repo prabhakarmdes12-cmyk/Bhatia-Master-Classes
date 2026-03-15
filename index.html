@@ -978,6 +978,213 @@
   color: var(--success); margin-bottom: 10px;
   display: flex; align-items: center; gap: 6px;
 }
+
+/* ========== QUESTION CARD SHARE BUTTON ========== */
+.question-card { position: relative; }
+.q-share-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 30px; height: 30px;
+  background: rgba(244,168,37,0.15);
+  border: 1px solid rgba(244,168,37,0.35);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent-light);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 2;
+}
+.q-share-btn:hover { background: var(--accent); color: var(--primary-dark); border-color: var(--accent); }
+
+/* Challenger card share icon */
+.challenger-card { position: relative; }
+.ch-share-btn {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  background: rgba(244,168,37,0.12);
+  border: 1px solid rgba(244,168,37,0.3);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent-light);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 2;
+}
+.ch-share-btn:hover { background: var(--accent); color: var(--primary-dark); }
+
+/* ========== SHARE SHEET MODAL ========== */
+#shareSheetModal {
+  display: none;
+  position: fixed; inset: 0;
+  z-index: 99999;
+  background: rgba(10,15,30,0.72);
+  backdrop-filter: blur(6px);
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  animation: fadeIn 0.2s ease;
+}
+#shareSheetModal.show { display: flex; }
+.share-sheet-box {
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-width: 520px;
+  padding: 28px 28px 36px;
+  box-shadow: 0 -20px 60px rgba(27,58,107,0.2);
+  animation: slideUpSheet 0.35s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+}
+@keyframes slideUpSheet { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.share-sheet-handle {
+  width: 44px; height: 4px;
+  background: #e5e9f0; border-radius: 4px;
+  margin: 0 auto 22px;
+}
+.share-sheet-preview {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 20px rgba(27,58,107,0.14);
+}
+.share-sheet-preview canvas { display: block; width: 100%; max-width: 100%; }
+.share-sheet-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.2rem; font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 18px;
+  text-align: center;
+}
+.share-options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.share-option-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  background: var(--light-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 8px 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--text);
+}
+.share-option-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(27,58,107,0.12); border-color: var(--primary); }
+.share-option-btn .so-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem;
+}
+.so-whatsapp { background: #25D366; color: #fff; }
+.so-facebook { background: #1877F2; color: #fff; }
+.so-instagram { background: linear-gradient(135deg,#E1306C,#F77737,#FCAF45); color: #fff; }
+.so-copy { background: var(--primary-dark); color: #fff; }
+.so-more { background: #f3f4f6; color: var(--text); }
+.share-sheet-close {
+  position: absolute; top: 18px; right: 20px;
+  background: var(--light-bg); border: none;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1rem; color: var(--text-muted);
+  transition: var(--transition);
+}
+.share-sheet-close:hover { background: #e5e9f0; color: var(--text); }
+.share-copied-toast {
+  display: none;
+  background: var(--primary-dark); color: #fff;
+  border-radius: 100px; padding: 8px 20px;
+  font-size: 0.82rem; font-weight: 600;
+  text-align: center; margin-top: 10px;
+  animation: fadeIn 0.2s ease;
+}
+.share-copied-toast.show { display: block; }
+/* ========== DEEP LINK GLOW ========== */
+@keyframes questionGlow {
+  0%   { box-shadow: 0 0 0 0 rgba(244,168,37,0); border-color: rgba(244,168,37,0.4); }
+  30%  { box-shadow: 0 0 0 8px rgba(244,168,37,0.25); border-color: var(--accent); background: rgba(255,255,255,0.18); }
+  70%  { box-shadow: 0 0 0 4px rgba(244,168,37,0.1); }
+  100% { box-shadow: none; border-color: rgba(255,255,255,0.1); }
+}
+.question-card.deep-link-highlight {
+  animation: questionGlow 1.8s ease forwards;
+}
+
+/* ========== OTP STEP STYLES ========== */
+#chOtpStep { display: none; }
+#chOtpStep.show { display: block; animation: slideUp 0.3s ease; }
+.otp-phone-display {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.otp-phone-display p { font-size: 0.9rem; color: var(--text-muted); }
+.otp-phone-display strong { color: var(--primary-dark); }
+.otp-inputs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.otp-box {
+  width: 46px; height: 52px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.5rem; font-weight: 800;
+  color: var(--primary-dark);
+  outline: none;
+  transition: var(--transition);
+  caret-color: var(--accent);
+}
+.otp-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(27,58,107,0.12); }
+.otp-box.error { border-color: var(--danger); animation: shake 0.4s ease; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-4px); }
+  40%,80% { transform: translateX(4px); }
+}
+.otp-resend-row {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+.otp-resend-btn {
+  background: none; border: none;
+  color: var(--primary); font-weight: 600;
+  cursor: pointer; font-size: 0.82rem;
+  text-decoration: underline; text-underline-offset: 2px;
+  padding: 0;
+  display: none;
+}
+.otp-resend-btn.visible { display: inline; }
+.otp-back-btn {
+  background: none; border: none;
+  color: var(--text-muted); font-size: 0.82rem;
+  cursor: pointer; display: flex; align-items: center; gap: 4px;
+  margin-bottom: 16px; padding: 0;
+  transition: color 0.2s;
+}
+.otp-back-btn:hover { color: var(--primary); }
+.otp-dev-hint {
+  background: rgba(244,168,37,0.1);
+  border: 1px dashed rgba(244,168,37,0.5);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  color: #8B5A00;
+  text-align: center;
+  margin-bottom: 16px;
+  display: none;
+}
+.otp-dev-hint.show { display: block; }
   </style>
 </head>
 <body>
@@ -1045,7 +1252,8 @@
         <div class="questions-panel">
           <h3><i class="bi bi-puzzle-fill me-2"></i>Crack These — Can You?</h3>
           <!-- Question 1 -->
-          <div class="question-card" tabindex="0">
+          <div class="question-card" id="q-0" tabindex="0">
+            <button class="q-share-btn" onclick="openShareSheet(0,'crack')" title="Share this question" aria-label="Share question"><i class="bi bi-share-fill"></i></button>
             <div class="q-subject">📐 JEE Maths</div>
             <div class="q-text">
               If <span class="math">f(x) = x³ − 6x² + 11x − 6</span>, find all roots and verify using Vieta's formulas.
@@ -1053,7 +1261,8 @@
             <button class="btn-view-sol" onclick="openSolutionModal(0)" aria-label="View solution for maths problem">View Solution →</button>
           </div>
           <!-- Question 2 -->
-          <div class="question-card" tabindex="0">
+          <div class="question-card" id="q-1" tabindex="0">
+            <button class="q-share-btn" onclick="openShareSheet(1,'crack')" title="Share this question" aria-label="Share question"><i class="bi bi-share-fill"></i></button>
             <div class="q-subject">⚡ JEE Physics</div>
             <div class="q-text">
               A projectile is launched at <span class="math">45°</span> with initial speed <span class="math">20 m/s</span>. Find the maximum height and range. (g = 10 m/s²)
@@ -1061,7 +1270,8 @@
             <button class="btn-view-sol" onclick="openSolutionModal(1)" aria-label="View solution for physics problem">View Solution →</button>
           </div>
           <!-- Question 3 -->
-          <div class="question-card" tabindex="0">
+          <div class="question-card" id="q-2" tabindex="0">
+            <button class="q-share-btn" onclick="openShareSheet(2,'crack')" title="Share this question" aria-label="Share question"><i class="bi bi-share-fill"></i></button>
             <div class="q-subject">🧪 NEET Chemistry</div>
             <div class="q-text">
               Calculate the pH of <span class="math">0.01 M HCl</span> solution. If diluted 100×, what is the new pH?
@@ -1069,7 +1279,8 @@
             <button class="btn-view-sol" onclick="openSolutionModal(2)" aria-label="View solution for chemistry problem">View Solution →</button>
           </div>
           <!-- Question 4 -->
-          <div class="question-card" tabindex="0">
+          <div class="question-card" id="q-3" tabindex="0">
+            <button class="q-share-btn" onclick="openShareSheet(3,'crack')" title="Share this question" aria-label="Share question"><i class="bi bi-share-fill"></i></button>
             <div class="q-subject">🧬 NEET Biology</div>
             <div class="q-text">
               In a monohybrid cross between <span class="math">Tt × tt</span>, what is the phenotypic ratio? Explain using a Punnett square.
@@ -1173,8 +1384,7 @@ At Bhatia Master Classes (BMC), his mission is to help students achieve academic
     <div class="row justify-content-center">
       <div class="col-lg-10 reveal">
         <div class="challenger-card">
-
-          <!-- Subject + Difficulty -->
+          <button class="ch-share-btn" onclick="openShareSheet(0,'challenger')" title="Share this challenge" aria-label="Share BMC Challenger"><i class="bi bi-share-fill"></i></button>
           <div class="challenger-subject-row">
             <span class="challenger-subject-tag"><i class="bi bi-calculator"></i> JEE Advanced · Mathematics</span>
             <span class="challenger-difficulty"><i class="bi bi-fire"></i> Hard</span>
@@ -1737,7 +1947,7 @@ At Bhatia Master Classes (BMC), his mission is to help students achieve academic
         <div class="contact-card text-center">
           <div class="contact-icon-wrap mx-auto"><i class="bi bi-envelope-fill"></i></div>
           <h5 style="font-size:1.1rem;margin-bottom:8px;">Email Us</h5>
-          <a href="mailto:info@bhatiamasterclasses.com" style="font-size:0.85rem;color:var(--primary);font-weight:600;word-break:break-all;">info@bhatiamasterclasses.com</a>
+          <a href="/cdn-cgi/l/email-protection#b3daddd5dcf3d1dbd2c7dad2ded2c0c7d6c1d0dfd2c0c0d6c09dd0dcde" style="font-size:0.85rem;color:var(--primary);font-weight:600;word-break:break-all;"><span class="__cf_email__" data-cfemail="94fdfaf2fbd4f6fcf5e0fdf5f9f5e7e0f1e6f7f8f5e7e7f1e7baf7fbf9">[email&#160;protected]</span></a>
         </div>
       </div>
       <div class="col-md-4 col-lg-3 reveal">
@@ -1795,7 +2005,7 @@ At Bhatia Master Classes (BMC), his mission is to help students achieve academic
         <ul class="footer-links">
           <li><i class="bi bi-geo-alt me-2"></i>10/1 Kalidas marg , Maxi road , Neat Free ganj tower , Near Narmade Ayurvedam , Ujjain</li>
           <li><a href="tel:+919516210209"><i class="bi bi-telephone me-2"></i>+91 9516210209</a></li>
-          <li><a href="mailto:info@bhatia-masterclasses.com"><i class="bi bi-envelope me-2"></i>info@bhatiamasterclasses.com</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#bbd2d5ddd4fbd9d3dacfd2da96d6dac8cfdec9d8d7dac8c8dec895d8d4d6"><i class="bi bi-envelope me-2"></i><span class="__cf_email__" data-cfemail="cea7a0a8a18eaca6afbaa7afa3afbdbaabbcada2afbdbdabbde0ada1a3">[email&#160;protected]</span></a></li>
         </ul>
       </div>
     </div>
@@ -1868,11 +2078,8 @@ At Bhatia Master Classes (BMC), his mission is to help students achieve academic
   <div id="solutionContent"></div>
   <div class="share-row">
     <span style="font-size:0.8rem;font-weight:600;color:var(--text-muted);align-self:center;">Share:</span>
-    <button class="btn-share-solution btn-share-whatsapp" onclick="shareSolution('whatsapp')">
-      <i class="bi bi-whatsapp"></i> WhatsApp
-    </button>
-    <button class="btn-share-solution" onclick="shareSolution('copy')">
-      <i class="bi bi-clipboard"></i> Copy Link
+    <button class="btn-share-solution" onclick="openShareSheet(currentQuestionIndex,'crack')">
+      <i class="bi bi-share-fill"></i> Share Question
     </button>
   </div>
 </div>
@@ -1938,7 +2145,7 @@ At Bhatia Master Classes (BMC), his mission is to help students achieve academic
 </div>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 /* ========== DATA ========== */
@@ -2166,33 +2373,6 @@ window.addEventListener('scroll', () => {
 function scrollToSection(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 }
-  /* ========== BMC CHALLENGER ========== */
-function openChallengerModal() {
-  document.getElementById('challengerForm').reset();
-  document.getElementById('challengerSolution').classList.remove('show');
-  clearErrors(document.getElementById('challengerForm'));
-  document.getElementById('chSubmitBtn').disabled = false;
-  document.getElementById('chSubmitBtn').innerHTML = '<i class="bi bi-unlock-fill me-2"></i> Reveal Solution';
-  document.getElementById('chSubmitBtn').style.background = '';
-  document.getElementById('challengerModal').classList.add('show');
-  document.body.style.overflow = 'hidden';
-  // Show native share if supported
-  if (navigator.share) document.getElementById('btnNativeShare').style.display = 'inline-flex';
-}
-
-document.getElementById('challengerForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  if (!validateForm(this)) return;
-  const btn = document.getElementById('chSubmitBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Unlocking...';
-  setTimeout(() => {
-    document.getElementById('challengerSolution').classList.add('show');
-    document.getElementById('challengerSolution').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Solution Unlocked!';
-    btn.style.background = '#16A34A';
-  }, 700);
-});
 
 function shareChallenger(method) {
   const text = '🔥 BMC Challenger — Can you crack this JEE Advanced question?\n\nLet f(x+y) = f(x)·f(y). If f\'(0)=2 and f(3)=e⁶, find ∫₀³ f(x) dx.\n\nTry it at: ' + window.location.href + '#bmc-challenger';
@@ -2237,7 +2417,7 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
     <div class="modal-header-custom" style="background:linear-gradient(135deg,#0F2245,#1B3A6B);">
       <button class="modal-close" onclick="closeModal('challengerModal')" aria-label="Close">&times;</button>
       <h3 id="challengerModalTitle"><i class="bi bi-lightning-charge-fill" style="color:var(--accent);"></i> BMC Challenger</h3>
-      <p>Enter your details to unlock the full solution</p>
+      <p id="chModalSubtitle">Enter your details to unlock the full solution</p>
     </div>
     <div class="modal-body-custom">
       <!-- Question display -->
@@ -2246,7 +2426,7 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
         <p>Let <em>f : ℝ → ℝ</em> be twice differentiable with f(x+y) = f(x)·f(y). If f'(0) = 2 and f(3) = e⁶, find ∫₀³ f(x) dx.</p>
       </div>
 
-      <!-- Form -->
+      <!-- STEP 1: Details Form -->
       <form id="challengerForm" novalidate>
         <div class="mb-3">
           <label class="form-label-reg" for="chName">Full Name *</label>
@@ -2270,11 +2450,41 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
           <div class="error-msg">Please select your class.</div>
         </div>
         <button type="submit" class="btn-submit-modal" id="chSubmitBtn">
-          <i class="bi bi-unlock-fill me-2"></i> Reveal Solution
+          <i class="bi bi-shield-lock-fill me-2"></i> Send OTP & Continue
         </button>
       </form>
 
-      <!-- Solution box — shown after form submit -->
+      <!-- STEP 2: OTP Verification -->
+      <div id="chOtpStep">
+        <button class="otp-back-btn" onclick="chBackToForm()">
+          <i class="bi bi-arrow-left"></i> Change details
+        </button>
+        <!-- Dev hint — shows simulated OTP -->
+        <div class="otp-dev-hint show" id="chOtpDevHint">
+          🔧 <strong>Dev mode:</strong> OTP is <strong id="chOtpDisplay">------</strong> (remove this in production)
+        </div>
+        <div class="otp-phone-display">
+          <p>A 6-digit OTP has been sent to</p>
+          <strong id="chOtpPhoneShow">+91 XXXXXXXXXX</strong>
+        </div>
+        <div class="otp-inputs">
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code" />
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+        </div>
+        <div class="otp-resend-row">
+          <span id="chResendTimer">Resend OTP in <strong id="chResendCount">30</strong>s</span>
+          <button class="otp-resend-btn" id="chResendBtn" onclick="chResendOtp()">Resend OTP</button>
+        </div>
+        <button class="btn-submit-modal mt-3" id="chVerifyBtn" onclick="chVerifyOtp()">
+          <i class="bi bi-unlock-fill me-2"></i> Verify & Unlock Solution
+        </button>
+      </div>
+
+      <!-- Solution box — shown after OTP verify -->
       <div class="challenger-solution-box" id="challengerSolution">
         <div class="sol-label"><i class="bi bi-check-circle-fill"></i> Full Solution</div>
         <div id="challengerSolutionContent">
@@ -2286,16 +2496,10 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
           <p style="color:var(--success);font-weight:700;margin-top:8px;">Answer: (e⁶ − 1) / 2</p>
         </div>
         <!-- Share buttons -->
-        <div class="share-row">
+        <div class="share-row" style="margin-top:14px;padding-top:14px;border-top:1px solid #e5e9f0;">
           <span style="font-size:0.8rem;font-weight:600;color:var(--text-muted);align-self:center;">Share:</span>
-          <button class="btn-share-solution btn-share-whatsapp" onclick="shareChallenger('whatsapp')">
-            <i class="bi bi-whatsapp"></i> WhatsApp
-          </button>
-          <button class="btn-share-solution" onclick="shareChallenger('copy')">
-            <i class="bi bi-clipboard"></i> Copy Link
-          </button>
-          <button class="btn-share-solution" onclick="shareChallenger('native')" id="btnNativeShare" style="display:none;">
-            <i class="bi bi-share"></i> Share
+          <button class="btn-share-solution" onclick="openShareSheet(0,'challenger')">
+            <i class="bi bi-share-fill"></i> Share Question
           </button>
         </div>
       </div>
@@ -2303,5 +2507,450 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
     </div>
   </div>
 </div>
+
+<!-- ============ BRANDED SHARE SHEET ============ -->
+<div id="shareSheetModal" role="dialog" aria-modal="true" aria-label="Share Question">
+  <div class="share-sheet-box" style="margin:0 auto;">
+    <div class="share-sheet-handle"></div>
+    <button class="share-sheet-close" onclick="closeShareSheet()" aria-label="Close share sheet">✕</button>
+    <div class="share-sheet-title">Share This Question</div>
+    <div class="share-sheet-preview">
+      <canvas id="shareCanvas" width="520" height="280"></canvas>
+    </div>
+    <div class="share-options">
+      <button class="share-option-btn" onclick="doShare('whatsapp')">
+        <div class="so-icon so-whatsapp"><i class="bi bi-whatsapp"></i></div>
+        <span>WhatsApp</span>
+      </button>
+      <button class="share-option-btn" onclick="doShare('facebook')">
+        <div class="so-icon so-facebook"><i class="bi bi-facebook"></i></div>
+        <span>Facebook</span>
+      </button>
+      <button class="share-option-btn" onclick="doShare('instagram')">
+        <div class="so-icon so-instagram"><i class="bi bi-instagram"></i></div>
+        <span>Instagram</span>
+      </button>
+      <button class="share-option-btn" onclick="doShare('copy')">
+        <div class="so-icon so-copy"><i class="bi bi-clipboard-fill"></i></div>
+        <span>Copy Link</span>
+      </button>
+      <button class="share-option-btn" onclick="doShare('save')">
+        <div class="so-icon" style="background:#16A34A;color:#fff;border-radius:12px;"><i class="bi bi-download"></i></div>
+        <span>Save Image</span>
+      </button>
+    </div>
+    <div class="share-copied-toast" id="shareCopiedToast">✅ Link copied to clipboard!</div>
+  </div>
+</div>
+
+<script>
+/* ========== BMC CHALLENGER — OTP FLOW ========== */
+let _chOtp = '';
+let _chResendTimer = null;
+
+function openChallengerModal() {
+  // Reset everything to Step 1
+  document.getElementById('challengerForm').reset();
+  document.getElementById('challengerSolution').classList.remove('show');
+  document.getElementById('chOtpStep').classList.remove('show');
+  document.getElementById('challengerForm').style.display = '';
+  clearErrors(document.getElementById('challengerForm'));
+  document.getElementById('chSubmitBtn').disabled = false;
+  document.getElementById('chSubmitBtn').innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i> Send OTP & Continue';
+  document.getElementById('chSubmitBtn').style.background = '';
+  document.getElementById('chModalSubtitle').textContent = 'Enter your details to unlock the full solution';
+  // Clear OTP boxes
+  document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('error'); });
+  document.getElementById('challengerModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('challengerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (!validateForm(this)) return;
+  const btn = document.getElementById('chSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Sending OTP...';
+
+  // Generate simulated OTP
+  _chOtp = String(Math.floor(100000 + Math.random() * 900000));
+  document.getElementById('chOtpDisplay').textContent = _chOtp;
+
+  const rawPhone = document.getElementById('chPhone').value.trim();
+  const masked = '+91 ' + rawPhone.slice(0, 2) + 'XXXXXX' + rawPhone.slice(-2);
+  document.getElementById('chOtpPhoneShow').textContent = masked;
+
+  setTimeout(() => {
+    // Hide form, show OTP step
+    this.style.display = 'none';
+    document.getElementById('chOtpStep').classList.add('show');
+    document.getElementById('chModalSubtitle').textContent = 'Verify your phone number';
+    // Focus first OTP box
+    document.querySelector('.otp-box').focus();
+    // Start resend countdown
+    startChResendTimer();
+  }, 800);
+});
+
+function chBackToForm() {
+  document.getElementById('chOtpStep').classList.remove('show');
+  document.getElementById('challengerForm').style.display = '';
+  document.getElementById('chSubmitBtn').disabled = false;
+  document.getElementById('chSubmitBtn').innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i> Send OTP & Continue';
+  document.getElementById('chModalSubtitle').textContent = 'Enter your details to unlock the full solution';
+  if (_chResendTimer) clearInterval(_chResendTimer);
+}
+
+function startChResendTimer() {
+  let count = 30;
+  document.getElementById('chResendCount').textContent = count;
+  document.getElementById('chResendTimer').style.display = '';
+  document.getElementById('chResendBtn').classList.remove('visible');
+  if (_chResendTimer) clearInterval(_chResendTimer);
+  _chResendTimer = setInterval(() => {
+    count--;
+    document.getElementById('chResendCount').textContent = count;
+    if (count <= 0) {
+      clearInterval(_chResendTimer);
+      document.getElementById('chResendTimer').style.display = 'none';
+      document.getElementById('chResendBtn').classList.add('visible');
+    }
+  }, 1000);
+}
+
+function chResendOtp() {
+  _chOtp = String(Math.floor(100000 + Math.random() * 900000));
+  document.getElementById('chOtpDisplay').textContent = _chOtp;
+  document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('error'); });
+  document.querySelector('.otp-box').focus();
+  startChResendTimer();
+}
+
+function chVerifyOtp() {
+  const entered = Array.from(document.querySelectorAll('.otp-box')).map(b => b.value).join('');
+  if (entered.length < 6) {
+    document.querySelectorAll('.otp-box').forEach(b => b.classList.add('error'));
+    setTimeout(() => document.querySelectorAll('.otp-box').forEach(b => b.classList.remove('error')), 600);
+    return;
+  }
+  const btn = document.getElementById('chVerifyBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Verifying...';
+
+  setTimeout(() => {
+    if (entered === _chOtp) {
+      // ✅ OTP correct — save lead, unlock solution
+      saveLead('challenger');
+      document.getElementById('chOtpStep').classList.remove('show');
+      document.getElementById('challengerSolution').classList.add('show');
+      document.getElementById('challengerSolution').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.getElementById('chModalSubtitle').textContent = '✅ Verified! Here\'s your solution.';
+      if (_chResendTimer) clearInterval(_chResendTimer);
+    } else {
+      // ❌ Wrong OTP
+      document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.add('error'); });
+      setTimeout(() => document.querySelectorAll('.otp-box').forEach(b => b.classList.remove('error')), 600);
+      document.querySelector('.otp-box').focus();
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-unlock-fill me-2"></i> Verify & Unlock Solution';
+    }
+  }, 700);
+}
+
+/* OTP box keyboard nav — auto-advance, backspace */
+document.querySelectorAll('.otp-box').forEach((box, i, boxes) => {
+  box.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(-1);
+    if (this.value && i < boxes.length - 1) boxes[i + 1].focus();
+  });
+  box.addEventListener('keydown', function(e) {
+    if (e.key === 'Backspace' && !this.value && i > 0) boxes[i - 1].focus();
+  });
+  box.addEventListener('paste', function(e) {
+    e.preventDefault();
+    const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+    boxes.forEach((b, j) => { b.value = pasted[j] || ''; });
+    if (pasted.length >= 6) boxes[5].focus();
+  });
+});
+
+/* ========== LEADS CAPTURE ========== */
+function saveLead(source) {
+  const name  = document.getElementById('chName').value.trim();
+  const phone = document.getElementById('chPhone').value.trim();
+  const cls   = document.getElementById('chClass').value;
+  const lead  = { name, phone, class: cls, source, timestamp: new Date().toISOString() };
+  const existing = JSON.parse(localStorage.getItem('bmc_leads') || '[]');
+  // Avoid duplicates within same session (same phone + source)
+  const isDup = existing.some(l => l.phone === phone && l.source === source);
+  if (!isDup) {
+    existing.push(lead);
+    localStorage.setItem('bmc_leads', JSON.stringify(existing));
+  }
+}
+
+
+/* ========== BRANDED SHARE SHEET ========== */
+let _shareContext = { idx: 0, type: 'crack' };
+
+const CRACK_QUESTIONS_SHARE = [
+  { subject: '📐 JEE Mathematics', text: 'If f(x) = x³ − 6x² + 11x − 6, find all roots and verify using Vieta\'s formulas.' },
+  { subject: '⚡ JEE Physics', text: 'A projectile is launched at 45° with speed 20 m/s. Find max height & range. (g = 10 m/s²)' },
+  { subject: '🧪 NEET Chemistry', text: 'Calculate the pH of 0.01 M HCl. If diluted 100×, what is the new pH?' },
+  { subject: '🧬 NEET Biology', text: 'In a monohybrid cross Tt × tt, what is the phenotypic ratio? Explain with Punnett square.' }
+];
+
+const CHALLENGER_SHARE = {
+  subject: '⚡ JEE Advanced · Mathematics',
+  text: 'Let f : ℝ→ℝ with f(x+y) = f(x)·f(y). If f\'(0)=2 and f(3)=e⁶, find ∫₀³ f(x) dx.'
+};
+
+function openShareSheet(idx, type) {
+  _shareContext = { idx, type };
+  const data = type === 'challenger' ? CHALLENGER_SHARE : CRACK_QUESTIONS_SHARE[idx];
+  drawShareCard(data.subject, data.text);
+  document.getElementById('shareSheetModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeShareSheet() {
+  document.getElementById('shareSheetModal').classList.remove('show');
+  document.body.style.overflow = '';
+  document.getElementById('shareCopiedToast').classList.remove('show');
+}
+
+function drawShareCard(subject, questionText) {
+  const canvas = document.getElementById('shareCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = 520, H = 280;
+  canvas.width = W; canvas.height = H;
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#0F2245');
+  grad.addColorStop(0.6, '#1B3A6B');
+  grad.addColorStop(1, '#1A5276');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  roundRect(ctx, 0, 0, W, H, 0);
+  ctx.fill();
+
+  // Subtle grid pattern
+  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // Accent top bar
+  const barGrad = ctx.createLinearGradient(0, 0, W, 0);
+  barGrad.addColorStop(0, '#F4A825');
+  barGrad.addColorStop(1, '#00A8A8');
+  ctx.fillStyle = barGrad;
+  ctx.fillRect(0, 0, W, 4);
+
+  // BMC logo text (top left)
+  ctx.font = 'bold 13px "Barlow Condensed", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.fillText('BHATIA MASTER CLASSES', 24, 28);
+
+  // "Can You Crack This?" badge
+  ctx.fillStyle = 'rgba(244,168,37,0.18)';
+  ctx.beginPath();
+  roundRect(ctx, 24, 40, 160, 26, 100);
+  ctx.fill();
+  ctx.font = 'bold 11px "DM Sans", sans-serif';
+  ctx.fillStyle = '#FCC84A';
+  ctx.fillText('🔥  CAN YOU CRACK THIS?', 36, 57);
+
+  // Subject tag
+  ctx.fillStyle = 'rgba(0,168,168,0.18)';
+  ctx.beginPath();
+  const subjectText = subject;
+  const subW = Math.min(ctx.measureText(subjectText).width + 24, W - 48);
+  roundRect(ctx, 24, 78, subW, 24, 100);
+  ctx.fill();
+  ctx.font = '600 11px "DM Sans", sans-serif';
+  ctx.fillStyle = '#00D4D4';
+  ctx.fillText(subjectText, 36, 94);
+
+  // Question text (wrapped)
+  ctx.font = '500 15px "DM Sans", sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  wrapText(ctx, questionText, 24, 130, W - 48, 22, 3);
+
+  // Bottom bar
+  ctx.fillStyle = 'rgba(255,255,255,0.06)';
+  ctx.fillRect(0, H - 44, W, 44);
+
+  // Website
+  ctx.font = '600 12px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.fillText('🌐  bhatia-master-classes.in', 24, H - 16);
+
+  // "Solve at BMC" CTA
+  ctx.fillStyle = '#F4A825';
+  ctx.beginPath();
+  roundRect(ctx, W - 150, H - 40, 128, 30, 8);
+  ctx.fill();
+  ctx.font = 'bold 12px "DM Sans", sans-serif';
+  ctx.fillStyle = '#0F2245';
+  const ctaText = '⚡ Attempt at BMC';
+  const ctaX = W - 150 + (128 - ctx.measureText(ctaText).width) / 2;
+  ctx.fillText(ctaText, ctaX, H - 20);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineH, maxLines) {
+  const words = text.split(' ');
+  let line = '';
+  let lines = 0;
+  for (let i = 0; i < words.length; i++) {
+    const testLine = line + words[i] + ' ';
+    if (ctx.measureText(testLine).width > maxWidth && i > 0) {
+      ctx.fillText(line.trim(), x, y);
+      line = words[i] + ' ';
+      y += lineH;
+      lines++;
+      if (lines >= maxLines - 1) {
+        // truncate remaining
+        const rest = words.slice(i).join(' ');
+        const remaining = line + rest;
+        let truncated = remaining;
+        while (ctx.measureText(truncated + '…').width > maxWidth && truncated.length > 0) {
+          truncated = truncated.slice(0, -1);
+        }
+        ctx.fillText(truncated.trim() + '…', x, y);
+        return;
+      }
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line.trim(), x, y);
+}
+
+function doShare(method) {
+  const data = _shareContext.type === 'challenger' ? CHALLENGER_SHARE : CRACK_QUESTIONS_SHARE[_shareContext.idx];
+  const hash = _shareContext.type === 'challenger' ? '#bmc-challenger' : '#q-' + _shareContext.idx;
+  const shareUrl = window.location.origin + window.location.pathname + hash;
+
+  // Full message — always sent together: question text + deep link
+  const shareText = '\uD83D\uDD25 Can you crack this ' + data.subject + ' question?\n\n\uD83D\uDCDD ' + data.text + '\n\n\uD83D\uDC49 Attempt & unlock solution at Bhatia Master Classes:\n' + shareUrl;
+
+  const canvas = document.getElementById('shareCanvas');
+  canvas.toBlob(async (blob) => {
+    if (!blob) return;
+    const file = new File([blob], 'bmc-question.png', { type: 'image/png' });
+
+    if (method === 'save') {
+      triggerImageDownload(blob);
+      showShareToast('Image saved to device!');
+      return;
+    }
+
+    // Native share (Android/iOS) — sends image file + full text + url together
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          title: 'BMC Challenge — Can You Crack This?',
+          text: shareText,
+          url: shareUrl,
+          files: [file]
+        });
+      } catch(e) { /* user cancelled */ }
+      return;
+    }
+
+    // Desktop fallback — download image AND open platform with full text+link
+    triggerImageDownload(blob);
+
+    if (method === 'whatsapp') {
+      // WhatsApp: full message includes question text + link
+      setTimeout(() => window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank'), 500);
+    } else if (method === 'facebook') {
+      // Copy full text to clipboard, open Facebook sharer with URL
+      navigator.clipboard.writeText(shareText).catch(() => {});
+      setTimeout(() => window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + encodeURIComponent(shareText), '_blank'), 500);
+    } else if (method === 'instagram') {
+      // Instagram has no URL share API — copy full text+link, open Instagram
+      navigator.clipboard.writeText(shareText).then(() => {
+        showShareToast('Image saved + caption copied! Paste in Instagram.');
+      }).catch(() => {
+        showShareToast('Image saved! Open Instagram and share it.');
+      });
+      setTimeout(() => window.open('https://www.instagram.com/', '_blank'), 1400);
+      return;
+    } else if (method === 'copy') {
+      // Copy full question text + link (not just the bare URL)
+      navigator.clipboard.writeText(shareText).then(() => {
+        showShareToast('Question + link copied to clipboard!');
+      });
+      return;
+    }
+    setTimeout(closeShareSheet, 700);
+  }, 'image/png');
+}
+
+function triggerImageDownload(blob) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'bmc-question.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function showShareToast(msg) {
+  const t = document.getElementById('shareCopiedToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Close share sheet on backdrop click
+document.getElementById('shareSheetModal').addEventListener('click', function(e) {
+  if (e.target === this) closeShareSheet();
+});
+
+/* ========== DEEP LINK ON PAGE LOAD ========== */
+(function handleDeepLink() {
+  const hash = window.location.hash;
+  if (!hash) return;
+  setTimeout(() => {
+    if (hash === '#bmc-challenger') {
+      document.getElementById('bmc-challenger')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    const match = hash.match(/^#q-(\d)$/);
+    if (match) {
+      // Scroll to hero first
+      document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const card = document.getElementById('q-' + match[1]);
+      if (card) {
+        setTimeout(() => {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          card.classList.add('deep-link-highlight');
+          setTimeout(() => card.classList.remove('deep-link-highlight'), 2400);
+        }, 700);
+      }
+    }
+  }, 400);
+})();
+</script>
 </body>
 </html>
