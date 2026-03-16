@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Classes — Bhatia Master Classes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="icon" type="image/svg+xml" href="image/BMC_LOGO.svg" />
+
+  <style>
+    /* ─────────────── VARIABLES ─────────────── */
+    :root {
+      --primary:      #1B3A6B;
+      --primary-dark: #0F2245;
+      --accent:       #F4A825;
+      --accent-light: #FCC84A;
+      --teal:         #00A8A8;
+      --light-bg:     #F5F7FA;
+      --text:         #1A1A2E;
+      --text-muted:   #6B7280;
+      --border:       #E5E9F0;
+      --success:      #16A34A;
+      --danger:       #DC2626;
+      --live-red:     #EF4444;
+      --shadow-sm:    0 2px 8px rgba(27,58,107,0.08);
+      --shadow-md:    0 8px 32px rgba(27,58,107,0.12);
+      --shadow-lg:    0 20px 60px rgba(27,58,107,0.18);
+      --radius:       12px;
+      --radius-lg:    20px;
+      --transition:   all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--primary-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4,h5 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; line-height: 1.1; }
+
+    /* ─────────────── LOGIN GATE ─────────────── */
+    #loginGate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--primary-dark);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    #loginGate.hidden { display: none; }
+    .gate-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-lg);
+      padding: 40px 36px;
+      max-width: 400px; width: 100%;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
+    .gate-icon {
+      width: 64px; height: 64px;
+      background: rgba(244,168,37,0.15);
+      border: 2px solid rgba(244,168,37,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.6rem; color: var(--accent);
+    }
+    .gate-card h2 { color: #fff; font-size: 1.8rem; margin-bottom: 8px; }
+    .gate-card p { color: rgba(255,255,255,0.55); font-size: 0.88rem; margin-bottom: 28px; }
+    .gate-input {
+      width: 100%; padding: 12px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 10px; color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      margin-bottom: 12px; outline: none;
+      transition: var(--transition);
+    }
+    .gate-input::placeholder { color: rgba(255,255,255,0.3); }
+    .gate-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(244,168,37,0.15); }
+    .gate-input.error { border-color: #f87171; }
+    .btn-gate {
+      width: 100%; padding: 13px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: var(--primary-dark); border: none;
+      border-radius: 10px; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px;
+      cursor: pointer; transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-gate:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(244,168,37,0.4); }
+    .gate-error {
+      color: #f87171; font-size: 0.8rem;
+      margin-bottom: 12px; display: none;
+    }
+    .gate-error.show { display: block; }
+    .gate-back { color: rgba(255,255,255,0.4); font-size: 0.82rem; margin-top: 16px; }
+    .gate-back a { color: var(--accent); font-weight: 600; cursor: pointer; }
+
+    /* ─────────────── TOPBAR ─────────────── */
+    .topbar {
+      background: rgba(0,0,0,0.4);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      display: flex; align-items: center; gap: 16px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar-back {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); font-size: 1rem;
+      cursor: pointer; transition: var(--transition);
+      text-decoration: none; flex-shrink: 0;
+    }
+    .topbar-back:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .topbar-brand { font-size: 1.1rem; font-weight: 800; color: #fff; }
+    .topbar-brand span { color: var(--accent); }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .student-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px; padding: 5px 14px;
+      font-size: 0.8rem; color: rgba(255,255,255,0.75);
+    }
+    .student-badge i { color: var(--accent); }
+
+    /* ─────────────── MAIN LAYOUT ─────────────── */
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    /* ─────────────── MODE SWITCHER ─────────────── */
+    .mode-switcher {
+      display: flex; gap: 0;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 5px;
+      margin-bottom: 28px; width: fit-content;
+    }
+    .mode-btn {
+      padding: 10px 24px;
+      border-radius: 10px; border: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700; letter-spacing: 0.3px;
+      cursor: pointer; transition: var(--transition);
+      color: rgba(255,255,255,0.5);
+      background: transparent;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .mode-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(27,58,107,0.4);
+    }
+    .mode-btn.active i { color: var(--accent); }
+
+    /* ─────────────── CLASS INFO STRIP ─────────────── */
+    .class-info-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px; align-items: start;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 640px) { .class-info-strip { grid-template-columns: 1fr; } }
+    .class-title-wrap h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: #fff; margin-bottom: 6px;
+    }
+    .class-title-wrap h2 span { color: var(--accent); }
+    .class-meta { display: flex; flex-wrap: wrap; gap: 12px; }
+    .class-meta-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.65); font-weight: 500;
+    }
+    .class-meta-pill i { color: var(--accent); font-size: 0.75rem; }
+
+    /* LIVE badge */
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(239,68,68,0.15);
+      border: 1.5px solid rgba(239,68,68,0.5);
+      color: #fca5a5;
+      padding: 7px 16px; border-radius: 100px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 800;
+      letter-spacing: 1px; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--live-red);
+      animation: livePulse 1.4s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.6); }
+      50%      { box-shadow: 0 0 0 5px rgba(239,68,68,0); }
+    }
+
+    /* Countdown badge */
+    .countdown-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(244,168,37,0.12);
+      border: 1.5px solid rgba(244,168,37,0.35);
+      color: var(--accent-light);
+      padding: 7px 16px; border-radius: 100px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 800;
+      letter-spacing: 0.5px; white-space: nowrap;
+    }
+
+    /* Ended badge */
+    .ended-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(107,114,128,0.15);
+      border: 1.5px solid rgba(107,114,128,0.3);
+      color: rgba(255,255,255,0.4);
+      padding: 7px 16px; border-radius: 100px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 800; white-space: nowrap;
+    }
+
+    /* ─────────────── VIDEO / CALL PANELS ─────────────── */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    /* YouTube embed */
+    .video-shell {
+      background: #000;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .video-ratio {
+      position: relative; width: 100%; padding-top: 56.25%; /* 16:9 */
+    }
+    .video-ratio iframe,
+    .video-ratio video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* Offline / waiting screen */
+    .offline-screen {
+      width: 100%; aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #0a1628 0%, #0F2245 60%, #1B3A6B 100%);
+      border-radius: var(--radius-lg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 40px 24px;
+      border: 1px solid rgba(255,255,255,0.07);
+      position: relative; overflow: hidden;
+    }
+    .offline-screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .offline-icon {
+      width: 72px; height: 72px;
+      background: rgba(244,168,37,0.12);
+      border: 2px solid rgba(244,168,37,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; color: var(--accent);
+      margin-bottom: 20px; position: relative; z-index: 1;
+    }
+    .offline-screen h3 { color: #fff; font-size: 1.6rem; margin-bottom: 8px; position: relative; z-index: 1; }
+    .offline-screen p  { color: rgba(255,255,255,0.5); font-size: 0.88rem; max-width: 360px; position: relative; z-index: 1; }
+
+    /* Jitsi wrapper */
+    .jitsi-shell {
+      background: #000;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      height: 600px;
+    }
+    .jitsi-shell iframe { width: 100%; height: 100%; border: none; }
+
+    /* Jitsi pre-join */
+    .jitsi-prejoin {
+      height: 600px;
+      background: linear-gradient(135deg, #0a1628, #0F2245, #1B3A6B);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 40px;
+      position: relative; overflow: hidden;
+    }
+    .jitsi-prejoin::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .prejoin-content { position: relative; z-index: 1; max-width: 440px; }
+    .prejoin-icon {
+      width: 80px; height: 80px;
+      background: rgba(0,168,168,0.15);
+      border: 2px solid rgba(0,168,168,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: var(--teal);
+      margin: 0 auto 20px;
+    }
+    .prejoin-content h3 { color: #fff; font-size: 1.8rem; margin-bottom: 10px; }
+    .prejoin-content p  { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.6; }
+    .btn-join-call {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--teal), #007A7A);
+      color: #fff; border: none;
+      padding: 14px 32px; border-radius: 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 800; letter-spacing: 0.5px;
+      cursor: pointer; transition: var(--transition);
+    }
+    .btn-join-call:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,168,168,0.4); }
+    .join-note {
+      margin-top: 14px; font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+    .join-note i { color: var(--teal); }
+
+    /* ─────────────── SIDEBAR INFO ─────────────── */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+
+    .info-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .info-card h4 {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.4); margin-bottom: 14px;
+    }
+
+    /* Schedule list */
+    .schedule-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .schedule-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .schedule-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      margin-top: 5px; flex-shrink: 0;
+    }
+    .dot-live   { background: var(--live-red); box-shadow: 0 0 0 3px rgba(239,68,68,0.2); animation: livePulse 1.4s ease-in-out infinite; }
+    .dot-soon   { background: var(--accent); }
+    .dot-done   { background: rgba(255,255,255,0.2); }
+    .schedule-text strong { display: block; color: #fff; font-size: 0.88rem; margin-bottom: 2px; }
+    .schedule-text span   { color: rgba(255,255,255,0.45); font-size: 0.78rem; }
+    .schedule-text .live-tag {
+      display: inline-block;
+      background: rgba(239,68,68,0.2); color: #fca5a5;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 1px;
+      padding: 1px 7px; border-radius: 4px; margin-left: 6px;
+      text-transform: uppercase;
+    }
+
+    /* Rules / notice */
+    .rule-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 10px; font-size: 0.82rem;
+      color: rgba(255,255,255,0.55); line-height: 1.5;
+    }
+    .rule-item i { color: var(--accent); margin-top: 2px; font-size: 0.85rem; flex-shrink: 0; }
+
+    /* ─────────────── ADMIN PANEL (teacher view) ─────────────── */
+    .admin-bar {
+      display: none;
+      background: rgba(244,168,37,0.08);
+      border: 1px solid rgba(244,168,37,0.25);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .admin-bar.show { display: flex; }
+    .admin-bar-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; font-weight: 800; letter-spacing: 1px;
+      color: var(--accent-light); text-transform: uppercase;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-admin-action {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 16px; border-radius: 8px; border: none;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-admin-go-live  { background: var(--live-red); color: #fff; }
+    .btn-admin-go-live:hover  { background: #dc2626; }
+    .btn-admin-end-live { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+    .btn-admin-end-live:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .btn-admin-copy { background: rgba(0,168,168,0.2); color: var(--teal); }
+    .btn-admin-copy:hover { background: rgba(0,168,168,0.35); }
+
+    /* YouTube ID input */
+    .yt-input-wrap {
+      display: none; align-items: center; gap: 8px;
+      flex: 1; min-width: 200px;
+    }
+    .yt-input-wrap.show { display: flex; }
+    .yt-id-input {
+      flex: 1; padding: 7px 12px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; color: #fff;
+      font-size: 0.82rem; font-family: 'DM Sans', sans-serif; outline: none;
+    }
+    .yt-id-input::placeholder { color: rgba(255,255,255,0.3); }
+    .btn-set-yt { background: var(--accent); color: var(--primary-dark); font-weight: 700; font-size: 0.82rem; padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; }
+
+    /* ─────────────── RESPONSIVE ─────────────── */
+    @media (max-width: 600px) {
+      .mode-btn { padding: 9px 14px; font-size: 0.9rem; }
+      .jitsi-shell { height: 440px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ LOGIN GATE ═══════ -->
+<div id="loginGate">
+  <div class="gate-card">
+    <div class="gate-icon"><i class="bi bi-lock-fill"></i></div>
+    <h2>Live Classes</h2>
+    <p>Enter your Student ID and password to access live sessions.</p>
+    <input type="text"     id="gateId"  class="gate-input" placeholder="Student ID (e.g. BMC-2026-001)" />
+    <input type="password" id="gatePw"  class="gate-input" placeholder="Password" />
+    <div class="gate-error" id="gateError">Incorrect credentials. Please try again.</div>
+    <button class="btn-gate" onclick="gateLogin()">
+      <i class="bi bi-box-arrow-in-right"></i> Enter Live Class
+    </button>
+    <p class="gate-back">Not a student? <a href="index.html">Back to Home</a></p>
+  </div>
+</div>
+
+<!-- ═══════ TOPBAR ═══════ -->
+<header class="topbar">
+  <a href="portal.html" class="topbar-back" aria-label="Back to portal">
+    <i class="bi bi-arrow-left"></i>
+  </a>
+  <div class="topbar-brand">BMC <span>Live</span></div>
+  <div class="topbar-right">
+    <div class="student-badge">
+      <i class="bi bi-person-fill"></i>
+      <span id="studentNameBadge">Student</span>
+    </div>
+  </div>
+</header>
+
+<main class="page-wrap">
+
+  <!-- ─── ADMIN BAR (only visible to teacher/admin) ─── -->
+  <!--
+    TEACHER INSTRUCTIONS:
+    Set isTeacher = true in the JS below to show the admin bar.
+    Use "Set YouTube ID" to paste a YouTube Live video ID (found in the live URL).
+    Toggle "Go Live" / "End Live" to control the LIVE badge and stream visibility.
+    For Jitsi doubt sessions, the room name is auto-generated from the date.
+  -->
+  <div class="admin-bar" id="adminBar">
+    <span class="admin-bar-label"><i class="bi bi-shield-fill"></i> Teacher Controls</span>
+    <button class="btn-admin-action btn-admin-go-live"  id="btnGoLive"  onclick="toggleLive()">
+      <i class="bi bi-broadcast"></i> Go Live
+    </button>
+    <button class="btn-admin-action btn-admin-end-live" id="btnEndLive" onclick="toggleLive()" style="display:none;">
+      <i class="bi bi-stop-fill"></i> End Live
+    </button>
+    <div class="yt-input-wrap" id="ytInputWrap">
+      <input type="text" class="yt-id-input" id="ytVideoId" placeholder="YouTube Video ID (e.g. dQw4w9WgXcQ)" />
+      <button class="btn-set-yt" onclick="setYouTubeId()">Set</button>
+    </div>
+    <button class="btn-admin-action btn-admin-copy" onclick="copyJitsiLink()">
+      <i class="bi bi-link-45deg"></i> Copy Doubt Room Link
+    </button>
+  </div>
+
+  <!-- ─── CLASS INFO STRIP ─── -->
+  <div class="class-info-strip">
+    <div class="class-title-wrap">
+      <h2 id="classTitle">JEE Advanced <span>Mathematics</span> — Integration</h2>
+      <div class="class-meta">
+        <span class="class-meta-pill"><i class="bi bi-person-fill"></i> Shyam Bhatia Sir</span>
+        <span class="class-meta-pill" id="classBatch"><i class="bi bi-people-fill"></i> JEE Advanced Batch</span>
+        <span class="class-meta-pill" id="classTime"><i class="bi bi-clock-fill"></i> 6:00 PM – 8:00 PM</span>
+        <span class="class-meta-pill" id="classDate"><i class="bi bi-calendar3"></i> Today</span>
+      </div>
+    </div>
+    <div id="statusBadge">
+      <!-- Injected by JS: live-badge / countdown-badge / ended-badge -->
+    </div>
+  </div>
+
+  <!-- ─── MODE SWITCHER ─── -->
+  <div class="mode-switcher">
+    <button class="mode-btn active" id="btnLecture" onclick="setMode('lecture')">
+      <i class="bi bi-play-circle-fill"></i> Live Lecture
+    </button>
+    <button class="mode-btn" id="btnDoubt" onclick="setMode('doubt')">
+      <i class="bi bi-camera-video-fill"></i> Doubt Session
+    </button>
+  </div>
+
+  <!-- ─── MAIN GRID ─── -->
+  <div class="main-grid">
+
+    <!-- LEFT: Video / Call -->
+    <div>
+
+      <!-- LECTURE PANEL -->
+      <div class="panel active" id="panelLecture">
+        <!-- Live YouTube Embed — shown when live -->
+        <div class="video-shell" id="ytShell" style="display:none;">
+          <div class="video-ratio">
+            <iframe id="ytIframe"
+              src=""
+              title="BMC Live Lecture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Waiting / Countdown Screen — shown when not live -->
+        <div class="offline-screen" id="offlineScreen">
+          <div class="offline-icon"><i class="bi bi-broadcast"></i></div>
+          <h3 id="offlineTitle">Class Starting Soon</h3>
+          <p id="offlineMsg">The live lecture will begin at the scheduled time. Stay on this page — it will auto-refresh when the class goes live.</p>
+          <div style="margin-top:24px;position:relative;z-index:1;">
+            <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.35);font-weight:700;margin-bottom:8px;">Starts in</div>
+            <div id="bigCountdown" style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:800;color:var(--accent);letter-spacing:2px;">--:--:--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOUBT SESSION PANEL -->
+      <div class="panel" id="panelDoubt">
+        <!-- Pre-join screen -->
+        <div class="jitsi-prejoin" id="jitsiPrejoin">
+          <div class="prejoin-content">
+            <div class="prejoin-icon"><i class="bi bi-camera-video-fill"></i></div>
+            <h3>1-on-1 Doubt Session</h3>
+            <p>Join a private video call with your teacher. Ask questions, share your screen, and get your doubts solved in real time.</p>
+            <button class="btn-join-call" onclick="joinDoubtSession()">
+              <i class="bi bi-camera-video-fill"></i> Join Doubt Session
+            </button>
+            <p class="join-note">
+              <i class="bi bi-shield-check-fill"></i>
+              Secure · Only verified students can join · No app needed
+            </p>
+          </div>
+        </div>
+        <!-- Jitsi iframe — injected on join -->
+        <div class="jitsi-shell" id="jitsiShell" style="display:none;">
+          <iframe id="jitsiIframe" allow="camera; microphone; fullscreen; display-capture; autoplay"></iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Info sidebar -->
+    <div>
+
+      <!-- Today's schedule -->
+      <div class="info-card">
+        <h4><i class="bi bi-calendar3 me-1"></i> Today's Classes</h4>
+        <div class="schedule-item">
+          <div class="schedule-dot dot-done"></div>
+          <div class="schedule-text">
+            <strong>Physics — Thermodynamics</strong>
+            <span>4:00 PM – 6:00 PM</span>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-dot dot-live" id="schedDot1"></div>
+          <div class="schedule-text">
+            <strong>Mathematics — Integration <span class="live-tag" id="schedTag1">Live</span></strong>
+            <span>6:00 PM – 8:00 PM</span>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-dot dot-soon"></div>
+          <div class="schedule-text">
+            <strong>Chemistry — Ionic Equilibrium</strong>
+            <span>Tomorrow · 5:00 PM – 7:00 PM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Class rules -->
+      <div class="info-card">
+        <h4><i class="bi bi-info-circle-fill me-1"></i> Class Guidelines</h4>
+        <div class="rule-item"><i class="bi bi-mic-mute-fill"></i> Keep your mic muted during lecture</div>
+        <div class="rule-item"><i class="bi bi-chat-dots-fill"></i> Use YouTube chat to ask questions during live class</div>
+        <div class="rule-item"><i class="bi bi-camera-video-fill"></i> Camera on preferred during doubt sessions</div>
+        <div class="rule-item"><i class="bi bi-share-fill"></i> Do not share the class link with outsiders</div>
+        <div class="rule-item"><i class="bi bi-clock-fill"></i> Join 5 minutes before class starts</div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="info-card">
+        <h4><i class="bi bi-lightning-fill me-1"></i> Quick Access</h4>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="doubt.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;color:rgba(255,255,255,0.75);font-size:0.84rem;font-weight:600;text-decoration:none;transition:var(--transition);"
+             onmouseover="this.style.borderColor='rgba(244,168,37,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.09)'">
+            <i class="bi bi-question-circle-fill" style="color:var(--accent);"></i> Submit a Doubt
+          </a>
+          <a href="portal.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;color:rgba(255,255,255,0.75);font-size:0.84rem;font-weight:600;text-decoration:none;transition:var(--transition);"
+             onmouseover="this.style.borderColor='rgba(0,168,168,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.09)'">
+            <i class="bi bi-layout-text-sidebar-reverse" style="color:var(--teal);"></i> My Portal
+          </a>
+          <a href="index.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:10px;color:rgba(255,255,255,0.75);font-size:0.84rem;font-weight:600;text-decoration:none;transition:var(--transition);"
+             onmouseover="this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.09)'">
+            <i class="bi bi-house-fill" style="color:rgba(255,255,255,0.5);"></i> Back to Home
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /main-grid -->
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   CONFIGURATION — UPDATE THESE FOR EACH CLASS
+═══════════════════════════════════════════════════════ */
+const CONFIG = {
+  // ── STUDENT CREDENTIALS (match login.html) ──
+  studentId:  'BMC-2026-001',
+  password:   'bmc2026',
+
+  // ── CLASS DETAILS ──
+  classTitle:   'JEE Advanced Mathematics',
+  classSub:     'Integration',
+  batch:        'JEE Advanced Batch',
+  teacher:      'Shyam Bhatia Sir',
+  timeSlot:     '6:00 PM – 8:00 PM',
+
+  // ── SCHEDULED START (ISO format or date string) ──
+  // Set to a future time to show countdown, past time to show "ended"
+  // Example: new Date('2026-03-18T18:00:00') for March 18 at 6 PM
+  scheduledStart: new Date(new Date().setHours(18, 0, 0, 0)), // today at 6 PM
+  scheduledEnd:   new Date(new Date().setHours(20, 0, 0, 0)), // today at 8 PM
+
+  // ── YOUTUBE LIVE VIDEO ID ──
+  // When teacher goes live on YouTube, paste the video ID here
+  // (the part after ?v= in the YouTube URL, e.g. "dQw4w9WgXcQ")
+  youtubeVideoId: '',   // ← REPLACE WITH ACTUAL VIDEO ID
+
+  // ── IS CURRENTLY LIVE? ──
+  // Set to true when class is live, false otherwise
+  // In Phase 2 (with backend), this will be set dynamically
+  isLive: false,
+
+  // ── IS TEACHER VIEW? ──
+  // Set to true on the teacher's device to show admin controls
+  isTeacher: false,
+
+  // ── JITSI SERVER ──
+  // Default: meet.jit.si (free, public). In Phase 2, replace with your own server.
+  jitsiServer: 'meet.jit.si',
+
+  // ── JITSI ROOM NAME ──
+  // Uses today's date for auto-rotation. Change to a fixed name if preferred.
+  jitsiRoom: 'BMC-Doubt-' + new Date().toISOString().slice(0, 10),
+};
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+let _mode       = 'lecture';
+let _isLive     = CONFIG.isLive;
+let _ytId       = CONFIG.youtubeVideoId;
+let _countdownI = null;
+let _loggedIn   = false;
+let _studentName = '';
+
+/* ═══════════════════════════════════════════════════════
+   LOGIN GATE
+═══════════════════════════════════════════════════════ */
+function gateLogin() {
+  const id = document.getElementById('gateId').value.trim();
+  const pw = document.getElementById('gatePw').value.trim();
+  const errEl = document.getElementById('gateError');
+
+  // Check stored session first
+  const saved = JSON.parse(sessionStorage.getItem('bmc_live_session') || 'null');
+  const valid = (id === CONFIG.studentId && pw === CONFIG.password)
+             || (saved && saved.valid);
+
+  if (!valid) {
+    errEl.classList.add('show');
+    document.getElementById('gateId').classList.add('error');
+    document.getElementById('gatePw').classList.add('error');
+    return;
+  }
+
+  sessionStorage.setItem('bmc_live_session', JSON.stringify({ valid: true, id }));
+  _loggedIn = true;
+  _studentName = id;
+  document.getElementById('loginGate').classList.add('hidden');
+  document.getElementById('studentNameBadge').textContent = id;
+  initPage();
+}
+
+// Check existing session
+(function checkSession() {
+  const saved = JSON.parse(sessionStorage.getItem('bmc_live_session') || 'null');
+  if (saved && saved.valid) {
+    _loggedIn = true;
+    _studentName = saved.id || CONFIG.studentId;
+    document.getElementById('loginGate').classList.add('hidden');
+    document.getElementById('studentNameBadge').textContent = _studentName;
+    initPage();
+  }
+})();
+
+// Enter key on gate
+['gateId','gatePw'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') gateLogin();
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   PAGE INIT
+═══════════════════════════════════════════════════════ */
+function initPage() {
+  // Update class info
+  const titleEl = document.getElementById('classTitle');
+  titleEl.innerHTML = CONFIG.classTitle + ' <span>' + CONFIG.classSub + '</span>';
+  document.getElementById('classBatch').innerHTML = '<i class="bi bi-people-fill"></i> ' + CONFIG.batch;
+  document.getElementById('classTime').innerHTML  = '<i class="bi bi-clock-fill"></i> ' + CONFIG.timeSlot;
+
+  // Show date
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'short' });
+  document.getElementById('classDate').innerHTML = '<i class="bi bi-calendar3"></i> ' + dateStr;
+
+  // Show admin bar if teacher
+  if (CONFIG.isTeacher) {
+    document.getElementById('adminBar').classList.add('show');
+    document.getElementById('ytInputWrap').classList.add('show');
+  }
+
+  updateStatus();
+  startCountdown();
+
+  // Auto-check live status every 30 seconds
+  setInterval(updateStatus, 30000);
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATUS + BADGE
+═══════════════════════════════════════════════════════ */
+function updateStatus() {
+  const now   = new Date();
+  const start = new Date(CONFIG.scheduledStart);
+  const end   = new Date(CONFIG.scheduledEnd);
+  const badge = document.getElementById('statusBadge');
+
+  if (_isLive && now >= start && now <= end) {
+    badge.innerHTML = '<div class="live-badge"><div class="live-dot"></div> LIVE NOW</div>';
+    showLiveStream();
+  } else if (now < start) {
+    badge.innerHTML = '<div class="countdown-badge"><i class="bi bi-clock-fill"></i> <span id="badgeCountdown">Starting soon</span></div>';
+    showOfflineScreen('Class Starting Soon', 'The live lecture will begin at ' + CONFIG.timeSlot + '. Stay here — this page will refresh automatically.');
+  } else if (now > end) {
+    badge.innerHTML = '<div class="ended-badge"><i class="bi bi-check-circle-fill"></i> Class Ended</div>';
+    showOfflineScreen('Class Has Ended', 'Today\'s session is complete. The recording will be available in your portal within 24 hours.');
+  } else {
+    // In window but not live yet
+    badge.innerHTML = '<div class="countdown-badge"><i class="bi bi-clock-fill"></i> <span id="badgeCountdown">Almost time…</span></div>';
+    showOfflineScreen('Almost Time!', 'Your teacher will go live any moment. Keep this tab open.');
+  }
+}
+
+function showLiveStream() {
+  const ytShell = document.getElementById('ytShell');
+  const offline = document.getElementById('offlineScreen');
+  if (_ytId) {
+    document.getElementById('ytIframe').src =
+      'https://www.youtube.com/embed/' + _ytId + '?autoplay=1&rel=0&modestbranding=1';
+    ytShell.style.display = 'block';
+    offline.style.display = 'none';
+  } else {
+    // Live but no YT ID set yet
+    showOfflineScreen('Going Live Shortly…', 'Your teacher is setting up the stream. Please wait a moment and refresh.');
+  }
+}
+
+function showOfflineScreen(title, msg) {
+  document.getElementById('offlineTitle').textContent = title;
+  document.getElementById('offlineMsg').textContent   = msg;
+  document.getElementById('ytShell').style.display    = 'none';
+  document.getElementById('offlineScreen').style.display = 'flex';
+}
+
+/* ═══════════════════════════════════════════════════════
+   COUNTDOWN TIMER
+═══════════════════════════════════════════════════════ */
+function startCountdown() {
+  if (_countdownI) clearInterval(_countdownI);
+  _countdownI = setInterval(tickCountdown, 1000);
+  tickCountdown();
+}
+
+function tickCountdown() {
+  const now  = new Date();
+  const start = new Date(CONFIG.scheduledStart);
+  const diff  = start - now;
+
+  if (diff <= 0) {
+    document.getElementById('bigCountdown').textContent = 'Starting now!';
+    const badge = document.getElementById('badgeCountdown');
+    if (badge) badge.textContent = 'Starting now!';
+    updateStatus();
+    clearInterval(_countdownI);
+    return;
+  }
+
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const str = (h ? pad(h) + ':' : '') + pad(m) + ':' + pad(s);
+
+  document.getElementById('bigCountdown').textContent = str;
+  const badge = document.getElementById('badgeCountdown');
+  if (badge) badge.textContent = 'Starts in ' + str;
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+/* ═══════════════════════════════════════════════════════
+   MODE SWITCHER
+═══════════════════════════════════════════════════════ */
+function setMode(mode) {
+  _mode = mode;
+  document.getElementById('panelLecture').classList.toggle('active', mode === 'lecture');
+  document.getElementById('panelDoubt').classList.toggle('active',   mode === 'doubt');
+  document.getElementById('btnLecture').classList.toggle('active', mode === 'lecture');
+  document.getElementById('btnDoubt').classList.toggle('active',   mode === 'doubt');
+}
+
+/* ═══════════════════════════════════════════════════════
+   DOUBT SESSION (JITSI)
+═══════════════════════════════════════════════════════ */
+function joinDoubtSession() {
+  document.getElementById('jitsiPrejoin').style.display = 'none';
+  document.getElementById('jitsiShell').style.display   = 'block';
+
+  const room   = CONFIG.jitsiRoom;
+  const server = CONFIG.jitsiServer;
+  const name   = encodeURIComponent(_studentName);
+
+  // Build Jitsi iFrame src — uses the Jitsi IFrame API URL format
+  const src = 'https://' + server + '/' + room +
+    '#config.prejoinPageEnabled=false' +
+    '&userInfo.displayName="' + name + '"' +
+    '&config.startWithAudioMuted=true' +
+    '&interfaceConfig.SHOW_JITSI_WATERMARK=false' +
+    '&interfaceConfig.SHOW_BRAND_WATERMARK=false';
+
+  document.getElementById('jitsiIframe').src = src;
+}
+
+function copyJitsiLink() {
+  const link = 'https://' + CONFIG.jitsiServer + '/' + CONFIG.jitsiRoom;
+  navigator.clipboard.writeText(link).then(() => {
+    alert('Doubt room link copied!\n' + link + '\n\nShare this with your student for the 1-on-1 session.');
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   TEACHER CONTROLS
+═══════════════════════════════════════════════════════ */
+function toggleLive() {
+  _isLive = !_isLive;
+  document.getElementById('btnGoLive').style.display  = _isLive ? 'none'         : 'flex';
+  document.getElementById('btnEndLive').style.display = _isLive ? 'inline-flex'  : 'none';
+  updateStatus();
+}
+
+function setYouTubeId() {
+  const val = document.getElementById('ytVideoId').value.trim();
+  if (!val) return;
+  // Accept full URL or just the ID
+  const match = val.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+  _ytId = match ? match[1] : val;
+  document.getElementById('ytVideoId').value = _ytId;
+  if (_isLive) showLiveStream();
+}
+</script>
+</body>
+</html>
