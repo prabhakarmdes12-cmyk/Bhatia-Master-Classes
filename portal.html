@@ -614,6 +614,10 @@
       .quick-actions { grid-template-columns: repeat(2, 1fr); }
       .file-grid { grid-template-columns: 1fr; }
     }
+      @keyframes livePulse {
+      0%,100% { box-shadow: 0 0 0 4px rgba(239,68,68,0.25); }
+      50%      { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+    }
   </style>
 </head>
 <body>
@@ -666,6 +670,9 @@
     </div>
 
     <div class="nav-section-label">Info</div>
+    <div class="nav-item" onclick="window.location='live-class.html'" style="background:rgba(239,68,68,0.12);border-left:3px solid #EF4444;">
+      <i class="bi bi-broadcast" style="color:#fca5a5;"></i> Live Classes
+    </div>
     <div class="nav-item" onclick="showPage('timetable')">
       <i class="bi bi-calendar3"></i> Timetable
     </div>
@@ -716,6 +723,21 @@
 
     <!-- ===== DASHBOARD PAGE ===== -->
     <div class="page-section active" id="page-dashboard">
+
+      <!-- LIVE CLASS BANNER -->
+      <div id="liveClassBanner" style="background:linear-gradient(135deg,#1a0a0a,#2d0f0f,#1B3A6B);border:1.5px solid rgba(239,68,68,0.4);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;cursor:pointer;" onclick="window.location='live-class.html'">
+        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#EF4444;box-shadow:0 0 0 4px rgba(239,68,68,0.25);animation:livePulse 1.4s ease-in-out infinite;"></div>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;font-weight:800;letter-spacing:1.5px;color:#fca5a5;text-transform:uppercase;">Live Now</span>
+        </div>
+        <div style="flex:1;min-width:180px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:2px;">Mathematics — Integration</div>
+          <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);">Shyam Bhatia Sir · JEE Advanced Batch · 6:00 PM – 8:00 PM</div>
+        </div>
+        <button style="background:#EF4444;color:#fff;border:none;padding:10px 22px;border-radius:10px;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:7px;flex-shrink:0;">
+          <i class="bi bi-play-fill"></i> Join Now
+        </button>
+      </div>
       <!-- Stats -->
       <div class="stats-grid">
         <div class="stat-card">
@@ -765,6 +787,10 @@
         <div class="quick-action" onclick="showPage('notices')">
           <i class="bi bi-megaphone"></i>
           <span>Notices</span>
+        </div>
+        <div class="quick-action" onclick="window.location='live-class.html'" style="background:linear-gradient(135deg,rgba(239,68,68,0.12),rgba(239,68,68,0.06));border-color:rgba(239,68,68,0.3);">
+          <i class="bi bi-broadcast" style="color:#f87171;"></i>
+          <span style="color:#fca5a5;">Join Live</span>
         </div>
       </div>
 
