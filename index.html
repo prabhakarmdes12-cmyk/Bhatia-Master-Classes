@@ -2674,14 +2674,17 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
       <!-- Solution box — shown after OTP verify -->
       <div class="challenger-solution-box" id="challengerSolution">
         <div class="sol-label"><i class="bi bi-check-circle-fill"></i> Full Solution</div>
-        <div id="challengerSolutionContent">
-          <p><strong>Since f(x+y) = f(x)·f(y)</strong>, this is the exponential functional equation.</p>
-          <p>Setting y = 0: f(x) = f(x)·f(0) → f(0) = 1</p>
-          <p>Differentiating: f'(x) = f'(0)·f(x) = 2·f(x)</p>
-          <p>So <strong>f(x) = e²ˣ</strong></p>
-          <p><strong>∫₀³ e²ˣ dx = [e²ˣ/2]₀³ = (e⁶ − 1)/2</strong></p>
-          <p style="color:var(--success);font-weight:700;margin-top:8px;">Answer: (e⁶ − 1) / 2</p>
-        </div>
+<div id="challengerSolutionContent">
+  <p><strong>Step 1 — Choose 3 children for upstairs:</strong></p>
+  <p>⁵C₃ × 3! = 10 × 6 = 60 ways</p>
+  <p><strong>Step 2 — Choose 2 elderly for downstairs:</strong></p>
+  <p>⁵C₂ × 2! = 10 × 2 = 20 ways</p>
+  <p><strong>Step 3 — Arrange remaining 5 people:</strong></p>
+  <p>5! = 120 ways</p>
+  <p><strong>Total = ⁵C₃ × ⁵C₂ × 3! × 2! × 5!</strong></p>
+  <p>= 10 × 10 × 6 × 2 × 120</p>
+  <p style="color:var(--success);font-weight:700;margin-top:8px;">Answer: 144000</p>
+</div>
         <!-- Share buttons -->
         <div class="share-row" style="margin-top:14px;padding-top:14px;border-top:1px solid #e5e9f0;">
           <span style="font-size:0.8rem;font-weight:600;color:var(--text-muted);align-self:center;">Share:</span>
