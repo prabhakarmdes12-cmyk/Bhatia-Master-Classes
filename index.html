@@ -2599,21 +2599,23 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
 });
 </script>
   <!-- ===== BMC CHALLENGER MODAL ===== -->
+<!-- ===== BMC CHALLENGER MODAL ===== -->
 <div id="challengerModal" class="modal-custom" role="dialog" aria-modal="true" aria-labelledby="challengerModalTitle">
   <div class="modal-box" style="max-width:560px;">
     <div class="modal-header-custom" style="background:linear-gradient(135deg,#0F2245,#1B3A6B);">
       <button class="modal-close" onclick="closeModal('challengerModal')" aria-label="Close">&times;</button>
       <h3 id="challengerModalTitle"><i class="bi bi-lightning-charge-fill" style="color:var(--accent);"></i> BMC Challenger</h3>
-      <p id="chModalSubtitle">Enter your details to unlock the full solution</p>
+      <p id="chModalSubtitle">Enter your details — solution arrives on WhatsApp</p>
     </div>
     <div class="modal-body-custom">
+
       <!-- Question display -->
       <div class="question-display">
         <div class="q-label">This Week's Question</div>
-        <p>Let <em>f : ℝ → ℝ</em> be twice differentiable with f(x+y) = f(x)·f(y). If f'(0) = 2 and f(3) = e⁶, find ∫₀³ f(x) dx.</p>
+        <p>In how many ways can 10 people be seated in two rows of 5 chairs each, if 3 specific children must sit in the front row and 2 specific elderly people must sit in the back row?</p>
       </div>
 
-      <!-- STEP 1: Details Form -->
+      <!-- Details Form -->
       <form id="challengerForm" novalidate>
         <div class="mb-3">
           <label class="form-label-reg" for="chName">Full Name *</label>
@@ -2637,54 +2639,14 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
           <div class="error-msg">Please select your class.</div>
         </div>
         <button type="submit" class="btn-submit-modal" id="chSubmitBtn">
-          <i class="bi bi-shield-lock-fill me-2"></i> Send OTP & Continue
+          <i class="bi bi-whatsapp me-2"></i> Get Solution on WhatsApp
         </button>
       </form>
 
-      <!-- STEP 2: OTP Verification -->
-      <div id="chOtpStep">
-        <button class="otp-back-btn" onclick="chBackToForm()">
-          <i class="bi bi-arrow-left"></i> Change details
-        </button>
-        <!-- Dev hint — shows simulated OTP -->
-        <div class="otp-dev-hint show" id="chOtpDevHint">
-          🔧 <strong>Dev mode:</strong> OTP is <strong id="chOtpDisplay">------</strong> (remove this in production)
-        </div>
-        <div class="otp-phone-display">
-          <p>A 6-digit OTP has been sent to</p>
-          <strong id="chOtpPhoneShow">+91 XXXXXXXXXX</strong>
-        </div>
-        <div class="otp-inputs">
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code" />
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
-        </div>
-        <div class="otp-resend-row">
-          <span id="chResendTimer">Resend OTP in <strong id="chResendCount">30</strong>s</span>
-          <button class="otp-resend-btn" id="chResendBtn" onclick="chResendOtp()">Resend OTP</button>
-        </div>
-        <button class="btn-submit-modal mt-3" id="chVerifyBtn" onclick="chVerifyOtp()">
-          <i class="bi bi-unlock-fill me-2"></i> Verify & Unlock Solution
-        </button>
-      </div>
-
-      <!-- Solution box — shown after OTP verify -->
+      <!-- Confirmation box — shown after submit -->
       <div class="challenger-solution-box" id="challengerSolution">
-        <div class="sol-label"><i class="bi bi-check-circle-fill"></i> Full Solution</div>
-<div id="challengerSolutionContent">
-  <p><strong>Step 1 — Choose 3 children for upstairs:</strong></p>
-  <p>⁵C₃ × 3! = 10 × 6 = 60 ways</p>
-  <p><strong>Step 2 — Choose 2 elderly for downstairs:</strong></p>
-  <p>⁵C₂ × 2! = 10 × 2 = 20 ways</p>
-  <p><strong>Step 3 — Arrange remaining 5 people:</strong></p>
-  <p>5! = 120 ways</p>
-  <p><strong>Total = ⁵C₃ × ⁵C₂ × 3! × 2! × 5!</strong></p>
-  <p>= 10 × 10 × 6 × 2 × 120</p>
-  <p style="color:var(--success);font-weight:700;margin-top:8px;">Answer: 144000</p>
-</div>
+        <div class="sol-label"><i class="bi bi-check-circle-fill"></i> Request Sent!</div>
+        <div id="challengerSolutionContent"></div>
         <!-- Share buttons -->
         <div class="share-row" style="margin-top:14px;padding-top:14px;border-top:1px solid #e5e9f0;">
           <span style="font-size:0.8rem;font-weight:600;color:var(--text-muted);align-self:center;">Share:</span>
@@ -2735,22 +2697,16 @@ document.querySelectorAll('.form-control-reg').forEach(f => {
 
 <script>
 /* ========== BMC CHALLENGER — OTP FLOW ========== */
-let _chOtp = '';
-let _chResendTimer = null;
-
 function openChallengerModal() {
-  // Reset everything to Step 1
-  document.getElementById(').reset();
+  document.getElementById('challengerForm').reset();
   document.getElementById('challengerSolution').classList.remove('show');
-  document.getElementById('chOtpStep').classList.remove('show');
-  document.getElementById(').style.display = '';
-  clearErrors(document.getElementById('));
+  document.getElementById('challengerSolutionContent').innerHTML = '';
+  document.getElementById('challengerForm').style.display = '';
+  clearErrors(document.getElementById('challengerForm'));
   document.getElementById('chSubmitBtn').disabled = false;
-  document.getElementById('chSubmitBtn').innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i> Send OTP & Continue';
+  document.getElementById('chSubmitBtn').innerHTML = '<i class="bi bi-whatsapp me-2"></i> Get Solution on WhatsApp';
   document.getElementById('chSubmitBtn').style.background = '';
-  document.getElementById('chModalSubtitle').textContent = 'Enter your details to unlock the full solution';
-  // Clear OTP boxes
-  document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('error'); });
+  document.getElementById('chModalSubtitle').textContent = 'Enter your details — solution arrives on WhatsApp';
   document.getElementById('challengerModal').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
@@ -2759,12 +2715,11 @@ document.getElementById('challengerForm').addEventListener('submit', function(e)
   e.preventDefault();
   if (!validateForm(this)) return;
 
-  const name    = document.getElementById('chName').value.trim();
-  const phone   = document.getElementById('chPhone').value.trim();
-  const cls     = document.getElementById('chClass').value.trim();
+  const name  = document.getElementById('chName').value.trim();
+  const phone = document.getElementById('chPhone').value.trim();
+  const cls   = document.getElementById('chClass').value.trim();
 
   const message = `Hi BMC 👋\n\nI just attempted the *BMC Challenger* question!\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Class:* ${cls}\n\nPlease send me this week's solution. 🙏`;
-
   const waURL = `https://wa.me/919516210209?text=${encodeURIComponent(message)}`;
 
   const btn = document.getElementById('chSubmitBtn');
@@ -2775,88 +2730,22 @@ document.getElementById('challengerForm').addEventListener('submit', function(e)
     btn.innerHTML = '<i class="bi bi-whatsapp me-2"></i> Sent! Check WhatsApp';
     btn.style.background = '#25D366';
 
-    // Show a confirmation message inside the modal
-    document.getElementById('challengerSolution').classList.add('show');
     document.getElementById('challengerSolutionContent').innerHTML = `
       <p style="font-size:1.05rem;">Hi <strong>${name}</strong> 👋</p>
-      <p>Your request has been sent to <strong>Shyam Sir</strong> on WhatsApp.</p>
-      <p style="margin-top:8px;">You'll receive the full solution on WhatsApp within a few minutes.</p>
-      <p style="color:var(--success);font-weight:700;margin-top:12px;">
-        <i class="bi bi-whatsapp"></i> If WhatsApp didn't open automatically, 
-        <a href="${waURL}" target="_blank" style="color:var(--success);">click here</a>.
+      <p style="margin-top:6px;">Your request has been sent to <strong>Shyam Sir</strong>.</p>
+      <p style="margin-top:6px;">You'll receive the full solution on WhatsApp shortly.</p>
+      <p style="margin-top:12px;font-size:0.85rem;color:var(--text-muted);">
+        WhatsApp didn't open? 
+        <a href="${waURL}" target="_blank" style="color:var(--success);font-weight:600;">Tap here</a>
       </p>
     `;
 
-    // Open WhatsApp
+    document.getElementById('challengerSolution').classList.add('show');
+    document.getElementById('challengerSolution').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    document.getElementById('chModalSubtitle').textContent = '✅ Request sent to Shyam Sir!';
     window.open(waURL, '_blank');
-
   }, 800);
 });
-
-function chBackToForm() {
-  document.getElementById('chOtpStep').classList.remove('show');
-  document.getElementById('challengerForm').style.display = '';
-  document.getElementById('chSubmitBtn').disabled = false;
-  document.getElementById('chSubmitBtn').innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i> Send OTP & Continue';
-  document.getElementById('chModalSubtitle').textContent = 'Enter your details to unlock the full solution';
-  if (_chResendTimer) clearInterval(_chResendTimer);
-}
-
-function startChResendTimer() {
-  let count = 30;
-  document.getElementById('chResendCount').textContent = count;
-  document.getElementById('chResendTimer').style.display = '';
-  document.getElementById('chResendBtn').classList.remove('visible');
-  if (_chResendTimer) clearInterval(_chResendTimer);
-  _chResendTimer = setInterval(() => {
-    count--;
-    document.getElementById('chResendCount').textContent = count;
-    if (count <= 0) {
-      clearInterval(_chResendTimer);
-      document.getElementById('chResendTimer').style.display = 'none';
-      document.getElementById('chResendBtn').classList.add('visible');
-    }
-  }, 1000);
-}
-
-function chResendOtp() {
-  _chOtp = String(Math.floor(100000 + Math.random() * 900000));
-  document.getElementById('chOtpDisplay').textContent = _chOtp;
-  document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.remove('error'); });
-  document.querySelector('.otp-box').focus();
-  startChResendTimer();
-}
-
-function chVerifyOtp() {
-  const entered = Array.from(document.querySelectorAll('.otp-box')).map(b => b.value).join('');
-  if (entered.length < 6) {
-    document.querySelectorAll('.otp-box').forEach(b => b.classList.add('error'));
-    setTimeout(() => document.querySelectorAll('.otp-box').forEach(b => b.classList.remove('error')), 600);
-    return;
-  }
-  const btn = document.getElementById('chVerifyBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Verifying...';
-
-  setTimeout(() => {
-    if (entered === _chOtp) {
-      // ✅ OTP correct — save lead, unlock solution
-      saveLead('challenger');
-      document.getElementById('chOtpStep').classList.remove('show');
-      document.getElementById('challengerSolution').classList.add('show');
-      document.getElementById('challengerSolution').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      document.getElementById('chModalSubtitle').textContent = '✅ Verified! Here\'s your solution.';
-      if (_chResendTimer) clearInterval(_chResendTimer);
-    } else {
-      // ❌ Wrong OTP
-      document.querySelectorAll('.otp-box').forEach(b => { b.value = ''; b.classList.add('error'); });
-      setTimeout(() => document.querySelectorAll('.otp-box').forEach(b => b.classList.remove('error')), 600);
-      document.querySelector('.otp-box').focus();
-      btn.disabled = false;
-      btn.innerHTML = '<i class="bi bi-unlock-fill me-2"></i> Verify & Unlock Solution';
-    }
-  }, 700);
-}
 
 /* OTP box keyboard nav — auto-advance, backspace */
 document.querySelectorAll('.otp-box').forEach((box, i, boxes) => {
