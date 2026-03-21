@@ -2740,11 +2740,11 @@ let _chResendTimer = null;
 
 function openChallengerModal() {
   // Reset everything to Step 1
-  document.getElementById('challengerForm').reset();
+  document.getElementById(').reset();
   document.getElementById('challengerSolution').classList.remove('show');
   document.getElementById('chOtpStep').classList.remove('show');
-  document.getElementById('challengerForm').style.display = '';
-  clearErrors(document.getElementById('challengerForm'));
+  document.getElementById(').style.display = '';
+  clearErrors(document.getElementById('));
   document.getElementById('chSubmitBtn').disabled = false;
   document.getElementById('chSubmitBtn').innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i> Send OTP & Continue';
   document.getElementById('chSubmitBtn').style.background = '';
@@ -2758,27 +2758,38 @@ function openChallengerModal() {
 document.getElementById('challengerForm').addEventListener('submit', function(e) {
   e.preventDefault();
   if (!validateForm(this)) return;
+
+  const name    = document.getElementById('chName').value.trim();
+  const phone   = document.getElementById('chPhone').value.trim();
+  const cls     = document.getElementById('chClass').value.trim();
+
+  const message = `Hi BMC 👋\n\nI just attempted the *BMC Challenger* question!\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Class:* ${cls}\n\nPlease send me this week's solution. 🙏`;
+
+  const waURL = `https://wa.me/919516210209?text=${encodeURIComponent(message)}`;
+
   const btn = document.getElementById('chSubmitBtn');
   btn.disabled = true;
-  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Sending OTP...';
-
-  // Generate simulated OTP
-  _chOtp = String(Math.floor(100000 + Math.random() * 900000));
-  document.getElementById('chOtpDisplay').textContent = _chOtp;
-
-  const rawPhone = document.getElementById('chPhone').value.trim();
-  const masked = '+91 ' + rawPhone.slice(0, 2) + 'XXXXXX' + rawPhone.slice(-2);
-  document.getElementById('chOtpPhoneShow').textContent = masked;
+  btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Opening WhatsApp...';
 
   setTimeout(() => {
-    // Hide form, show OTP step
-    this.style.display = 'none';
-    document.getElementById('chOtpStep').classList.add('show');
-    document.getElementById('chModalSubtitle').textContent = 'Verify your phone number';
-    // Focus first OTP box
-    document.querySelector('.otp-box').focus();
-    // Start resend countdown
-    startChResendTimer();
+    btn.innerHTML = '<i class="bi bi-whatsapp me-2"></i> Sent! Check WhatsApp';
+    btn.style.background = '#25D366';
+
+    // Show a confirmation message inside the modal
+    document.getElementById('challengerSolution').classList.add('show');
+    document.getElementById('challengerSolutionContent').innerHTML = `
+      <p style="font-size:1.05rem;">Hi <strong>${name}</strong> 👋</p>
+      <p>Your request has been sent to <strong>Shyam Sir</strong> on WhatsApp.</p>
+      <p style="margin-top:8px;">You'll receive the full solution on WhatsApp within a few minutes.</p>
+      <p style="color:var(--success);font-weight:700;margin-top:12px;">
+        <i class="bi bi-whatsapp"></i> If WhatsApp didn't open automatically, 
+        <a href="${waURL}" target="_blank" style="color:var(--success);">click here</a>.
+      </p>
+    `;
+
+    // Open WhatsApp
+    window.open(waURL, '_blank');
+
   }, 800);
 });
 
